@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vekte | Våld Labs</title>
+    <meta
+      name="description"
+      content="Vekte is a 16-instance algorithmic MIDI sequencer with 31 engines, five polymetric lanes, 73 scales, and 18 chord types."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Space+Grotesk:wght@400;500;700&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/vekte/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell nav-shell">
+        <a class="brand" href="#top" aria-label="Vekte home">
+          <img src="/vekte/assets/branding/vekte-logo.svg" alt="Vekte" />
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#system">System</a>
+          <a href="#engines">Engines</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#formats">Formats</a>
+        </nav>
+        <a class="nav-cta" href="https://valdlabs.com/vekte/vekte_manual_01.pdf">Docs</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-art" aria-hidden="true">
+          <video class="hero-art-video" autoplay muted loop playsinline preload="auto">
+            <source src="/vekte/assets/bgsite.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="hero-noise" aria-hidden="true"></div>
+        <div class="shell hero-shell">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Coming soon / Algorithm Engine</p>
+            <h1>Vekte</h1>
+            <p class="hero-subtitle">
+              A 16-instance algorithmic MIDI sequencer built to turn one browser tab into a
+              polymetric composition environment.
+            </p>
+            <p class="hero-body">
+              Thirty-one mathematical and computational engines drive five independent lanes per
+              instance: Note, Velocity, Length, CC1, and CC2. You choose the engine, shape the
+              parameters, and sculpt the result until the chaos starts behaving musically.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-try" href="/vekte/vekte.html">Try it</a>
+              <a class="button button-primary" href="#system">Explore it</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel reveal reveal-delay-1">
+            <p class="panel-kicker">Version 1.0 / 16-instance architecture</p>
+            <dl class="stat-grid">
+              <div>
+                <dt>16</dt>
+                <dd>independent instances running on MIDI channels 1-16</dd>
+              </div>
+              <div>
+                <dt>31</dt>
+                <dd>generation engines spanning rhythm, chaos, memory, and emergence</dd>
+              </div>
+              <div>
+                <dt>73</dt>
+                <dd>scales, from Major and Dorian to experimental equal temperaments</dd>
+              </div>
+              <div>
+                <dt>18</dt>
+                <dd>chord types from monophonic roots to maj9, min9, and maj13 voicings</dd>
+              </div>
+            </dl>
+          </aside>
+
+          <div class="waitlist-band reveal reveal-delay-2" id="waitlist">
+            <div class="waitlist-copy">
+              <p class="eyebrow">Waitlist</p>
+              <h2 class="waitlist-title">Join the waitlist</h2>
+              <p>
+                Leave your email and the first release note goes straight to your inbox.
+              </p>
+            </div>
+
+            <form
+              class="waitlist-form"
+              action="https://formsubmit.co/vald.labs.lisbon@gmail.com"
+              method="POST"
+            >
+              <input type="hidden" name="_subject" value="Vekte waitlist" />
+              <input type="hidden" name="_captcha" value="false" />
+              <label class="sr-only" for="waitlist-email">Email address</label>
+              <input
+                id="waitlist-email"
+                name="email"
+                type="email"
+                placeholder="Your email address"
+                autocomplete="email"
+                required
+              />
+              <button class="button button-primary" type="submit">Join the waitlist</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="platforms" id="formats">
+        <div class="shell">
+          <div class="platform-strip reveal reveal-delay-2">
+            <p class="eyebrow">Upcoming format ecosystem</p>
+            <div class="logo-grid">
+              <a class="store-badge" href="#formats" aria-label="Available on the App Store">
+                <img src="/vekte/assets/platforms/app-store.svg" alt="Available on the App Store" />
+              </a>
+
+              <a class="store-badge" href="#formats" aria-label="Get it on Google Play">
+                <img src="/vekte/assets/platforms/google-play.svg" alt="Get it on Google Play" />
+              </a>
+
+              <div class="logo-mark">
+                <img class="logo-image logo-image-vst3" src="/vekte/assets/platforms/vst3.svg" alt="VST3" />
+              </div>
+
+              <div class="logo-mark">
+                <img
+                  class="logo-image logo-image-au"
+                  src="/vekte/assets/platforms/audio-unit.svg"
+                  alt="Audio Unit"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="system">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <p class="eyebrow">System overview</p>
+            <h2>One instrument. Sixteen simultaneous minds.</h2>
+            <p>
+              Each instance is a complete sequencer with its own MIDI channel, algorithms, lane
+              settings, and playback state. Click tabs to edit one voice, enable multiple tabs, and
+              Vekte turns into a layered composition machine.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card reveal">
+              <h3>Independent channels</h3>
+              <p>
+                Instance 1 transmits on CH1, Instance 2 on CH2, and so on through CH16. Enabled
+                tabs run together, letting bass, lead, pad, percussion, and modulation move as
+                separate organisms.
+              </p>
+            </article>
+            <article class="feature-card reveal reveal-delay-1">
+              <h3>Polymetric lanes</h3>
+              <p>
+                Every lane carries its own step count, division, rotation, algorithm, and
+                parameters. A 5-step velocity lane can grind against 16-step notes while CC curves
+                sweep at half-speed.
+              </p>
+            </article>
+            <article class="feature-card reveal reveal-delay-2">
+              <h3>Direct intervention</h3>
+              <p>
+                Holes, probability, rotation, auto-rotate, click-and-drag piano-roll edits, and
+                lane locks keep the generated material editable instead of untouchable.
+              </p>
+            </article>
+          </div>
+
+          <div class="lane-grid">
+            <article class="lane-card lane-note reveal">
+              <span class="lane-tag">// NOTE</span>
+              <h3>Pitch, triggers, and chord voicing</h3>
+              <p>
+                Choose any of the 31 engines, quantize to one of 73 scales, switch from
+                monophonic lines to 18 chord types, then edit the piano roll directly when the math
+                lands on something worth keeping.
+              </p>
+            </article>
+            <article class="lane-card lane-velocity reveal reveal-delay-1">
+              <span class="lane-tag">// VEL</span>
+              <h3>Dynamic contour</h3>
+              <p>
+                Velocity stays in a 0-127 range, with algorithmic patterns shaping accent, contour,
+                and repetition. Min/max bounds keep the lane playable while still leaving room for
+                surprise.
+              </p>
+            </article>
+            <article class="lane-card lane-length reveal reveal-delay-2">
+              <span class="lane-tag">// LEN</span>
+              <h3>Gate time as composition</h3>
+              <p>
+                Length lanes define duration before note-off. GATE mode snaps values to a two-state
+                performance range; RND mode sprays durations between your minimum and maximum.
+              </p>
+            </article>
+            <article class="lane-card lane-cc1 reveal">
+              <span class="lane-tag">// CC1</span>
+              <h3>Automation lane one</h3>
+              <p>
+                Feed hardware or software parameters with stepped or curved modulation. In CRV mode
+                Vekte sends smooth bezier-style interpolation instead of discrete jumps.
+              </p>
+            </article>
+            <article class="lane-card lane-cc2 reveal reveal-delay-1">
+              <span class="lane-tag">// CC2</span>
+              <h3>Automation lane two</h3>
+              <p>
+                Run a second controller independently for filter, resonance, macro movement, or any
+                parameter that benefits from long-form cyclic behavior.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="engines">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <p class="eyebrow">31 engines</p>
+            <h2>Mathematics, memory, geometry, and emergence.</h2>
+            <p>
+              The manual groups Vekte’s generators into families. The same engine that makes a note
+              melody can also drive velocity, gate length, or controller movement.
+            </p>
+          </div>
+
+          <div class="engine-grid">
+            <article class="engine-card reveal">
+              <h3>Original engines</h3>
+              <p>
+                Euclidean, Random Walk, Kaprekar, Fibonacci, Primes, and Thue-Morse form the core:
+                evenly distributed hits, wandering pitch lines, self-similar patterns, and numeric
+                sequences that remain musical under constraint.
+              </p>
+            </article>
+            <article class="engine-card reveal reveal-delay-1">
+              <h3>Chaos &amp; geometry</h3>
+              <p>
+                Logistic Map, Polyrhythm, Bresenham, Voice Leading, and Cantor Set move from stable
+                cycles into controlled instability, dense edge-biased rhythms, and recursive silence.
+              </p>
+            </article>
+            <article class="engine-card reveal reveal-delay-2">
+              <h3>Physics &amp; memory</h3>
+              <p>
+                Penrose, Harmonic Series, Lissajous, and Drunk with Memory turn overtone logic,
+                quasiperiodic structures, zero-crossing motion, and remembered pitch histories into
+                living phrases.
+              </p>
+            </article>
+            <article class="engine-card reveal">
+              <h3>Nature &amp; emergence</h3>
+              <p>
+                Game of Life, Turing Pattern, Gravity Wells, Wave Interference, String Resonance,
+                Entropy Gradient, and Flocking push the engine into cellular automata, reaction
+                diffusion, resonance, and decaying structure.
+              </p>
+            </article>
+          </div>
+
+          <div class="quote-card reveal reveal-delay-1">
+            <p>
+              Rather than programming notes one by one, you choose an algorithm, adjust its
+              parameters, and keep the material that survives your edits.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="shell split-layout">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Scale &amp; harmony</p>
+            <h2>73 scales. 18 chord types. One quantized field.</h2>
+            <p>
+              Vekte moves from common tonal systems into modal, world, jazz, constructed, and equal
+              temperament territory. NONE leaves the stream chromatic. Chords can expand any note
+              event into stacked harmony on output.
+            </p>
+          </div>
+          <div class="tag-panels reveal reveal-delay-1">
+            <div class="tag-panel">
+              <h3>Scale families</h3>
+              <p>
+                Major, natural minor, pentatonic, blue, Dorian, Mixolydian, harmonic minor, bebop,
+                Hirajoshi, Iwato, Persian, Enigmatic, whole tone, quarter-tone, and more.
+              </p>
+            </div>
+            <div class="tag-panel">
+              <h3>Chord palette</h3>
+              <p>
+                Major, minor, 5ths, diminished, augmented, maj7, 7, min7, sus2, sus4, add9, maj9,
+                min9, 6, min6, 7sus4, and maj13 voicings are all available from the note lane.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark" id="workflow">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Workflow</p>
+            <h2>Built for sessions, sets, and long-form arrangements.</h2>
+            <p>
+              The manual treats Vekte as a practical composition tool, not just a generator. Save
+              full songs, keep per-instance presets, sync hardware over MIDI clock, and use undo as
+              aggressively as you randomize.
+            </p>
+          </div>
+
+          <div class="workflow-grid">
+            <article class="workflow-card reveal">
+              <h3>Song save / load</h3>
+              <p>
+                Export a complete 16-instance session as a <code>.vekte</code> JSON file and load
+                it back intact, including algorithms, lane values, and BPM.
+              </p>
+            </article>
+            <article class="workflow-card reveal reveal-delay-1">
+              <h3>Presets per instance</h3>
+              <p>
+                Store browser-persistent quick saves, session snapshots, or shareable hex keys and
+                QR codes for a single sequencer state.
+              </p>
+            </article>
+            <article class="workflow-card reveal reveal-delay-2">
+              <h3>MIDI clock in / out</h3>
+              <p>
+                Receive external clock and transport, or send Start, Stop, and 24 ppqn timing so
+                hardware synths and drum machines follow Vekte’s tempo.
+              </p>
+            </article>
+            <article class="workflow-card reveal">
+              <h3>Performance control</h3>
+              <p>
+                Lock lanes, hit Randomize All, mute instances on the fly, and let probability plus
+                CC curves push a stable composition toward controlled volatility.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-shell">
+        <div>
+          <a class="footer-brand" href="#top">VEKTE / Våld Labs</a>
+          <p>
+            Browser-first sequencing architecture shaped around algorithms, modulation, and human
+            intervention.
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="https://valdlabs.com/vekte/vekte_manual.pdf">Manual</a>
+          <a href="https://valdlabs.com">valdlabs.com</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
