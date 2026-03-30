@@ -54,7 +54,7 @@
               parameters, and sculpt the result until the chaos starts behaving musically.
             </p>
             <div class="hero-actions">
-              <a class="button button-try" href="/vekte/vekte.html" data-try-trigger aria-haspopup="dialog">Try it</a>
+              <a class="button button-try" href="/vekte/vekte.html">Try it</a>
               <a class="button button-primary" href="#system">Explore it</a>
             </div>
           </div>
@@ -97,7 +97,6 @@
             >
               <input type="hidden" name="_subject" value="Vekte waitlist" />
               <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_honey" value="" />
               <label class="sr-only" for="waitlist-email">Email address</label>
               <input
                 id="waitlist-email"
@@ -108,14 +107,7 @@
                 required
               />
               <button class="button button-primary" type="submit">Join the waitlist</button>
-              <p class="waitlist-feedback" aria-live="polite"></p>
             </form>
-
-            <div class="waitlist-confirmation" aria-live="polite">
-              <p class="eyebrow">Sent</p>
-              <h2 class="waitlist-title">You're on the list.</h2>
-              <p>We’ll send the first Vekte release note straight to your inbox.</p>
-            </div>
           </div>
         </div>
       </section>
@@ -379,167 +371,5 @@
         </div>
       </div>
     </footer>
-
-    <div class="try-modal" data-try-modal hidden>
-      <div class="try-modal-backdrop" data-close-try-modal></div>
-      <div class="try-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="try-modal-title">
-        <div class="waitlist-band waitlist-band-modal">
-          <h2 class="sr-only" id="try-modal-title">Join the waitlist</h2>
-
-          <form
-            class="waitlist-form"
-            action="https://formsubmit.co/vald.labs.lisbon@gmail.com"
-            method="POST"
-            data-success-redirect="/vekte/vekte.html"
-          >
-            <input type="hidden" name="_subject" value="Vekte waitlist" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_honey" value="" />
-            <label class="sr-only" for="try-modal-email">Email address</label>
-            <input
-              id="try-modal-email"
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              autocomplete="email"
-              required
-            />
-            <button class="button button-primary" type="submit">Join</button>
-            <p class="waitlist-feedback" aria-live="polite"></p>
-          </form>
-
-          <div class="waitlist-confirmation" aria-live="polite">
-            <p class="waitlist-confirmation-line">You're on the list. We'll be in touch.</p>
-          </div>
-
-          <p class="waitlist-modal-note">No spam. Unsubscribe at any time.</p>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      (() => {
-        const modal = document.querySelector("[data-try-modal]");
-        const modalEmailInput = modal?.querySelector("#try-modal-email");
-        const triggers = document.querySelectorAll("[data-try-trigger]");
-        let lastTrigger = null;
-        let lockedScrollY = 0;
-
-        const openModal = (trigger) => {
-          if (!modal) return;
-          lastTrigger = trigger;
-          lockedScrollY = window.scrollY;
-          modal.hidden = false;
-          document.body.classList.add("modal-open");
-          document.body.style.top = `-${lockedScrollY}px`;
-          document.body.style.position = "fixed";
-          document.body.style.width = "100%";
-          requestAnimationFrame(() => modal.classList.add("is-open"));
-          window.setTimeout(() => modalEmailInput?.focus({ preventScroll: true }), 140);
-        };
-
-        const closeModal = () => {
-          if (!modal || modal.hidden) return;
-          modal.classList.remove("is-open");
-          window.setTimeout(() => {
-            modal.hidden = true;
-            document.body.classList.remove("modal-open");
-            document.body.style.position = "";
-            document.body.style.top = "";
-            document.body.style.width = "";
-            window.scrollTo(0, lockedScrollY);
-            lastTrigger?.focus();
-          }, 180);
-        };
-
-        triggers.forEach((trigger) => {
-          trigger.addEventListener("click", (event) => {
-            event.preventDefault();
-            openModal(trigger);
-          });
-        });
-
-        modal?.addEventListener("click", (event) => {
-          if (event.target instanceof HTMLElement && event.target.hasAttribute("data-close-try-modal")) {
-            closeModal();
-          }
-        });
-
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape") {
-            closeModal();
-          }
-        });
-
-        document.querySelectorAll(".waitlist-form").forEach((form) => {
-          const card = form.closest(".waitlist-band");
-          const feedback = form.querySelector(".waitlist-feedback");
-          const submitButton = form.querySelector('button[type="submit"]');
-          const defaultLabel = submitButton?.textContent ?? "";
-          const redirectUrl = form.dataset.successRedirect;
-
-          form.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            if (!form.reportValidity()) {
-              return;
-            }
-
-            const ajaxAction = form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/");
-            const payload = new FormData(form);
-
-            if (feedback) {
-              feedback.textContent = "";
-              feedback.classList.remove("is-error");
-            }
-
-            form.classList.add("is-sending");
-
-            if (submitButton) {
-              submitButton.disabled = true;
-              submitButton.textContent = "Sending...";
-            }
-
-            try {
-              const response = await fetch(ajaxAction, {
-                method: "POST",
-                body: payload,
-                headers: {
-                  Accept: "application/json",
-                },
-              });
-
-              const result = await response.json().catch(() => ({}));
-
-              if (!response.ok || result.success === false) {
-                throw new Error(result.message || "Could not send the waitlist form right now.");
-              }
-
-              form.reset();
-              card?.classList.add("is-sent");
-
-              if (redirectUrl) {
-                window.setTimeout(() => {
-                  window.location.href = redirectUrl;
-                }, 950);
-              }
-            } catch (error) {
-              if (feedback) {
-                feedback.textContent =
-                  error instanceof Error ? error.message : "Could not send the waitlist form right now.";
-                feedback.classList.add("is-error");
-              }
-
-              form.classList.remove("is-sending");
-
-              if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.textContent = defaultLabel;
-              }
-            }
-          });
-        });
-      })();
-    </script>
   </body>
 </html>
