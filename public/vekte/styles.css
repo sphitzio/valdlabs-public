@@ -472,6 +472,7 @@ h3 {
 
 .waitlist-band-modal {
   grid-column: auto;
+  grid-template-columns: 1fr;
   width: 100%;
   gap: 18px;
   padding: 22px 24px;
@@ -480,7 +481,7 @@ h3 {
 }
 
 .waitlist-band-modal .waitlist-form {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 3fr) minmax(132px, 1fr);
   gap: 14px;
 }
 
@@ -504,6 +505,7 @@ h3 {
 
 .waitlist-band-modal .waitlist-feedback {
   min-height: 0;
+  grid-column: 1 / -1;
   color: #f0ff00;
   font-size: 0.88rem;
   letter-spacing: 0.02em;
@@ -515,6 +517,7 @@ h3 {
 }
 
 .waitlist-band-modal .waitlist-confirmation {
+  grid-column: 1 / -1;
   text-align: center;
 }
 
@@ -527,6 +530,7 @@ h3 {
 }
 
 .waitlist-modal-note {
+  grid-column: 1 / -1;
   margin: 2px 0 0;
   color: #6d6d7e;
   text-align: center;
