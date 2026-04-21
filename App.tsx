@@ -8,7 +8,7 @@ import { Footer } from './components/Footer';
 import { LoginScreen } from './components/LoginScreen';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   if (!isAuthenticated) {
     return <LoginScreen onLogin={() => setIsAuthenticated(false)} />;
