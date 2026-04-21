@@ -5,7 +5,7 @@ import { Studio } from './components/Studio';
 import { ProductsSection } from './components/ProductsSection';
 import { Waitlist } from './components/Waitlist';
 import { Footer } from './components/Footer';
-//import { LoginScreen } from './components/LoginScreen';
+import { LoginScreen } from './components/LoginScreen';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
