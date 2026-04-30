@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolarShift™ — Sun-Activated Ink for Screen Printers</title>
+<meta name="description" content="The proprietary sun-activated ink we've printed with on our own line for ten years. Now licensed to a small number of screen printers worldwide. Premixed. Documented. Boring on Tuesday. Magic on Saturday.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #050505;
+    --green: #39ff14;
+    --magenta: #cc00ff;
+    --yellow: #f5ff00;
+    --cyan: #00e5ff;
+    --white: #f8f8f4;
+    --dim: rgba(248,248,244,0.55);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 48px;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--dim); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── HALFTONE UTILITY ─── */
+  .halftone-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+    opacity: 0.18;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; overflow: hidden;
+    background: var(--black);
+  }
+  .hero-bg-glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 55%, rgba(57,255,20,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 30%, rgba(0,229,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 85% 15%, rgba(204,0,255,0.10) 0%, transparent 70%);
+  }
+  .hero-bg-cans {
+    position: absolute; inset: 0;
+    background: url('https://www.valdlabs.com/solarshift/uploads/truecolorshero.png') center center / cover no-repeat;
+    opacity: 0.45;
+    filter: saturate(1.15) contrast(1.05);
+  }
+  .hero-bg-cans::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.45) 40%, rgba(5,5,5,0.85) 100%);
+  }
+  .hero-diag-lines {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(57,255,20,0.04) 0px,
+      rgba(57,255,20,0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  }
+  .hero-dots {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, #39ff14 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    opacity: 0.04;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 140px 48px 100px;
+    max-width: 1400px; margin: 0 auto; width: 100%;
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: block; width: 40px; height: 1px;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 9.5vw, 150px);
+    line-height: 0.92;
+    letter-spacing: 3px;
+    margin-bottom: 36px;
+  }
+  .hero-title .line1 { color: var(--white); display: block; }
+  .hero-title .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--yellow) 0%, #ff7a00 45%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 20px; font-weight: 300; color: var(--dim);
+    line-height: 1.6; max-width: 620px; margin-bottom: 52px;
+  }
+  .hero-btns { display: flex; gap: 16px; align-items: center; justify-content: center; }
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    padding: 16px 36px; text-decoration: none;
+    transition: all .2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover { background: #fff; }
+  .btn-secondary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+    border-bottom: 2px solid var(--white);
+    padding-bottom: 2px;
+    transition: color .2s, border-color .2s;
+  }
+  .btn-secondary:hover { color: var(--green); border-color: var(--green); }
+  .hero-right {
+    position: relative; display: flex;
+    justify-content: flex-end; align-items: center;
+  }
+  .hero-can-img {
+    width: 100%; max-width: 680px;
+    filter: drop-shadow(0 0 60px rgba(57,255,20,0.18)) drop-shadow(0 0 120px rgba(0,0,0,0.8));
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-14px); }
+  }
+  .hero-scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim); z-index: 2;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ─── MARQUEE STRIP ─── */
+  .marquee-strip {
+    background: var(--green); color: var(--black);
+    padding: 14px 0; overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-flex; align-items: center; gap: 36px;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 3px;
+    padding: 0;
+  }
+  .marquee-dot {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+    line-height: 1;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { position: relative; }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 1; letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .section-body {
+    font-size: 17px; font-weight: 300;
+    line-height: 1.7; color: var(--dim);
+    max-width: 560px;
+  }
+
+  /* ─── SECTION INDEX (§ 0X) ─── */
+  .section-index {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-index::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--green);
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  #how {
+    padding: 120px 48px;
+    background: #050505;
+  }
+  .how-inner { max-width: 1400px; margin: 0 auto; }
+  .how-header { margin-bottom: 80px; max-width: 720px; }
+  .how-cols {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 80px;
+  }
+  .how-col {
+    padding: 56px 40px;
+    background: #0d0d0d;
+    border-top: 3px solid var(--green);
+    position: relative;
+  }
+  .how-col:nth-child(2) { border-top-color: var(--magenta); }
+  .how-col:nth-child(3) { border-top-color: var(--yellow); }
+  .how-col-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 28px;
+  }
+  .how-col-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; line-height: 1.05; letter-spacing: 1px;
+    margin-bottom: 18px; color: var(--white);
+  }
+  .how-col-body {
+    font-size: 15px; font-weight: 300; line-height: 1.7;
+    color: var(--dim);
+  }
+  .refusal-block {
+    background: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 56px 60px;
+    max-width: 920px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .refusal-block::before {
+    content: 'CLASSIFIED';
+    position: absolute; top: 18px; right: 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 4px; color: var(--magenta);
+    opacity: 0.7;
+  }
+  .refusal-q {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 8px;
+  }
+  .refusal-q-body {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    color: var(--white); font-style: normal;
+    margin-bottom: 28px;
+  }
+  .refusal-a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 8px;
+  }
+  .refusal-a-body {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px; letter-spacing: 2px;
+    color: var(--green);
+    margin-bottom: 28px;
+  }
+  .refusal-foot {
+    font-size: 14px; font-weight: 300;
+    line-height: 1.7; color: var(--dim);
+    font-style: italic;
+    max-width: 620px;
+  }
+
+  /* ─── LICENSING TIERS ─── */
+  #licensing {
+    padding: 120px 48px;
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .lic-inner { max-width: 1400px; margin: 0 auto; }
+  .lic-header { margin-bottom: 70px; max-width: 720px; }
+  .tiers-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .tier {
+    background: #0c0c0c;
+    padding: 48px 36px;
+    display: flex; flex-direction: column;
+    position: relative;
+    border-top: 3px solid transparent;
+    transition: background .3s;
+  }
+  .tier:hover { background: #131313; }
+  .tier-1 { border-top-color: var(--cyan); }
+  .tier-2 { border-top-color: var(--green); }
+  .tier-3 { border-top-color: var(--magenta); }
+  .tier-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim); margin-bottom: 18px;
+  }
+  .tier-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px; line-height: 1; letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .tier-1 .tier-title { color: var(--cyan); }
+  .tier-2 .tier-title { color: var(--green); }
+  .tier-3 .tier-title { color: var(--magenta); }
+  .tier-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--white); margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .tier-body {
+    font-size: 14px; font-weight: 300; line-height: 1.65;
+    color: var(--dim); margin-bottom: 28px;
+  }
+  .tier-includes-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--white); margin-bottom: 14px;
+  }
+  .tier-list {
+    list-style: none; padding: 0; margin: 0 0 32px 0;
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1;
+  }
+  .tier-list li {
+    font-size: 14px; font-weight: 300; line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+    padding-left: 18px;
+    position: relative;
+  }
+  .tier-list li::before {
+    content: '+'; position: absolute; left: 0; top: 0;
+    color: var(--green); font-weight: 700;
+  }
+  .tier-1 .tier-list li::before { color: var(--cyan); }
+  .tier-3 .tier-list li::before { color: var(--magenta); }
+  .tier-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+    border-bottom: 2px solid var(--white);
+    padding-bottom: 4px;
+    align-self: flex-start;
+    transition: color .2s, border-color .2s;
+  }
+  .tier-1 .tier-cta:hover { color: var(--cyan); border-color: var(--cyan); }
+  .tier-2 .tier-cta:hover { color: var(--green); border-color: var(--green); }
+  .tier-3 .tier-cta:hover { color: var(--magenta); border-color: var(--magenta); }
+  .tier-note {
+    margin-top: 32px;
+    font-size: 13px; font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    font-style: italic;
+    text-align: center;
+    max-width: 720px; margin-left: auto; margin-right: auto;
+  }
+
+  /* ─── FILTER (who this is for) ─── */
+  #filter {
+    padding: 120px 48px;
+    background: #060606;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .filter-inner { max-width: 1200px; margin: 0 auto; }
+  .filter-header { margin-bottom: 60px; }
+  .filter-cols {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .filter-col {
+    background: #0c0c0c;
+    padding: 48px 40px;
+    border-top: 3px solid var(--green);
+  }
+  .filter-col.is-not { border-top-color: var(--magenta); }
+  .filter-col-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 1px;
+    margin-bottom: 28px; color: var(--white);
+  }
+  .filter-col.is-not .filter-col-label { color: var(--magenta); }
+  .filter-col.is-for .filter-col-label { color: var(--green); }
+  .filter-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+  .filter-list li {
+    font-size: 15px; font-weight: 300; line-height: 1.5;
+    color: rgba(255,255,255,0.75);
+    padding-left: 22px;
+    position: relative;
+  }
+  .filter-col.is-for .filter-list li::before {
+    content: '+'; color: var(--green); position: absolute; left: 0;
+    font-weight: 700;
+  }
+  .filter-col.is-not .filter-list li::before {
+    content: '—'; color: var(--magenta); position: absolute; left: 0;
+    font-weight: 700;
+  }
+
+  /* OLD COLLECTION (kept as defunct anchor) */
+  #collection {
+    padding: 120px 48px;
+    background: #050505;
+  }
+  .collection-header {
+    text-align: center; margin-bottom: 80px;
+  }
+  .collection-header .section-body { margin: 0 auto; text-align: center; }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; max-width: 1400px; margin: 0 auto;
+  }
+  .product-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 4/2;
+    cursor: pointer;
+  }
+  .product-card-bg {
+    position: absolute; inset: 0;
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-card-bg { transform: scale(1.05); }
+  .pc-green .product-card-bg { background: var(--green); }
+  .pc-magenta .product-card-bg { background: var(--magenta); }
+  .pc-yellow .product-card-bg { background: var(--yellow); }
+
+  .product-card-dots {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, #000 1.8px, transparent 1.8px);
+    background-size: 16px 16px;
+    opacity: 0.25;
+  }
+  .product-card-slash {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%, transparent 30%,
+      #000 30%, #000 55%,
+      transparent 55%, transparent 100%
+    );
+    opacity: 0.85;
+  }
+  .product-card-img {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px;
+  }
+  .product-card-img img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 40px rgba(0,0,0,0.6));
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-card-img img { transform: scale(1.08) translateY(-8px); }
+  .product-card-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 32px 28px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .pc-green .product-name { color: var(--green); }
+  .pc-magenta .product-name { color: var(--magenta); }
+  .pc-yellow .product-name { color: var(--yellow); }
+  .product-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .product-tag {
+    position: absolute; top: 24px; right: 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--black);
+    padding: 6px 14px;
+  }
+  .pc-green .product-tag { background: var(--green); }
+  .pc-magenta .product-tag { background: var(--magenta); color: #fff; }
+  .pc-yellow .product-tag { background: var(--yellow); }
+
+
+  .pc-cyan .product-card-bg { background: #00e5ff; }
+  .pc-cyan .product-name { color: #00e5ff; }
+  .pc-cyan .product-tag { background: #00e5ff; color: #000; }
+
+  .pc-orange .product-card-bg { background: #ff6b00; }
+  .pc-orange .product-name { color: #ff6b00; }
+  .pc-orange .product-tag { background: #ff6b00; color: #000; }
+
+  .pc-violet .product-card-bg { background: #9b00ff; }
+  .pc-violet .product-name { color: #c060ff; }
+  .pc-violet .product-tag { background: #9b00ff; color: #fff; }
+
+  /* ─── STORY ─── */
+  #story {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+  .story-visual {
+    position: relative; overflow: hidden;
+    background: #0a0a0a;
+  }
+  .story-label-img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    opacity: 0.9;
+  }
+  .story-visual-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--black) 100%);
+  }
+  .story-content {
+    padding: 100px 72px 100px 60px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    background: var(--black);
+  }
+  .story-content .section-body { max-width: 480px; margin-bottom: 24px; }
+  .story-stat {
+    display: flex; gap: 48px; margin-top: 48px;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px; line-height: 1;
+    color: var(--green);
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* ─── WHY ─── */
+  #why {
+    padding: 120px 48px;
+    background: #060606;
+  }
+  .why-inner { max-width: 1400px; margin: 0 auto; }
+  .why-header { margin-bottom: 80px; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .feature-card {
+    padding: 52px 40px;
+    background: #0d0d0d;
+    border-top: 3px solid transparent;
+    transition: border-color .3s, background .3s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .feature-card:hover { background: #141414; }
+  .fc-green { border-top-color: var(--green); }
+  .fc-magenta { border-top-color: var(--magenta); }
+  .fc-yellow { border-top-color: var(--yellow); }
+  .fc-cyan { border-top-color: var(--cyan); }
+  .fc-white { border-top-color: var(--white); }
+  .fc-pink { border-top-color: #ff4dff; }
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px; line-height: 1;
+    opacity: 0.06; position: absolute;
+    top: 20px; right: 28px;
+    color: var(--white);
+  }
+  .feature-icon {
+    font-size: 28px; margin-bottom: 20px;
+  }
+  .feature-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    margin-bottom: 14px; color: var(--white);
+  }
+  .feature-body {
+    font-size: 15px; font-weight: 300;
+    line-height: 1.65; color: var(--dim);
+  }
+
+  /* ─── FORMULA SECTION ─── */
+  #formula {
+    position: relative; overflow: hidden;
+    padding: 140px 48px;
+    background: var(--black);
+  }
+  .formula-bg-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(57,255,20,0.12) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+  }
+  .formula-inner {
+    position: relative; z-index: 2;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .formula-inner .section-title {
+    font-size: clamp(56px, 8vw, 110px);
+    margin-bottom: 0;
+  }
+  .formula-inner .section-title .line2 {
+    background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 40%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .formula-sub {
+    font-size: 18px; font-weight: 300;
+    color: var(--dim); margin: 32px auto 52px;
+    line-height: 1.7; max-width: 600px;
+  }
+  .formula-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--black); background: var(--green);
+    padding: 18px 48px; text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    transition: all .2s;
+  }
+  .formula-cta:hover { background: var(--white); }
+
+  /* ─── COLORS STRIP ─── */
+  .colors-strip {
+    display: flex; height: 8px;
+  }
+  .colors-strip div { flex: 1; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding: 120px 48px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; max-width: 1400px; margin: 0 auto;
+    align-items: start;
+  }
+  .contact-left {}
+  .contact-left .section-body { margin-bottom: 40px; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-field {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .form-field label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .form-field input, .form-field textarea, .form-field select {
+    background: #0f0f0f;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 14px 18px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+    width: 100%;
+  }
+  .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
+    border-color: var(--green);
+  }
+  .form-field textarea { resize: vertical; min-height: 120px; }
+  .form-field select option { background: #111; }
+  .form-submit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    border: none; padding: 18px 40px;
+    cursor: pointer; text-align: left;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background .2s; width: 100%;
+  }
+  .form-submit:hover { background: #fff; }
+  .contact-right {}
+  .contact-info { display: flex; flex-direction: column; gap: 40px; }
+  .ci-item {}
+  .ci-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 8px;
+  }
+  .ci-value {
+    font-size: 18px; font-weight: 300;
+    color: var(--white); line-height: 1.5;
+  }
+  .social-links { display: flex; gap: 20px; margin-top: 48px; }
+  .social-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dim); text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 3px;
+    transition: color .2s, border-color .2s;
+  }
+  .social-link:hover { color: var(--green); border-color: var(--green); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; letter-spacing: 2px;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+  .footer-copy {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .footer-nav { display: flex; gap: 28px; }
+  .footer-nav a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-nav a:hover { color: var(--white); }
+
+  /* ─── SCROLLFADE ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hero-content { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-right { justify-content: center; margin-top: 40px; }
+    #story { grid-template-columns: 1fr; }
+    .story-content { padding: 60px 24px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .how-cols { grid-template-columns: 1fr; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .filter-cols { grid-template-columns: 1fr; }
+    .refusal-block { padding: 40px 28px; }
+    #contact { grid-template-columns: 1fr; padding: 80px 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    #collection, #why, #formula, #how, #licensing, #filter { padding: 80px 24px; }
+  }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#050505">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#050505"/>
+    <rect width="1200" height="8" y="0" fill="#39ff14"/>
+    <!-- diagonal lines -->
+    <line x1="0" y1="0" x2="1200" y2="800" stroke="#39ff14" stroke-width="1" opacity="0.15"/>
+    <line x1="200" y1="0" x2="1200" y2="667" stroke="#39ff14" stroke-width="1" opacity="0.15"/>
+    <line x1="400" y1="0" x2="1200" y2="533" stroke="#39ff14" stroke-width="1" opacity="0.15"/>
+    <!-- SOLARSHIFT wordmark placeholder -->
+    <text x="600" y="340" font-family="Arial Black, sans-serif" font-size="120" font-weight="900" fill="#f8f8f4" text-anchor="middle" letter-spacing="8">THE FUTURE</text>
+    <text x="600" y="480" font-family="Arial Black, sans-serif" font-size="120" font-weight="900" fill="#39ff14" text-anchor="middle" letter-spacing="8">OF COLOR</text>
+    <!-- color strip -->
+    <rect x="0" y="760" width="300" height="40" fill="#39ff14"/>
+    <rect x="300" y="760" width="300" height="40" fill="#00e5ff"/>
+    <rect x="600" y="760" width="300" height="40" fill="#cc00ff"/>
+    <rect x="900" y="760" width="300" height="40" fill="#f5ff00"/>
+  </svg>
+</template>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="https://www.valdlabs.com/solarshift/uploads/solarShift_horiz_color_white-32159fd8.png" alt="SolarShift" style="height:24px; width:auto; display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#licensing">Licensing</a></li>
+    <li><a href="#why">Why us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Request a sample</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-cans"></div>
+  <div class="hero-diag-lines"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+
+      <p class="hero-eyebrow reveal">SolarShift™ · A premixed sun-activated screen-print ink</p>
+      <h1 class="hero-title reveal reveal-delay-1">
+        <span class="line1">A BORING TUB</span>
+        <span class="line1" style="display:block;">OF INK.</span>
+        <span class="line2">UNTIL THE SUN HITS IT.</span>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        SolarShift is the proprietary ink we print SunDrip™ shirts with — and the same ink we now license to a small number of screen printers worldwide. Premixed in one tub. Sets up like plastisol. Reveals full color the second daylight touches it.
+      </p>
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="#contact" class="btn-primary">Request a sample</a>
+        <a href="#how" class="btn-secondary">How it works</a>
+      </div>
+
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll ↓
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">SOLAR SHIFT</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">PREMIXED</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">SCREEN-PRINTABLE</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">SUN-ACTIVATED</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">TUESDAY-PROOF</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">INFINITE CYCLES</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">LICENSED, NOT SOLD</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">SOLAR SHIFT</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">PREMIXED</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">SCREEN-PRINTABLE</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">SUN-ACTIVATED</span>
+    <span class="marquee-dot">●</span>
+    <span class="marquee-item">LICENSED, NOT SOLD</span>
+    <span class="marquee-dot">●</span>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="how-inner">
+    <div class="how-header">
+      <p class="section-index reveal">§ 01 / How it works</p>
+      <h2 class="section-title reveal reveal-delay-1">HOW IT WORKS.</h2>
+    </div>
+    <div class="how-cols">
+      <div class="how-col reveal">
+        <div class="how-col-tag">In the shop</div>
+        <div class="how-col-title">Looks like ink.<br>Prints like ink.</div>
+        <p class="how-col-body">One premixed tub. No mixing, no dosing, no rituals. Set up your screen the way you already set up screens. Most shops are running their first test print inside an afternoon.</p>
+      </div>
+      <div class="how-col reveal reveal-delay-1">
+        <div class="how-col-tag">In the sun</div>
+        <div class="how-col-title">Reveals full color in seconds.</div>
+        <p class="how-col-body">UV in direct sunlight wakes the pigments up. The print shifts from a near-grayscale state to fully saturated color. The sun goes away, the print goes back. Forever, basically.</p>
+      </div>
+      <div class="how-col reveal reveal-delay-2">
+        <div class="how-col-tag">In the wash</div>
+        <div class="how-col-title">Wears like a normal print.</div>
+        <p class="how-col-body">Cures in standard ranges. Survives the dryer, the wash, the school year. Documented. Tested on garments we've been shipping ourselves for a decade.</p>
+      </div>
+    </div>
+    <div class="refusal-block reveal">
+      <p class="refusal-q">Q.</p>
+      <p class="refusal-q-body">How does it actually work?</p>
+      <p class="refusal-a">A.</p>
+      <p class="refusal-a-body">nope.</p>
+      <p class="refusal-foot" style="width: 819px;">We've been refining this for ten years and we license it for a living. The exact pigment-and-additive system is the only thing we won't disclose on a website.<br>The Colonel kept his secret. We keep ours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LICENSING TIERS -->
+<section id="licensing">
+  <div class="lic-inner">
+    <div class="lic-header">
+      <p class="section-index reveal">§ 02 / Licensing</p>
+      <h2 class="section-title reveal reveal-delay-1">THREE WAYS<br>TO LICENSE IT.</h2>
+      <p class="section-body reveal reveal-delay-2">We don't sell SolarShift in a checkout. We license it to printers who actually print. Pick the tier that matches where you are — start small, scale when the numbers work.</p>
+    </div>
+    <div class="tiers-grid">
+      <div class="tier tier-1 reveal">
+        <div class="tier-eyebrow">For shops vetting the ink</div>
+        <h3 class="tier-title">Trial</h3>
+        <p class="tier-sub">One tub. One setup guide. One Tuesday to find out.</p>
+        <p class="tier-body">A small starter batch and the documented setup. Print a real run on a real garment in your real shop. Confirm the cure window, the hand-feel, the wash. Decide.</p>
+        <div class="tier-includes-label">Includes</div>
+        <ul class="tier-list">
+          <li>One tub of premixed SolarShift™ ink</li>
+          <li>Setup &amp; curing documentation</li>
+          <li>Direct WhatsApp line for setup questions</li>
+          <li>Sample garments printed at our facility for reference</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Request trial pricing →</a>
+      </div>
+      <div class="tier tier-2 reveal reveal-delay-1">
+        <div class="tier-eyebrow">For print shops in production</div>
+        <h3 class="tier-title">Standard</h3>
+        <p class="tier-sub">Recurring supply for working print operations.</p>
+        <p class="tier-body">Volume pricing, guaranteed batch consistency, predictable lead times. For shops that have validated the ink and are putting it into rotation. Most of our licensees live here.</p>
+        <div class="tier-includes-label">Includes</div>
+        <ul class="tier-list">
+          <li>Tiered volume pricing</li>
+          <li>Batch-to-batch consistency guarantee</li>
+          <li>Priority lead times</li>
+          <li>Direct line to our production team</li>
+          <li>Co-marketing material — printer's name on our partner list</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Talk licensing →</a>
+      </div>
+      <div class="tier tier-3 reveal reveal-delay-2">
+        <div class="tier-eyebrow">For large operations &amp; licensing programs</div>
+        <h3 class="tier-title">Volume</h3>
+        <p class="tier-sub">For when you've stopped asking if it works.</p>
+        <p class="tier-body">For festival merch houses, large brand licensing programs, and operations running SolarShift at scale. Best per-unit pricing, custom batch sizes, and the option to co-develop specific reveal effects for your brand.</p>
+        <div class="tier-includes-label">Includes</div>
+        <ul class="tier-list">
+          <li>Best-tier pricing</li>
+          <li>Custom batch sizes</li>
+          <li>Co-developed reveal effects on request</li>
+          <li>Dedicated account contact</li>
+          <li>Confidentiality and territory terms negotiable</li>
+        </ul>
+        <a href="#contact" class="tier-cta">Open a conversation →</a>
+      </div>
+    </div>
+    <p class="tier-note">All three tiers are licensing relationships, not retail. We talk before you buy. If we're a fit, we move fast.</p>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="story-visual">
+    <img src="https://www.valdlabs.com/solarshift/uploads/pasted-1777532345565-0.png" alt="SolarShift print revealing under sunlight" class="story-label-img">
+    <div class="story-visual-overlay"></div>
+  </div>
+  <div class="story-content">
+    <p class="section-index reveal">§ 03 / Our story</p>
+    <h2 class="section-title reveal reveal-delay-1">WE'RE NOT A LAB.<br>WE'RE A PRINTER.</h2>
+    <p class="section-body reveal reveal-delay-2" style="margin-bottom:18px;">
+      SolarShift wasn't born in a startup pitch deck. It was developed over years of refinement on our own production floor in Cancún — initially because we wanted shirts that did something nobody else's shirts did, and eventually because the ink turned out to be the most interesting thing we owned.
+    </p>
+    <p class="section-body reveal reveal-delay-2" style="margin-bottom:18px;">
+      We've been screen-printing with this formula on our own line for ten years. We don't sell unproven chemistry. If the ink wasn't bulletproof, we'd have stopped using it years ago.
+    </p>
+    <p class="section-body reveal reveal-delay-3">
+      In 2026 we set up True Colors Trading LLC in Dubai to handle international licensing. SolarShift is now available to a small number of screen printers outside our own operation — in tiers, on terms, and with the documentation we wish we'd had ten years ago.
+    </p>
+    <div class="story-stat reveal">
+      <div class="stat-item">
+        <div class="stat-num">10<span style="font-size:32px;">yrs</span></div>
+        <div class="stat-label">In production</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">20M+</div>
+        <div class="stat-label">Units printed with it</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Tub. No mixing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SOLARSHIFT -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-header">
+      <p class="section-index reveal">§ 04 / Nerd stuff</p>
+      <h2 class="section-title reveal reveal-delay-1">NERD STUFF<br>(SKIP IF YOU'RE SOLD).</h2>
+      <p class="section-body reveal reveal-delay-2" style="margin-top:18px;">For the technical buyers who skip straight to specs.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fc-green reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-title">Premixed in one tub</div>
+        <p class="feature-body">Single tub, single setup. No two-part mixing, no dosing windows, no chasing ratios on a deadline. The thing that ruins a Tuesday isn't the ink chemistry — it's the prep around it. We removed the prep.</p>
+      </div>
+      <div class="feature-card fc-magenta reveal reveal-delay-1">
+        <div class="feature-num">02</div>
+        <div class="feature-title">Behaves like plastisol in your shop</div>
+        <p class="feature-body">Cures in standard plastisol ranges. Runs on the equipment you already own. We're not asking you to retool — we're asking you to swap a tub.</p>
+      </div>
+      <div class="feature-card fc-yellow reveal reveal-delay-2">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Documented for production</div>
+        <p class="feature-body">Cure windows, mesh recommendations, garment compatibility, wash protocol. All in writing, all from a shop that prints with this ink every day.</p>
+      </div>
+      <div class="feature-card fc-cyan reveal reveal-delay-1">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Wash-tested on garments we ship ourselves</div>
+        <p class="feature-body">We've been selling the printed garments for a decade. Wash data isn't a marketing claim — it's our own warranty exposure.</p>
+      </div>
+      <div class="feature-card fc-white reveal reveal-delay-2">
+        <div class="feature-num">05</div>
+        <div class="feature-title">Infinite activation cycles</div>
+        <p class="feature-body">The reveal isn't a one-time effect. Sunlight, indoors, sunlight, indoors — same shirt, same print, hundreds of cycles deep. We've never measured a degradation point because we've never reached one.</p>
+      </div>
+      <div class="feature-card fc-pink reveal reveal-delay-3">
+        <div class="feature-num">06</div>
+        <div class="feature-title">IP-protected by design</div>
+        <p class="feature-body">We license access to the ink. We don't publish the formula and we don't sub-license. The license is what protects your investment in setting up around SolarShift — and what protects ours in spending ten years on it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HONEST FILTER -->
+<section id="filter">
+  <div class="filter-inner">
+    <div class="filter-header">
+      <p class="section-index reveal">Honest filter</p>
+      <h2 class="section-title reveal reveal-delay-1">WHO THIS IS FOR.<br>WHO THIS ISN'T.</h2>
+    </div>
+    <div class="filter-cols">
+      <div class="filter-col is-for reveal">
+        <div class="filter-col-label">For</div>
+        <ul class="filter-list">
+          <li>Screen printers running production runs (50 units and up) and looking for a real differentiator</li>
+          <li>Streetwear brands tired of getting copied 30 days after the drop</li>
+          <li>Festival, sports, and event merch houses wanting a print that activates outdoors</li>
+          <li>Resort, theme park, and tourism operators looking for souvenir merch that does something</li>
+        </ul>
+      </div>
+      <div class="filter-col is-not reveal reveal-delay-1">
+        <div class="filter-col-label">Not for</div>
+        <ul class="filter-list">
+          <li>Anyone hoping to reverse-engineer the chemistry — the license is the relationship</li>
+          <li>Hobby and one-off DIY print runs (we don't have time, you'd lose money)</li>
+          <li>Anyone who wants to pay $200 today and have ink shipping tomorrow with no conversation. We're picky on purpose.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA CTA -->
+<section id="formula">
+  <div class="formula-bg-dots"></div>
+  <div class="formula-inner">
+    <p class="section-label" style="font-size:13px; margin-bottom:24px;">Ready to talk?</p>
+    <h2 class="section-title" style="white-space: nowrap;">
+      TWO EMAILS.<br>
+      ONE TUESDAY.<br>
+      <span class="line2">A DIFFERENT SHIRT.</span>
+    </h2>
+    <p class="formula-sub">
+      Tell us what you print, where you print it, and how much. We'll write back the same week. If we're a fit you'll have ink to test inside a month.
+    </p>
+    <a href="#contact" class="formula-cta">Request a sample →</a>
+  </div>
+</section>
+
+<!-- COLORS STRIP -->
+<div class="colors-strip">
+  <div style="background:var(--green)"></div>
+  <div style="background:var(--cyan)"></div>
+  <div style="background:var(--magenta)"></div>
+  <div style="background:var(--yellow)"></div>
+</div>
+
+<!-- CONTACT -->
+<section style="background: var(--black);">
+  <div id="contact">
+    <div class="contact-left">
+      <p class="section-label reveal">Contact</p>
+      <h2 class="section-title reveal reveal-delay-1">LET'S<br>TALK INK.</h2>
+      <p class="section-body reveal reveal-delay-2">Print shops, streetwear brands, event-merch operators, licensing partners — start a conversation here. We answer email like adults.</p>
+      <div class="contact-info" style="margin-top:48px;">
+        <div class="ci-item reveal">
+          <div class="ci-label">Email</div>
+          <div class="ci-value">hello@solarshift.ae</div>
+        </div>
+        <div class="ci-item reveal">
+          <div class="ci-label">WhatsApp</div>
+          <div class="ci-value">+971 55 786 9849</div>
+        </div>
+        <div class="ci-item reveal">
+          <div class="ci-label">Operations</div>
+          <div class="ci-value">Cancún, Mexico — production<br>Dubai, UAE — licensing &amp; HQ</div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link">@sundrip.ae</a>
+        <a href="#" class="social-link">@sundrip_official</a>
+      </div>
+    </div>
+    <div class="contact-right reveal reveal-delay-1">
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" placeholder="Yoha">
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Caballero">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="you@yourshop.com">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Company / shop name</label>
+            <input type="text" placeholder="Your print operation">
+          </div>
+          <div class="form-field">
+            <label>Country</label>
+            <input type="text" placeholder="Where you print">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>I'm interested in</label>
+          <select>
+            <option>Trial — one tub, prove it on my line</option>
+            <option>Standard — recurring supply for production</option>
+            <option>Volume — large-scale licensing</option>
+            <option>Just looking — tell me more first</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell us about your operation</label>
+          <textarea placeholder="What you print, what volumes, what you're hoping SolarShift does for it"></textarea>
+        </div>
+        <button class="form-submit" type="submit">Send →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="flex-direction:column; gap:18px; align-items:flex-start;">
+  <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:24px;">
+    <div>
+      <a href="#" class="footer-logo">SOLAR<span>SHIFT</span><span style="font-size:14px; vertical-align:super; color: var(--dim); margin-left:4px;">™</span></a>
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:6px;">A brand of True Colors Trading LLC · Licensed worldwide · Never explained.</p>
+    </div>
+    <div class="footer-nav">
+      <a href="#how">How it works</a>
+      <a href="#licensing">Licensing</a>
+      <a href="#story">Our story</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <p class="footer-copy" style="max-width:880px; line-height:1.6;">SolarShift™ is a trademark of Probably Fine Holding LLC FZ. Registration pending. Licensed and sold by True Colors Trading LLC, Dubai Mainland, UAE. © 2026 True Colors Trading LLC. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Trigger hero reveals immediately
+  setTimeout(() => {
+    document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+
+</body>
+</html>
