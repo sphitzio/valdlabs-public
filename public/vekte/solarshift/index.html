@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLARSHIFT — Ink That Glows Different</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #050505;
+    --green: #39ff14;
+    --magenta: #cc00ff;
+    --yellow: #f5ff00;
+    --cyan: #00e5ff;
+    --white: #f8f8f4;
+    --dim: rgba(248,248,244,0.55);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 48px;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--dim); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ─── HALFTONE UTILITY ─── */
+  .halftone-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, currentColor 1.5px, transparent 1.5px);
+    background-size: 18px 18px;
+    opacity: 0.18;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; overflow: hidden;
+    background: var(--black);
+  }
+  .hero-bg-glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 55%, rgba(57,255,20,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 30%, rgba(0,229,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 85% 15%, rgba(204,0,255,0.10) 0%, transparent 70%);
+  }
+  .hero-bg-cans {
+    position: absolute; inset: 0;
+    background: url('uploads/pasted-1776741199735-0.png') center center / cover no-repeat;
+    opacity: 0.18;
+    filter: saturate(1.4);
+  }
+  .hero-diag-lines {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(57,255,20,0.04) 0px,
+      rgba(57,255,20,0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  }
+  .hero-dots {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, #39ff14 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    opacity: 0.04;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 140px 48px 100px;
+    max-width: 1400px; margin: 0 auto; width: 100%;
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 6px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    display: block; width: 40px; height: 1px;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 13vw, 200px);
+    line-height: 0.88;
+    letter-spacing: 4px;
+    margin-bottom: 36px;
+  }
+  .hero-title .line1 { color: var(--white); display: block; }
+  .hero-title .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 20px; font-weight: 300; color: var(--dim);
+    line-height: 1.6; max-width: 620px; margin-bottom: 52px;
+  }
+  .hero-btns { display: flex; gap: 16px; align-items: center; justify-content: center; }
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    padding: 16px 36px; text-decoration: none;
+    transition: all .2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover { background: #fff; }
+  .btn-secondary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+    border-bottom: 2px solid var(--white);
+    padding-bottom: 2px;
+    transition: color .2s, border-color .2s;
+  }
+  .btn-secondary:hover { color: var(--green); border-color: var(--green); }
+  .hero-right {
+    position: relative; display: flex;
+    justify-content: flex-end; align-items: center;
+  }
+  .hero-can-img {
+    width: 100%; max-width: 680px;
+    filter: drop-shadow(0 0 60px rgba(57,255,20,0.18)) drop-shadow(0 0 120px rgba(0,0,0,0.8));
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-14px); }
+  }
+  .hero-scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim); z-index: 2;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ─── MARQUEE STRIP ─── */
+  .marquee-strip {
+    background: var(--green); color: var(--black);
+    padding: 14px 0; overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-flex; gap: 0;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 3px;
+    padding: 0 40px;
+  }
+  .marquee-dot { color: rgba(0,0,0,0.4); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTIONS COMMON ─── */
+  section { position: relative; }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    line-height: 1; letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .section-body {
+    font-size: 17px; font-weight: 300;
+    line-height: 1.7; color: var(--dim);
+    max-width: 560px;
+  }
+
+  /* ─── COLLECTION ─── */
+  #collection {
+    padding: 120px 48px;
+    background: #050505;
+  }
+  .collection-header {
+    text-align: center; margin-bottom: 80px;
+  }
+  .collection-header .section-body { margin: 0 auto; text-align: center; }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; max-width: 1400px; margin: 0 auto;
+  }
+  .product-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 4/2;
+    cursor: pointer;
+  }
+  .product-card-bg {
+    position: absolute; inset: 0;
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-card-bg { transform: scale(1.05); }
+  .pc-green .product-card-bg { background: var(--green); }
+  .pc-magenta .product-card-bg { background: var(--magenta); }
+  .pc-yellow .product-card-bg { background: var(--yellow); }
+
+  .product-card-dots {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, #000 1.8px, transparent 1.8px);
+    background-size: 16px 16px;
+    opacity: 0.25;
+  }
+  .product-card-slash {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%, transparent 30%,
+      #000 30%, #000 55%,
+      transparent 55%, transparent 100%
+    );
+    opacity: 0.85;
+  }
+  .product-card-img {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px;
+  }
+  .product-card-img img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 40px rgba(0,0,0,0.6));
+    transition: transform .5s ease;
+  }
+  .product-card:hover .product-card-img img { transform: scale(1.08) translateY(-8px); }
+  .product-card-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 32px 28px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px; letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .pc-green .product-name { color: var(--green); }
+  .pc-magenta .product-name { color: var(--magenta); }
+  .pc-yellow .product-name { color: var(--yellow); }
+  .product-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .product-tag {
+    position: absolute; top: 24px; right: 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--black);
+    padding: 6px 14px;
+  }
+  .pc-green .product-tag { background: var(--green); }
+  .pc-magenta .product-tag { background: var(--magenta); color: #fff; }
+  .pc-yellow .product-tag { background: var(--yellow); }
+
+
+  .pc-cyan .product-card-bg { background: #00e5ff; }
+  .pc-cyan .product-name { color: #00e5ff; }
+  .pc-cyan .product-tag { background: #00e5ff; color: #000; }
+
+  .pc-orange .product-card-bg { background: #ff6b00; }
+  .pc-orange .product-name { color: #ff6b00; }
+  .pc-orange .product-tag { background: #ff6b00; color: #000; }
+
+  .pc-violet .product-card-bg { background: #9b00ff; }
+  .pc-violet .product-name { color: #c060ff; }
+  .pc-violet .product-tag { background: #9b00ff; color: #fff; }
+
+  /* ─── STORY ─── */
+  #story {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+  .story-visual {
+    position: relative; overflow: hidden;
+    background: #0a0a0a;
+  }
+  .story-label-img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    opacity: 0.9;
+  }
+  .story-visual-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--black) 100%);
+  }
+  .story-content {
+    padding: 100px 72px 100px 60px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    background: var(--black);
+  }
+  .story-content .section-body { max-width: 480px; margin-bottom: 24px; }
+  .story-stat {
+    display: flex; gap: 48px; margin-top: 48px;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px; line-height: 1;
+    color: var(--green);
+  }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* ─── WHY ─── */
+  #why {
+    padding: 120px 48px;
+    background: #060606;
+  }
+  .why-inner { max-width: 1400px; margin: 0 auto; }
+  .why-header { margin-bottom: 80px; }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .feature-card {
+    padding: 52px 40px;
+    background: #0d0d0d;
+    border-top: 3px solid transparent;
+    transition: border-color .3s, background .3s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .feature-card:hover { background: #141414; }
+  .fc-green { border-top-color: var(--green); }
+  .fc-magenta { border-top-color: var(--magenta); }
+  .fc-yellow { border-top-color: var(--yellow); }
+  .fc-cyan { border-top-color: var(--cyan); }
+  .fc-white { border-top-color: var(--white); }
+  .fc-pink { border-top-color: #ff4dff; }
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px; line-height: 1;
+    opacity: 0.06; position: absolute;
+    top: 20px; right: 28px;
+    color: var(--white);
+  }
+  .feature-icon {
+    font-size: 28px; margin-bottom: 20px;
+  }
+  .feature-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    margin-bottom: 14px; color: var(--white);
+  }
+  .feature-body {
+    font-size: 15px; font-weight: 300;
+    line-height: 1.65; color: var(--dim);
+  }
+
+  /* ─── FORMULA SECTION ─── */
+  #formula {
+    position: relative; overflow: hidden;
+    padding: 140px 48px;
+    background: var(--black);
+  }
+  .formula-bg-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(57,255,20,0.12) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+  }
+  .formula-inner {
+    position: relative; z-index: 2;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .formula-inner .section-title {
+    font-size: clamp(56px, 8vw, 110px);
+    margin-bottom: 0;
+  }
+  .formula-inner .section-title .line2 {
+    background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 40%, var(--magenta) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .formula-sub {
+    font-size: 18px; font-weight: 300;
+    color: var(--dim); margin: 32px auto 52px;
+    line-height: 1.7; max-width: 600px;
+  }
+  .formula-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--black); background: var(--green);
+    padding: 18px 48px; text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    transition: all .2s;
+  }
+  .formula-cta:hover { background: var(--white); }
+
+  /* ─── COLORS STRIP ─── */
+  .colors-strip {
+    display: flex; height: 8px;
+  }
+  .colors-strip div { flex: 1; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding: 120px 48px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; max-width: 1400px; margin: 0 auto;
+    align-items: start;
+  }
+  .contact-left {}
+  .contact-left .section-body { margin-bottom: 40px; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-field {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .form-field label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .form-field input, .form-field textarea, .form-field select {
+    background: #0f0f0f;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 14px 18px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+    width: 100%;
+  }
+  .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
+    border-color: var(--green);
+  }
+  .form-field textarea { resize: vertical; min-height: 120px; }
+  .form-field select option { background: #111; }
+  .form-submit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    background: var(--green); color: var(--black);
+    border: none; padding: 18px 40px;
+    cursor: pointer; text-align: left;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background .2s; width: 100%;
+  }
+  .form-submit:hover { background: #fff; }
+  .contact-right {}
+  .contact-info { display: flex; flex-direction: column; gap: 40px; }
+  .ci-item {}
+  .ci-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--green); margin-bottom: 8px;
+  }
+  .ci-value {
+    font-size: 18px; font-weight: 300;
+    color: var(--white); line-height: 1.5;
+  }
+  .social-links { display: flex; gap: 20px; margin-top: 48px; }
+  .social-link {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--dim); text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 3px;
+    transition: color .2s, border-color .2s;
+  }
+  .social-link:hover { color: var(--green); border-color: var(--green); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px; letter-spacing: 2px;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--green); }
+  .footer-copy {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .footer-nav { display: flex; gap: 28px; }
+  .footer-nav a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-nav a:hover { color: var(--white); }
+
+  /* ─── SCROLLFADE ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hero-content { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-right { justify-content: center; margin-top: 40px; }
+    #story { grid-template-columns: 1fr; }
+    .story-content { padding: 60px 24px; }
+    .products-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; padding: 80px 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    #collection, #why, #formula { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="uploads/solarShift_horiz_color_white-32159fd8.png" alt="SolarShift" style="height:24px; width:auto; display:block;"></a>
+  <ul class="nav-links">
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get a Sample</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-cans"></div>
+  <div class="hero-diag-lines"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+
+      <p class="hero-eyebrow reveal">UV-Reactive Screen Print Inks</p>
+      <h1 class="hero-title reveal reveal-delay-1">
+        <span class="line1">THE FUTURE</span>
+        <span class="line2">OF COLOR</span>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        UV-reactive fabric inks for screen printers and merch makers who demand their drops glow. Built for apparel that performs under any light — natural or UV.
+      </p>
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="#collection" class="btn-primary">Shop the Inks</a>
+        <a href="#story" class="btn-secondary">Our Story</a>
+      </div>
+
+  </div>
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">SOLAR<span class="marquee-dot">●</span>SHIFT</span>
+    <span class="marquee-item">UV REACTIVE <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">SHIFT GREEN <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">MAGENTA SURGE <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">VOLT YELLOW <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">INK THAT GLOWS DIFFERENT <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">SOLAR<span class="marquee-dot">●</span>SHIFT</span>
+    <span class="marquee-item">NEON ECLIPSE <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">SHIFT GREEN <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">MAGENTA SURGE <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">VOLT YELLOW <span class="marquee-dot">●</span></span>
+    <span class="marquee-item">PAINT THAT HITS DIFFERENT <span class="marquee-dot">●</span></span>
+  </div>
+</div>
+
+<!-- COLLECTION -->
+<section id="collection">
+  <div class="collection-header">
+    <p class="section-label reveal">The Collection</p>
+    <h2 class="section-title reveal reveal-delay-1">THREE INKS.<br>INFINITE DROPS.</h2>
+    <p class="section-body reveal reveal-delay-2">Each colorway is a personality. Choose the frequency that defines your drop.</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card pc-green reveal">
+      <div class="product-card-bg"></div>
+      <div class="product-card-dots"></div>
+      <div class="product-card-slash"></div>
+      <div class="product-card-img"></div>
+      <span class="product-tag">Bestseller</span>
+      <div class="product-card-info">
+        <div class="product-name">Shift Green</div>
+        <div class="product-desc">Electric Neon · Screen Print Ink</div>
+      </div>
+    </div>
+    <div class="product-card pc-magenta reveal reveal-delay-1">
+      <div class="product-card-bg"></div>
+      <div class="product-card-dots"></div>
+      <div class="product-card-slash"></div>
+      <div class="product-card-img"></div>
+      <span class="product-tag">New Drop</span>
+      <div class="product-card-info">
+        <div class="product-name">Magenta Surge</div>
+        <div class="product-desc">Deep Violet · Screen Print Ink</div>
+      </div>
+    </div>
+    <div class="product-card pc-yellow reveal reveal-delay-2">
+      <div class="product-card-bg"></div>
+      <div class="product-card-dots"></div>
+      <div class="product-card-slash"></div>
+      <div class="product-card-img"></div>
+      <span class="product-tag">Limited</span>
+      <div class="product-card-info">
+        <div class="product-name">Volt Yellow</div>
+        <div class="product-desc">High-Voltage · Screen Print Ink</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section id="story">
+  <div class="story-visual">
+    <img src="uploads/pasted-1776741343445.png" alt="SolarShift label" class="story-label-img">
+    <div class="story-visual-overlay"></div>
+  </div>
+  <div class="story-content">
+    <p class="section-label reveal">Our Story</p>
+    <h2 class="section-title reveal reveal-delay-1">BORN UNDER<br>BLACKLIGHT</h2>
+    <p class="section-body reveal reveal-delay-2">
+      SolarShift started in a backroom print shop in 2019 — two screen printers obsessed with inks that did more. They wanted color that activated. Color that looked insane in daylight and went full nuclear under UV.
+    </p>
+    <p class="section-body reveal reveal-delay-3">
+      Two years of formula work later, the first jar of Shift Green hit the market. Within six months, three major streetwear labels and a festival merch house were printing exclusively in SolarShift. The rest, as they say, glowed.
+    </p>
+    <div class="story-stat reveal">
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Colorways</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">12K</div>
+        <div class="stat-label">Drops Printed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SOLARSHIFT -->
+<section id="why">
+  <div class="why-inner">
+    <div class="why-header">
+      <p class="section-label reveal">Why SolarShift</p>
+      <h2 class="section-title reveal reveal-delay-1">ENGINEERED<br>FOR THE DROP</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fc-green reveal">
+        <div class="feature-num">01</div>
+        <div class="feature-title">Ultra-Saturated Pigment</div>
+        <p class="feature-body">Our proprietary ChromaCore™ pigment system delivers 3× the color depth of standard plastisol inks. Blazing in daylight. Lethal under UV. No fading. No compromise.</p>
+      </div>
+      <div class="feature-card fc-magenta reveal reveal-delay-1">
+        <div class="feature-num">02</div>
+        <div class="feature-title">UV Reactive Formula</div>
+        <p class="feature-body">Activates under UV light to shift from vivid to glowing — turning any print into a two-state experience. Ideal for festival merch, limited drops, and event apparel.</p>
+      </div>
+      <div class="feature-card fc-yellow reveal reveal-delay-2">
+        <div class="feature-num">03</div>
+        <div class="feature-title">Wash-Stable Formula</div>
+        <p class="feature-body">Cured SolarShift inks are fully wash-stable, passing 50+ wash tests without color shift or glow degradation. Wears like standard plastisol, glows like nothing else.</p>
+      </div>
+      <div class="feature-card fc-cyan reveal reveal-delay-1">
+        <div class="feature-num">04</div>
+        <div class="feature-title">Water-Based Option</div>
+        <p class="feature-body">All three colorways available in water-based formulation — OEKO-TEX compatible, better hand-feel on soft garments, and fully UV reactive.</p>
+      </div>
+      <div class="feature-card fc-white reveal reveal-delay-2">
+        <div class="feature-num">05</div>
+        <div class="feature-title">Single-Pass Coverage</div>
+        <p class="feature-body">High-opacity formula covers even dark garments in a single pass on most mesh counts. Less flooding, more printing, better margins on your run.</p>
+      </div>
+      <div class="feature-card fc-pink reveal reveal-delay-3">
+        <div class="feature-num">06</div>
+        <div class="feature-title">Custom Mix Available</div>
+        <p class="feature-body">Need a specific shade in the SolarShift spectrum? Our lab offers custom ChromaCore blends for brands, artists, and large production runs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA CTA -->
+<section id="formula">
+  <div class="formula-bg-dots"></div>
+  <div class="formula-inner">
+    <p class="section-label" style="font-size:13px; margin-bottom:24px;">Ready to shift?</p>
+    <h2 class="section-title">
+      MAKE YOUR<br>
+      <span class="line2">MERCH GLOW</span>
+    </h2>
+    <p class="formula-sub">
+      Order a sample kit and print a test run before you commit. Free shipping on all sample orders to print shops and studios.
+    </p>
+    <a href="#contact" class="formula-cta">Request a Sample</a>
+  </div>
+</section>
+
+<!-- COLORS STRIP -->
+<div class="colors-strip">
+  <div style="background:var(--green)"></div>
+  <div style="background:var(--cyan)"></div>
+  <div style="background:var(--magenta)"></div>
+  <div style="background:var(--yellow)"></div>
+</div>
+
+<!-- CONTACT -->
+<section style="background: var(--black);">
+  <div id="contact">
+    <div class="contact-left">
+      <p class="section-label reveal">Contact</p>
+      <h2 class="section-title reveal reveal-delay-1">LET'S<br>TALK INK</h2>
+      <p class="section-body reveal reveal-delay-2">Whether you're a print shop, streetwear brand, or independent artist — we want to hear about your next drop.</p>
+      <div class="contact-info" style="margin-top:48px;">
+        <div class="ci-item reveal">
+          <div class="ci-label">Email</div>
+          <div class="ci-value">hello@solarshift.co</div>
+        </div>
+        <div class="ci-item reveal">
+          <div class="ci-label">Studio</div>
+          <div class="ci-value">Los Angeles, CA<br>& London, UK</div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link">Instagram</a>
+        <a href="#" class="social-link">TikTok</a>
+        <a href="#" class="social-link">Pinterest</a>
+      </div>
+    </div>
+    <div class="contact-right reveal reveal-delay-1">
+      <form class="contact-form" onsubmit="return false;">
+        <div class="form-row">
+          <div class="form-field">
+            <label>First Name</label>
+            <input type="text" placeholder="Alex">
+          </div>
+          <div class="form-field">
+            <label>Last Name</label>
+            <input type="text" placeholder="Reed">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="you@studio.com">
+        </div>
+        <div class="form-field">
+          <label>I'm interested in</label>
+          <select>
+            <option>Shift Green Ink</option>
+            <option>Magenta Surge Ink</option>
+            <option>Volt Yellow Ink</option>
+            <option>Custom ChromaCore Blend</option>
+            <option>Trade / Wholesale Pricing</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Tell us about your drop</label>
+          <textarea placeholder="Print shop, streetwear brand, festival merch, limited drop..."></textarea>
+        </div>
+        <button class="form-submit" type="submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">SOLAR<span>SHIFT</span></a>
+  <div class="footer-nav">
+    <a href="#collection">Collection</a>
+    <a href="#story">Story</a>
+    <a href="#why">Formula</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p class="footer-copy">© 2026 SolarShift. All rights reserved.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Trigger hero reveals immediately
+  setTimeout(() => {
+    document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+
+</body>
+</html>
