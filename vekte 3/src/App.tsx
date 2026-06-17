@@ -64,7 +64,7 @@ export default function App() {
 
   const DOWNLOAD_URLS = {
     win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.4/VEKTE-Setup-1.1.4-x64.exe',
-    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.4/VEKTE-1.1.2.dmg',
+    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.4/VEKTE-1.1.4.dmg',
   };
 
   const handleBetaDownload = (os: 'win' | 'mac') => {
