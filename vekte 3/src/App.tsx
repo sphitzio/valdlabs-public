@@ -350,11 +350,9 @@ export default function App() {
 
         {/* Epic Main Headline title */}
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white leading-tight max-w-3xl">
-          16 Generative Channels.<br />
-          31 Deterministic Algorithms.<br />
+          Generative, not random.<br />
           <span className="bg-gradient-to-r from-[#d4ff00] via-[#ecff80] to-white bg-clip-text text-transparent">
-            Five Independent Lanes.<br />
-            Full MIDI Routing.
+            A deterministic MIDI sequencer driven by 31 mathematical algorithms.
           </span>
         </h1>
 
