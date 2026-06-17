@@ -273,9 +273,15 @@ export default function App() {
     { id: 'physical-physics', title: 'PHYSICS & HARMONICS' },
   ];
 
-  const filteredEngines = selectedCategory === 'all' 
-    ? SYNTH_ENGINES 
-    : SYNTH_ENGINES.filter(e => e.category === selectedCategory);
+  const filteredEngines = (selectedCategory === 'all'
+    ? SYNTH_ENGINES
+    : SYNTH_ENGINES.filter(e => e.category === selectedCategory)
+  ).slice().sort((a, b) => {
+    // Pin Wave Interference (#26, the playable web demo) to the top
+    if (a.id === 26) return -1;
+    if (b.id === 26) return 1;
+    return 0;
+  });
 
   return (
     <div className="min-h-screen bg-[#060606] text-zinc-100 font-sans selection:bg-[#d4ff00]/30 selection:text-white">
