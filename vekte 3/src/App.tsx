@@ -460,7 +460,7 @@ export default function App() {
             
             <div className="rounded-xl border border-white/10 overflow-hidden bg-black/50 shadow-2xl relative group">
               <img 
-                src="https://github.com/sphitzio/valdlabs-public/blob/main/public/vekte/assets/vekteUI.png?raw=true" 
+                src="https://github.com/sphitzio/valdlabs-public/blob/main/public/vekte/assets/vekte_5lanes.png?raw=true"
                 alt="VEKTE Synthesis Interface" 
                 className="w-full h-auto object-cover transform hover:scale-[1.01] transition-transform duration-500"
                 referrerPolicy="no-referrer"
@@ -560,7 +560,7 @@ export default function App() {
                 <div className="flex justify-between items-center bg-zinc-850 border border-[#d4ff00]/20 p-3 rounded-lg shadow-lg">
                   <div>
                     <span className="text-xs text-[#d4ff00] block font-mono font-bold">VEKTE VST3; iOS; AUv3 Suite</span>
-                    <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 40 chords, Catmull-Rom micro-vibrato curve interpolation.</span>
+                    <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 40 chords, Catmull-Rom curve interpolation.</span>
                   </div>
                   <span className="text-[10px] font-mono bg-[#d4ff00]/10 text-[#d4ff00] px-2 py-0.5 rounded border border-[#d4ff00]/30 font-bold">UPGRADE</span>
                 </div>
@@ -569,7 +569,7 @@ export default function App() {
               {/* Hardware engineering quote block */}
               <div className="mt-5 pt-4 border-t border-white/[0.05] flex items-center space-x-3 text-[11px] font-mono text-zinc-400 leading-normal">
                 <Disc className="w-5 h-5 text-[#d4ff00] animate-spin" style={{ animationDuration: '6s' }} />
-                <span>"An absolute powerhouse of generative MIDI routing crammed smoothly into any AUv3 host, making it the deepest midi sequencer package available on mobile."</span>
+                <span>"An absolute powerhouse of generative MIDI routing crammed smoothly into any AUv3 host, making it perhaps one of the deepest sequencers available."</span>
               </div>
             </div>
           </div>
