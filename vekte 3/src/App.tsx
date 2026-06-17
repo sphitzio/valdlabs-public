@@ -882,7 +882,7 @@ export default function App() {
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto pr-1.5 custom-scrollbar">
                   {filteredEngines.map((engine) => {
-                    const isPlayableGimmick = engine.id === 0 || engine.id === 30;
+                    const isPlayableGimmick = engine.id === 26;
                     return (
                       <div
                         key={engine.id}
@@ -899,7 +899,7 @@ export default function App() {
                               </span>
                             ) : (
                               <span className="text-[8px] text-zinc-500 bg-zinc-900 border border-white/5 px-1.5 py-0.5 rounded font-mono font-bold uppercase shrink-0 flex items-center gap-1">
-                                <Lock className="w-2.5 h-2.5" /> DEPLOY TO LANE
+                                <Lock className="w-2.5 h-2.5" />
                               </span>
                             )}
                           </div>
