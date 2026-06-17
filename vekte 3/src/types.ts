@@ -171,7 +171,7 @@ export const SYNTH_ENGINES: Engine[] = [
     id: 19,
     name: 'Sieve (Xenakis)',
     type: 'rhythm-dominant',
-    description: "Xenakis's modular residue sieves combined with Boolean operators (AND, OR, XOR) to synthesize complex non-octave rhythms.",
+    description: "Xenakis's modular residue sieves combined with Boolean operators (AND, OR, XOR) to generate complex non-octave rhythms.",
     isFree: true,
     category: 'rhythm-driven'
   },

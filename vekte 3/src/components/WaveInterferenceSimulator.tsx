@@ -741,7 +741,7 @@ export function WaveInterferenceSimulator() {
         <div className="flex items-start gap-2.5">
           <Info className="w-4 h-4 text-[#d4ff00] shrink-0 mt-0.5" />
           <span className="text-[10px] text-zinc-400 font-sans leading-normal font-light">
-            <strong className="text-zinc-300 font-bold font-mono">LAB NOTE:</strong> Dual Sine synthesis represents algorithm #27 Wave Interference. Modulate seed divisors to establish coprime fractions, blend the amplitude matrix with <strong className="text-white font-medium">DIR</strong>, and filter density boundaries using <strong className="text-white font-medium">DENS</strong> to forge everything from organic pluck-cascadings to evolving deep-ambient sub basslines.
+            <strong className="text-zinc-300 font-bold font-mono">LAB NOTE:</strong> This demo voices algorithm #27, Wave Interference, through a simple dual-sine source. Modulate the seed divisors to set up coprime ratios, blend the interference with <strong className="text-white font-medium">DIR</strong>, and shape density with <strong className="text-white font-medium">DENS</strong>. In VEKTE the same algorithm drives MIDI, so it can play anything from sparse plucks to evolving sub-bass on the instrument you route it to.
           </span>
         </div>
         

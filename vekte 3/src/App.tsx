@@ -15,7 +15,6 @@ import {
   Info, 
   BookOpen, 
   ExternalLink,
-  Disc,
   Smartphone,
   SlidersHorizontal,
   FolderLock
@@ -361,7 +360,7 @@ export default function App() {
 
         {/* Narrative introduction paragraph */}
         <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-3xl font-light font-sans">
-          VEKTE is a 16-channel generative MIDI sequencer plugin by Vald Labs. Each channel runs five independent lanes (one NOTE lane + four MOD lanes) driven by 31 specialized mathematical algorithms—from chaotic logistic maps to Lindenmayer systems and Xenakis sieves. Fully optimized for instant state recalls in AUv3 and VST3 hosts.
+          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane plus four MOD lanes) driven by 31 specialized mathematical algorithms, from chaotic logistic maps to Lindenmayer systems and Xenakis sieves. Built for instant state recall in VST3 hosts, with AUv3 and standalone builds in development.
         </p>
 
         {/* Beautiful modular vector features matrix */}
@@ -395,34 +394,22 @@ export default function App() {
             className="flex items-center justify-center space-x-2 bg-white hover:bg-[#d4ff00] text-black font-mono text-xs font-bold tracking-widest px-6 py-3.5 rounded-xl transition-all shadow-xl"
           >
             <Download className="w-4 h-4" />
-            <span>DOWNLOAD TRIAL FREE</span>
+            <span>DOWNLOAD VST3 BETA</span>
           </a>
         </div>
 
         <div className="flex flex-col items-center space-y-4 pt-2">
           <div className="text-[10px] font-mono text-zinc-500 flex flex-wrap gap-x-4 gap-y-1 justify-center">
-            <span>• VST3, STANDALONE, AUV3</span>
-            <span>• IOS, IPAD & DESKTOP</span>
-            <span>• APPLE SILICON OPTIMIZED</span>
+            <span>• VST3 — WINDOWS & MACOS</span>
+            <span>• APPLE SILICON NATIVE</span>
+            <span>• AUV3 / STANDALONE IN DEVELOPMENT</span>
           </div>
           <div className="flex items-center space-x-6">
-            <img 
-              src="https://raw.githubusercontent.com/sphitzio/valdlabs-public/9dbe4acc388aa8a1c4b80f560e5f4e9d524f886b/public/vekte/assets/platforms/vst3.svg" 
-              alt="VST3" 
-              className="h-7 w-auto opacity-50 hover:opacity-100 transition-all filter brightness-[1.2]" 
-              referrerPolicy="no-referrer" 
-            />
-            <img 
-              src="https://raw.githubusercontent.com/sphitzio/valdlabs-public/9dbe4acc388aa8a1c4b80f560e5f4e9d524f886b/public/vekte/assets/platforms/audio-unit.svg" 
-              alt="Audio Unit" 
-              className="h-7 w-auto opacity-50 hover:opacity-100 transition-all filter brightness-[1.2]" 
-              referrerPolicy="no-referrer" 
-            />
-            <img 
-              src="https://raw.githubusercontent.com/sphitzio/valdlabs-public/9dbe4acc388aa8a1c4b80f560e5f4e9d524f886b/public/vekte/assets/platforms/app-store.svg" 
-              alt="App Store" 
-              className="h-7 w-auto opacity-50 hover:opacity-100 transition-all filter brightness-[1.2]" 
-              referrerPolicy="no-referrer" 
+            <img
+              src="https://raw.githubusercontent.com/sphitzio/valdlabs-public/9dbe4acc388aa8a1c4b80f560e5f4e9d524f886b/public/vekte/assets/platforms/vst3.svg"
+              alt="VST3"
+              className="h-7 w-auto opacity-50 hover:opacity-100 transition-all filter brightness-[1.2]"
+              referrerPolicy="no-referrer"
             />
           </div>
         </div>
@@ -438,7 +425,7 @@ export default function App() {
             Vekte Real-Time Algorithmic Sculpting
           </h2>
           <p className="text-zinc-400 text-sm leading-relaxed mt-4 font-light animate-fade-in">
-            Toggle the running arpeggio pattern, play notes, and drag the custom high-contrast parameter dials vertically to hear our synthesis engine morph its waveforms in real-time.
+            Toggle the running arpeggio pattern, play notes, and drag the parameter dials to hear how each algorithm reshapes the sequence in real time. The sound here comes from a built-in demo instrument so you can audition the MIDI. VEKTE itself outputs MIDI.
           </p>
         </div>
 
@@ -453,15 +440,15 @@ export default function App() {
             <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#d4ff00] to-transparent opacity-50" />
             <div className="flex justify-between items-center border-b border-white/[0.06] pb-4 mb-5">
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase font-bold">NATIVE INSTRUMENT INTERFACE</span>
+                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase font-bold">THE PLUGIN INTERFACE</span>
               </div>
-              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">REAL SCREENSHOT</span>
+              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">LIVE BUILD</span>
             </div>
             
             <div className="rounded-xl border border-white/10 overflow-hidden bg-black/50 shadow-2xl relative group">
               <img 
                 src="https://github.com/sphitzio/valdlabs-public/blob/main/public/vekte/assets/vekte_5lanes.png?raw=true"
-                alt="VEKTE Synthesis Interface" 
+                alt="VEKTE Plugin Interface"
                 className="w-full h-auto object-cover transform hover:scale-[1.01] transition-transform duration-500"
                 referrerPolicy="no-referrer"
               />
@@ -475,9 +462,9 @@ export default function App() {
           <div className="bg-zinc-950/85 border border-white/[0.08] p-4 sm:p-6 rounded-2xl shadow-2xl relative overflow-hidden backdrop-blur-md">
             <div className="flex justify-between items-center border-b border-white/[0.06] pb-4 mb-5">
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase font-bold">AUv3 Video walkthrough</span>
+                <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase font-bold">VIDEO WALKTHROUGH</span>
               </div>
-              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">AUM INTEGRATION</span>
+              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">AUV3 PREVIEW (IN DEVELOPMENT)</span>
             </div>
 
             <div className="relative w-full aspect-video rounded-xl border border-white/10 overflow-hidden shadow-2xl bg-black">
@@ -490,7 +477,7 @@ export default function App() {
               />
             </div>
             <div className="mt-4 text-[11px] font-sans font-light text-zinc-400 leading-relaxed text-center">
-               Watch VEKTE running as a highly responsive AUv3 plugin on iPad, demonstrating MIDI routing, synth parameters automation, and rich spatial audio effects.
+               Watch VEKTE driving instruments over MIDI, with per-lane algorithm routing and parameter automation. This clip previews the in-development AUv3 build; the current beta is VST3 on desktop, and the video also features Tresse.
             </div>
           </div>
 
@@ -509,7 +496,7 @@ export default function App() {
               16 Channels of Parametric Logic. Infinite Polyphonic Drift.
             </h2>
             <p className="text-zinc-300 text-sm leading-relaxed font-light">
-              VEKTE takes the structural blueprint of Eurorack modular routing—specifically the multi-lane modulation concepts of modern West Coast sequencing—and reinvents it as an offline-first DAW companion. By combining up to <span className="font-semibold text-white">five independent layers per channel</span> (one primary NOTE lane and four separate MOD lanes) with <span className="font-semibold text-white">31 mathematical algorithms</span>, it breaks standard step-grid constraints.
+              VEKTE takes the multi-lane modulation thinking of Eurorack modular routing and rebuilds it as a plugin that lives in your DAW. By combining up to <span className="font-semibold text-white">five independent lanes per channel</span> (one NOTE lane and four MOD lanes) with <span className="font-semibold text-white">31 mathematical algorithms</span>, it breaks the usual step-grid constraints.
             </p>
             <p className="text-zinc-400 text-sm leading-relaxed font-light">
               With immediate support for 73 scales grouped by musical family, 40 dynamic chord sets, micro-strumming controls, and smooth Catmull-Rom curve interpolation, the scope of generation runs from classic Euclidean rhythms to polyrhythmic metronomes, generative boids flocking, and reaction-diffusion arrays.
@@ -528,7 +515,7 @@ export default function App() {
                 <CheckCircle className="w-4 h-4 text-[#d4ff00] shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-xs font-mono font-bold text-zinc-200">INTELLIGENT RANDOM</h4>
-                  <p className="text-[11px] text-zinc-400 leading-tight mt-0.5">Generate stunning starting presets with a single click algorithm.</p>
+                  <p className="text-[11px] text-zinc-400 leading-tight mt-0.5">Generate a usable starting pattern with one click.</p>
                 </div>
               </div>
             </div>
@@ -559,18 +546,13 @@ export default function App() {
 
                 <div className="flex justify-between items-center bg-zinc-850 border border-[#d4ff00]/20 p-3 rounded-lg shadow-lg">
                   <div>
-                    <span className="text-xs text-[#d4ff00] block font-mono font-bold">VEKTE VST3; iOS; AUv3 Suite</span>
+                    <span className="text-xs text-[#d4ff00] block font-mono font-bold">VEKTE — VST3 now; AUv3 and iOS in development</span>
                     <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 40 chords, Catmull-Rom curve interpolation.</span>
                   </div>
                   <span className="text-[10px] font-mono bg-[#d4ff00]/10 text-[#d4ff00] px-2 py-0.5 rounded border border-[#d4ff00]/30 font-bold">UPGRADE</span>
                 </div>
               </div>
 
-              {/* Hardware engineering quote block */}
-              <div className="mt-5 pt-4 border-t border-white/[0.05] flex items-center space-x-3 text-[11px] font-mono text-zinc-400 leading-normal">
-                <Disc className="w-5 h-5 text-[#d4ff00] animate-spin" style={{ animationDuration: '6s' }} />
-                <span>"An absolute powerhouse of generative MIDI routing crammed smoothly into any AUv3 host, making it perhaps one of the deepest sequencers available."</span>
-              </div>
             </div>
           </div>
 
@@ -585,7 +567,7 @@ export default function App() {
             Uncompromising specifications. Optimized engine logic.
           </h2>
           <p className="text-zinc-400 text-sm leading-relaxed mt-4 font-light">
-            Every layer of VEKTE's mathematical core has been designed to run with extreme lightweight efficiency, ensuring zero-latency note timing across heavy multi-track host configurations.
+            Every layer of VEKTE's mathematical core has been designed to run with extreme lightweight efficiency, ensuring sample-accurate note timing across heavy multi-track host configurations.
           </p>
         </div>
 
@@ -600,7 +582,7 @@ export default function App() {
               </div>
               <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">31 Generative Algorithm Core</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                Each lane runs on one of 31 mathematical algorithms—including Euclidean rhythms, Chaos Logistic Maps, Lindenmayer Systems (L-Systems), Game of Life cellular automata, and Xenakis residuary sieves. Generation is strictly deterministic; identical settings yield the exact same 32-step patterns.
+                Each lane runs on one of 31 mathematical algorithms—including Euclidean rhythms, Chaos Logistic Maps, Lindenmayer Systems (L-Systems), Game of Life cellular automata, and Xenakis sieves. Generation is strictly deterministic; identical settings yield the exact same patterns.
               </p>
             </div>
             <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-widest mt-6 font-bold">STRICTLY DETERMINISTIC PATTERNS</span>
@@ -614,7 +596,7 @@ export default function App() {
               </div>
               <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">5 Lanes Per Channel</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                Run up to five concurrent channels side-by-side (one primary NOTE lane and four separate MOD lanes) on every active slot. Modulation lanes smoothly target performance vectors (Velocity, Length, CC#), internal structures (Steps, Rotation), scale chords, or other lanes' parameters.
+                Run up to five concurrent lanes side by side (one NOTE lane and four MOD lanes) on every active slot. Modulation lanes smoothly target performance vectors (Velocity, Length, CC#), internal structures (Steps, Rotation), scale chords, or other lanes' parameters.
               </p>
             </div>
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-6">1 NOTE + 4 MOD LAYER CLUSTERS</span>
@@ -658,7 +640,7 @@ export default function App() {
             <div>
               <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">Virtual CoreMIDI Ports</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                VEKTE automatically provisions a virtual CoreMIDI port labeled "VEKTE" in macOS, enabling seamless multi-track channel filtration (1-16) across hosts like Ableton Live. Integrates with loopMIDI on Windows platforms for reliable zero-latency DAW routing.
+                VEKTE automatically provisions a virtual CoreMIDI port labeled "VEKTE" in macOS, enabling seamless multi-track channel filtration (1-16) across hosts like Ableton Live. Integrates with loopMIDI on Windows platforms for reliable low-latency DAW routing.
               </p>
             </div>
             <span className="text-[10px] font-mono text-[#d4ff00] mt-6 font-bold">MACOS COREMIDI + WINDOWS LOOPMIDI</span>
@@ -677,7 +659,7 @@ export default function App() {
               10⁹¹ Distinct Patterns. One Single Channel.
             </h2>
             <p className="text-zinc-400 text-sm leading-relaxed mt-4 max-w-2xl mx-auto font-light">
-              Because VEKTE is strictly deterministic—every lane hashing its active algorithm and configuration parameters into the seed—each unique configuration locks down a specific, repeatable musical pattern. Counting patterns is a clean, exact combinatorial calculation.
+              Because VEKTE is strictly deterministic, with every lane hashing its active algorithm and configuration parameters into the seed, each unique configuration locks down a specific, repeatable musical pattern. Counting patterns is a clean, exact combinatorial calculation.
             </p>
           </div>
 
@@ -699,7 +681,7 @@ export default function App() {
                       6.5 × 10⁷ <span className="text-xs text-zinc-500 font-normal">PATTERNS</span>
                     </div>
                     <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                      Summing each algorithm's four parameter ranges across all 31 models yields <span className="text-zinc-200 font-medium">65,231,654</span> distinct sequences. Heavily driven by String Resonance (14.7M), Kaprekar (12.1M), Wave Interference (8.4M), and Flocking (7.2M).
+                      Summing the product of each algorithm's four parameter ranges across all 31 models yields <span className="text-zinc-200 font-medium">65,231,654</span> distinct sequences. Heavily driven by String Resonance (14.7M), Kaprekar (12.1M), Wave Interference (8.4M), and Flocking (7.2M).
                     </p>
                   </div>
                   <div className="text-[9px] font-mono text-zinc-500 pt-4 border-t border-white/[0.03] mt-4">
@@ -762,11 +744,11 @@ export default function App() {
                       3.3 × 10⁹¹ <span className="text-xs text-zinc-500 font-normal">COMBINATIONS</span>
                     </div>
                     <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                      One channel clusters five active lanes simultaneously. Multiplying one structured Note lane by four fully-routed Mod channels results in an astronomical synthesis footprint. Factoring playmode, clock divisions, and lane toggles pushes this to over <span className="text-[#FF0044] font-bold">10¹⁰³</span>.
+                      One channel clusters five active lanes simultaneously. Multiplying one structured Note lane by four fully-routed Mod lanes results in an astronomical footprint. Factoring in playmode, clock divisions, and lane toggles pushes it higher still.
                     </p>
                   </div>
                   <div className="text-[9px] font-mono text-zinc-500 pt-4 border-t border-white/[0.03] mt-4">
-                    N × D⁴ = 3.5×10²² × (1.7×10¹⁷)⁴ = 3.3 × 10⁹¹
+                    N × D⁴ = 3.55×10²² × (1.74×10¹⁷)⁴ ≈ 3.3 × 10⁹¹
                   </div>
                 </div>
 
@@ -796,7 +778,7 @@ export default function App() {
               <div>
                 <div className="flex justify-between items-center border-b border-white/[0.05] pb-3 mb-6">
                   <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-wider font-bold">COSMIC COMPARISON</span>
-                  <span className="text-[10px] font-mono text-zinc-500">SCALE & DEPRECIATION</span>
+                  <span className="text-[10px] font-mono text-zinc-500">SCALE & COMPARISON</span>
                 </div>
 
                 <div className="space-y-6">
@@ -915,7 +897,7 @@ export default function App() {
                             </span>
                             {isPlayableGimmick ? (
                               <span className="text-[8px] text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-1.5 py-0.5 rounded font-mono font-bold uppercase shrink-0">
-                                PLAYABLE WEB GIMMICK
+                                PLAYABLE WEB DEMO
                               </span>
                             ) : (
                               <span className="text-[8px] text-zinc-500 bg-zinc-900 border border-white/5 px-1.5 py-0.5 rounded font-mono font-bold uppercase shrink-0 flex items-center gap-1">
@@ -1118,7 +1100,7 @@ export default function App() {
               Download Beta
             </h2>
             <p className="text-zinc-400 text-sm leading-relaxed mt-4 font-light">
-              Beta version valid until mid-August
+              Beta version valid until mid-August 2026
             </p>
           </div>
 
@@ -1162,7 +1144,7 @@ export default function App() {
                 )}
 
                 <div className="text-[10px] text-center font-mono text-zinc-600 leading-tight">
-                  VEKTE is an open beta. No registration required here—email setup is handled inside the application.
+                  VEKTE is an open beta. No registration required here. Email setup is handled inside the application.
                 </div>
               </div>
             </div>
@@ -1223,7 +1205,7 @@ export default function App() {
               
               <div className="mt-6 flex justify-center items-center gap-4 text-[10px] font-mono text-zinc-500">
                 <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-[#d4ff00]/40" /> VST3 plugin format</span>
-                <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-[#d4ff00]/40" /> Standalone MIDI host</span>
+                <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5 text-[#d4ff00]/40" /> Runs in any VST3 DAW</span>
               </div>
             </div>
           </div>
@@ -1240,10 +1222,10 @@ export default function App() {
               <VekteLogo className="w-20 md:w-24 h-auto" />
             </div>
             <p className="text-[11px] leading-relaxed text-zinc-600 font-light font-sans">
-              VEKTE, its graphics layout interface, custom synthesized models, and firmware loops are intellectual properties under development by ValdLabs.
+              VEKTE, its interface, algorithm implementations, and generative engine are intellectual property under development by Våld Labs.
             </p>
             <p className="text-[10px] text-zinc-600">
-              © 2026 ValdLabs. All rights reserved. •{" "}
+              © 2026 Våld Labs. All rights reserved. •{" "}
               <a 
                 href="https://valdlabs.com/privacy" 
                 target="_blank" 
@@ -1260,7 +1242,7 @@ export default function App() {
             <ul className="space-y-1.5 text-[11px] font-light text-zinc-600">
               <li>• Bjorklund Euclidean distribution algorithm.</li>
               <li>• Gray-Scott reaction-diffusion particle dynamics formulae.</li>
-              <li>• Custom MIDI routing matrices built on C++ JUCE framework.</li>
+              <li>• Custom MIDI routing matrices built on C++ and the JUCE framework.</li>
             </ul>
           </div>
 
@@ -1277,7 +1259,7 @@ export default function App() {
                   • Privacy Policy
                 </a>
               </li>
-              <li>• Technical manual and firmware libraries coming soon.</li>
+              <li>• User manual coming soon.</li>
             </ul>
           </div>
 
@@ -1285,7 +1267,8 @@ export default function App() {
             <span className="text-zinc-400 font-bold block">VALDLABS SUITE</span>
             <ul className="space-y-1 text-zinc-600">
               <li className="text-white font-bold">• VEKTE — 31-Algorithm Generative MIDI Sequencer</li>
-              <li>• PLATFORM — Standalone Mac/Windows VST3/AU</li>
+              <li>• TRESSE — Macro Oscillator Synth</li>
+              <li>• REKKE — Hardware Sequencer (in development)</li>
             </ul>
           </div>
 
