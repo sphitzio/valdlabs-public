@@ -3,8 +3,5 @@ dist/
 .DS_Store
 **/.DS_Store
 
-# Local build source (not deployed directly)
-vekte 3/
-
 # Backups
 public/vekte.backup-*/
