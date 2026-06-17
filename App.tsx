@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   if (!isAuthenticated) {
-    return <LoginScreen onLogin={() => setIsAuthenticated(false)} />;
+    return <LoginScreen onLogin={() => setIsAuthenticated(true)} />;
   }
 
   return (
