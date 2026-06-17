@@ -364,7 +364,7 @@ export default function App() {
 
         {/* Narrative introduction paragraph */}
         <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-3xl font-light font-sans">
-          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane plus four MOD lanes) driven by 31 specialized mathematical algorithms, from chaotic logistic maps to Lindenmayer systems and Xenakis sieves. Built for instant state recall in VST3 hosts, with AUv3 and standalone builds in development.
+          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane and four MOD lanes) driven by 31 mathematical algorithms, from logistic maps to Lindenmayer systems and Xenakis sieves. Because it's fully deterministic, any pattern compresses into a short text key, shareable by message or social post and identical when reopened. VST3 now, with AUv3 and standalone builds in development.
         </p>
 
         {/* Beautiful modular vector features matrix */}
