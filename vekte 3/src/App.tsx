@@ -553,7 +553,7 @@ export default function App() {
                     <span className="text-xs text-[#d4ff00] block font-mono font-bold">VEKTE — VST3 now; AUv3 and iOS in development</span>
                     <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 40 chords, Catmull-Rom curve interpolation.</span>
                   </div>
-                  <span className="text-[10px] font-mono bg-[#d4ff00]/10 text-[#d4ff00] px-2 py-0.5 rounded border border-[#d4ff00]/30 font-bold">UPGRADE</span>
+                  <span className="text-[10px] font-mono bg-[#d4ff00]/10 text-[#d4ff00] px-2 py-0.5 rounded border border-[#d4ff00]/30 font-bold">SPINOFF</span>
                 </div>
               </div>
 
