@@ -335,7 +335,11 @@ export default function App() {
             <button
               onClick={() => handleBetaDownload('win')}
               disabled={downloadingOS !== null}
-              className="flex items-center space-x-2 text-xs font-mono font-bold bg-[#d4ff00] text-black px-4 py-2 rounded-lg hover:bg-white tracking-widest transition-all shadow-[0_4px_20px_rgba(212,255,0,0.25)] hover:shadow-white/20 hover:scale-[1.02] disabled:opacity-60 disabled:cursor-wait"
+              className={`flex items-center space-x-2 text-xs font-mono font-bold px-4 py-2 rounded-lg border tracking-widest transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-wait ${
+                downloadingOS === 'Win64 VST3'
+                  ? 'bg-[#d4ff00]/20 text-[#d4ff00] border-[#d4ff00]/40 cursor-wait'
+                  : 'bg-black text-[#d4ff00] border-[#d4ff00]/20 hover:border-[#d4ff00] hover:bg-[#d4ff00]/5'
+              }`}
             >
               <Download className={`w-4 h-4 ${downloadingOS === 'Win64 VST3' ? 'animate-bounce' : ''}`} />
               <span>{downloadingOS === 'Win64 VST3' ? '...' : 'Win64'}</span>
@@ -343,7 +347,11 @@ export default function App() {
             <button
               onClick={() => handleBetaDownload('mac')}
               disabled={downloadingOS !== null}
-              className="flex items-center space-x-2 text-xs font-mono font-bold bg-zinc-900 border border-[#d4ff00]/30 text-[#d4ff00] px-4 py-2 rounded-lg hover:border-[#d4ff00] hover:bg-[#d4ff00]/5 tracking-widest transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-wait"
+              className={`flex items-center space-x-2 text-xs font-mono font-bold px-4 py-2 rounded-lg border tracking-widest transition-all hover:scale-[1.02] disabled:opacity-60 disabled:cursor-wait ${
+                downloadingOS === 'MacOS VST3'
+                  ? 'bg-[#d4ff00]/20 text-[#d4ff00] border-[#d4ff00]/40 cursor-wait'
+                  : 'bg-black text-[#d4ff00] border-[#d4ff00]/20 hover:border-[#d4ff00] hover:bg-[#d4ff00]/5'
+              }`}
             >
               <Download className={`w-4 h-4 ${downloadingOS === 'MacOS VST3' ? 'animate-bounce' : ''}`} />
               <span>{downloadingOS === 'MacOS VST3' ? '...' : 'MacOS'}</span>
@@ -392,7 +400,8 @@ export default function App() {
         </div>
 
         {/* Quick CTA cluster */}
-        <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 pt-2">
+        <span className="text-[11px] font-mono text-zinc-400 uppercase tracking-[0.2em] pt-2">Try the engine now:</span>
+        <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
           <a
             href="#playground"
             className="flex items-center justify-center space-x-2 bg-zinc-900 border border-white/10 hover:border-[#d4ff00]/40 text-white font-mono text-xs font-bold tracking-widest px-6 py-3.5 rounded-xl hover:bg-black transition-all"
@@ -404,7 +413,11 @@ export default function App() {
           <button
             onClick={() => handleBetaDownload('win')}
             disabled={downloadingOS !== null}
-            className="flex items-center justify-center space-x-2 bg-white hover:bg-[#d4ff00] text-black font-mono text-xs font-bold tracking-widest px-6 py-3.5 rounded-xl transition-all shadow-xl disabled:opacity-60 disabled:cursor-wait"
+            className={`flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl border font-mono text-xs font-bold tracking-widest transition-all disabled:opacity-60 disabled:cursor-wait ${
+              downloadingOS === 'Win64 VST3'
+                ? 'bg-[#d4ff00]/20 text-[#d4ff00] border-[#d4ff00]/40 cursor-wait'
+                : 'bg-black text-[#d4ff00] border-[#d4ff00]/20 hover:border-[#d4ff00] hover:bg-[#d4ff00]/5 active:scale-95'
+            }`}
           >
             <Download className={`w-4 h-4 ${downloadingOS === 'Win64 VST3' ? 'animate-bounce' : ''}`} />
             <span>{downloadingOS === 'Win64 VST3' ? 'PREPARING...' : 'Win64 VST3'}</span>
@@ -413,7 +426,11 @@ export default function App() {
           <button
             onClick={() => handleBetaDownload('mac')}
             disabled={downloadingOS !== null}
-            className="flex items-center justify-center space-x-2 bg-zinc-900 border border-[#d4ff00]/30 hover:border-[#d4ff00] hover:bg-[#d4ff00]/5 text-[#d4ff00] font-mono text-xs font-bold tracking-widest px-6 py-3.5 rounded-xl transition-all shadow-xl disabled:opacity-60 disabled:cursor-wait"
+            className={`flex items-center justify-center space-x-2 px-6 py-3.5 rounded-xl border font-mono text-xs font-bold tracking-widest transition-all disabled:opacity-60 disabled:cursor-wait ${
+              downloadingOS === 'MacOS VST3'
+                ? 'bg-[#d4ff00]/20 text-[#d4ff00] border-[#d4ff00]/40 cursor-wait'
+                : 'bg-black text-[#d4ff00] border-[#d4ff00]/20 hover:border-[#d4ff00] hover:bg-[#d4ff00]/5 active:scale-95'
+            }`}
           >
             <Download className={`w-4 h-4 ${downloadingOS === 'MacOS VST3' ? 'animate-bounce' : ''}`} />
             <span>{downloadingOS === 'MacOS VST3' ? 'PREPARING...' : 'MacOS VST3'}</span>
