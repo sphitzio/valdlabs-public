@@ -10,8 +10,8 @@ interface StepData {
 const STEP_COUNT = 16;
 
 export function WaveInterferenceSimulator() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);  // auto-run the demo playhead
+  const [isMuted, setIsMuted] = useState(true);      // muted until the user unmutes (also the gesture that unlocks audio)
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedSound, setSelectedSound] = useState<'chord' | 'bass' | 'pluck' | 'percussion' | 'lead'>('pluck');
   const [bpm] = useState(120); // fixed demo tempo; drives 16th-note step timing
@@ -21,7 +21,7 @@ export function WaveInterferenceSimulator() {
     SEED: 4,      // Frequency A mapping (1 to 32)
     ENT: 12,      // Frequency B mapping (1 to 32)
     DIR: 0,      // Sine Mix (0 to 100)
-    DENS: 61      // Trigger density (0 to 100)
+    DENS: 100     // Trigger density (0 to 100) — start fully dense
   });
 
   const [activeDragKnob, setActiveDragKnob] = useState<string | null>(null);
@@ -440,6 +440,11 @@ export function WaveInterferenceSimulator() {
   };
 
   const toggleMute = () => {
+    // Unmuting is a user gesture: create + iOS-unlock + resume the context here
+    // so sound actually plays (and bypasses the iOS silent switch).
+    if (isMuted) {
+      unlockAudioContext();
+    }
     setIsMuted(!isMuted);
   };
 
@@ -732,12 +737,23 @@ export function WaveInterferenceSimulator() {
                 <span>{isPlaying ? 'STOP PREVIEW' : 'RUN PREVIEW'}</span>
               </button>
 
-              <button 
+              <button
                 onClick={toggleMute}
-                className="w-9 h-9 rounded-lg bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white flex items-center justify-center transition-all"
-                title={isMuted ? "Unmute Sound" : "Mute Sound"}
+                className={`h-9 rounded-lg flex items-center justify-center gap-1.5 px-2.5 transition-all ${
+                  isMuted
+                    ? 'bg-[#d4ff00] text-black border border-[#d4ff00] animate-pulse shadow-[0_0_16px_rgba(212,255,0,0.5)]'
+                    : 'w-9 px-0 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'
+                }`}
+                title={isMuted ? "Unmute to hear the demo" : "Mute Sound"}
               >
-                {isMuted ? <VolumeX className="w-3.5 h-3.5 text-zinc-500" /> : <Volume2 className="w-3.5 h-3.5 text-[#d4ff00]" />}
+                {isMuted ? (
+                  <>
+                    <VolumeX className="w-3.5 h-3.5" />
+                    <span className="text-[9px] font-mono font-black uppercase tracking-wider">Tap to hear</span>
+                  </>
+                ) : (
+                  <Volume2 className="w-3.5 h-3.5 text-[#d4ff00]" />
+                )}
               </button>
             </div>
 
