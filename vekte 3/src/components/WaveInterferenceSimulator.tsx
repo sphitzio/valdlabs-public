@@ -6,12 +6,15 @@ interface StepData {
   row: number; // 0 to 7 mapping to note lanes
 }
 
+// Number of sequencer steps shown/played in the web demo (fits mobile width).
+const STEP_COUNT = 16;
+
 export function WaveInterferenceSimulator() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedSound, setSelectedSound] = useState<'chord' | 'bass' | 'pluck' | 'percussion' | 'lead'>('pluck');
-  const [bpm, setBpm] = useState(120);
+  const [bpm] = useState(120); // fixed demo tempo; drives 16th-note step timing
 
   // Knobs: SEED (Freq A), ENT (Freq B), DIR (Mix percentage), DENS (Threshold density)
   const [knobValues, setKnobValues] = useState({
@@ -45,9 +48,9 @@ export function WaveInterferenceSimulator() {
     const mix = knobValues.DIR / 100;
     const densityThreshold = (100 - knobValues.DENS) / 100; // 0 to 1
 
-    for (let s = 0; s < 32; s++) {
-      const angleA = (2 * Math.PI * freqA * s) / 32;
-      const angleB = (2 * Math.PI * freqB * s) / 32;
+    for (let s = 0; s < STEP_COUNT; s++) {
+      const angleA = (2 * Math.PI * freqA * s) / STEP_COUNT;
+      const angleB = (2 * Math.PI * freqB * s) / STEP_COUNT;
 
       const valA = Math.sin(angleA);
       const valB = Math.sin(angleB);
@@ -387,7 +390,7 @@ export function WaveInterferenceSimulator() {
 
       const triggerStep = () => {
         setCurrentStep((prevStep) => {
-          const nextStep = (prevStep + 1) % 32;
+          const nextStep = (prevStep + 1) % STEP_COUNT;
           const currentStepData = steps[nextStep];
           if (currentStepData && currentStepData.trigger) {
             playSequenceNote(selectedSound, currentStepData.row);
@@ -632,9 +635,9 @@ export function WaveInterferenceSimulator() {
         {/* 2. Right sequencer grid visualization */}
         <div className="flex-1 flex flex-col justify-between p-3 bg-black/50 border border-white/[0.04] rounded-xl overflow-hidden min-w-[280px]">
           
-          {/* Scrollable step-grid board frame */}
-          <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-800 pointer-events-none">
-            <div className="min-w-[640px] flex flex-col relative py-2 gap-[2px]">
+          {/* Step-grid board frame (16 steps, fits mobile width) */}
+          <div className="pointer-events-none">
+            <div className="w-full flex flex-col relative py-2 gap-[2px]">
               
               {/* 8 note pitch rows grids */}
               {Array.from({ length: 8 }).map((_, rIdx) => {
@@ -644,22 +647,17 @@ export function WaveInterferenceSimulator() {
                 
                 return (
                   <div key={rowNum} className="flex h-6 items-center gap-1">
-                    
-                    {/* Left side static selection note key-blocks */}
-                    <div className="w-7 h-full bg-zinc-900/60 border border-white/[0.02] flex items-center justify-center text-[8px] font-mono font-bold text-zinc-500 rounded-sm">
-                      {rowNum}
-                    </div>
 
-                    {/* 32 columns slots loop */}
-                    {Array.from({ length: 32 }).map((_, sIdx) => {
+                    {/* Step columns loop */}
+                    {Array.from({ length: STEP_COUNT }).map((_, sIdx) => {
                       const stepData = steps[sIdx];
                       const isTriggered = stepData?.trigger && stepData?.row === rowNum;
-                      
+
                       // Highlight vertical playhead step sweep columns
                       const isPlayhead = isPlaying && currentStep === sIdx;
-                      
+
                       // Distinct beats visual dividers indicators
-                      const isDivider = (sIdx + 1) % 4 === 0 && sIdx < 31;
+                      const isDivider = (sIdx + 1) % 4 === 0 && sIdx < STEP_COUNT - 1;
 
                       return (
                         <div 
@@ -687,17 +685,12 @@ export function WaveInterferenceSimulator() {
 
               {/* Trigger lane strip matching bottom screen visual of mockup */}
               <div className="flex h-4 items-center gap-1">
-                
-                {/* Visual anchor key icon block */}
-                <div className="w-7 h-full bg-zinc-950 flex items-center justify-center text-[7px] font-mono text-zinc-500 rounded-sm">
-                  TRG
-                </div>
 
-                {Array.from({ length: 32 }).map((_, sIdx) => {
+                {Array.from({ length: STEP_COUNT }).map((_, sIdx) => {
                   const stepData = steps[sIdx];
                   const hasTrigger = stepData?.trigger;
                   const isPlayhead = isPlaying && currentStep === sIdx;
-                  const isDivider = (sIdx + 1) % 4 === 0 && sIdx < 31;
+                  const isDivider = (sIdx + 1) % 4 === 0 && sIdx < STEP_COUNT - 1;
                   const soundColor = soundColorMap[selectedSound];
 
                   return (
@@ -774,18 +767,12 @@ export function WaveInterferenceSimulator() {
               })}
             </div>
 
-            {/* BPM slider control */}
-            <div className="flex items-center gap-2 bg-zinc-90 w-full sm:w-auto mt-2 sm:mt-0 px-2 py-1 rounded-lg border border-white/[0.02]">
-              <span className="text-[8px] text-zinc-500">TEMPO</span>
-              <input 
-                type="range"
-                min="60"
-                max="200"
-                value={bpm}
-                onChange={(e) => setBpm(parseInt(e.target.value))}
-                className="w-20 md:w-24 accent-[#d4ff00] h-1 bg-zinc-800 rounded cursor-pointer"
-              />
-              <span className="text-[10px] text-zinc-200 font-bold shrink-0">{bpm} BPM</span>
+            {/* Current step indicator */}
+            <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0 px-3 py-1 rounded-lg border border-white/[0.02] bg-zinc-950/40">
+              <span className="text-[8px] text-zinc-500">STEP</span>
+              <span className="text-[10px] font-mono text-[#d4ff00] font-bold shrink-0 tabular-nums">
+                {(isPlaying ? currentStep + 1 : 1)} / {STEP_COUNT}
+              </span>
             </div>
 
           </div>
