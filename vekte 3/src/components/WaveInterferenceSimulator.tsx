@@ -157,229 +157,237 @@ export function WaveInterferenceSimulator() {
     const chordRoots = [48, 50, 52, 53, 55, 57, 59, 60];        // Chord root register (C3..C4)
 
     if (soundType === 'chord') {
-      // CHORD - Warm minor triad pad (root + minor 3rd + perfect 5th: +0, +3, +7 semitones)
-      const root = chordRoots[rowIdx];
-      const intervals = [0, 3, 7]; // minor triad
+      // CHORD - Dark minor stab pad (root + minor 3rd + 5th + 7th), detuned + resonant
+      const root = chordRoots[rowIdx] - 12; // lower octave = darker
+      const intervals = [0, 3, 7, 10]; // minor 7th for tension
       const lowpass = ctx.createBiquadFilter();
       const voiceGain = ctx.createGain();
 
       lowpass.type = 'lowpass';
-      lowpass.frequency.setValueAtTime(1800, t);
-      lowpass.frequency.exponentialRampToValueAtTime(600, t + 0.6);
-      lowpass.Q.setValueAtTime(1.0, t);
+      lowpass.frequency.setValueAtTime(1500, t);
+      lowpass.frequency.exponentialRampToValueAtTime(380, t + 0.5); // closing sweep
+      lowpass.Q.setValueAtTime(4, t); // resonant edge
 
       voiceGain.gain.setValueAtTime(0.001, t);
-      voiceGain.gain.linearRampToValueAtTime(0.16, t + 0.04); // soft pad swell
-      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.9);
+      voiceGain.gain.linearRampToValueAtTime(0.14, t + 0.012); // sharper stab attack
+      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
 
       lowpass.connect(voiceGain);
       voiceGain.connect(masterGainRef.current!);
 
       intervals.forEach((semis) => {
         const freq = 440 * Math.pow(2, (root + semis - 69) / 12);
-        // Two slightly detuned saws per voice for width
-        [-6, 6].forEach((cents) => {
+        // Two detuned saws per voice for a wide, gritty stack
+        [-9, 9].forEach((cents) => {
           const osc = ctx.createOscillator();
           osc.type = 'sawtooth';
           osc.frequency.setValueAtTime(freq, t);
           osc.detune.setValueAtTime(cents, t);
           osc.connect(lowpass);
           osc.start(t);
-          osc.stop(t + 0.95);
+          osc.stop(t + 0.75);
         });
       });
 
     } else if (soundType === 'bass') {
-      // BASS - Rich sweeping sub + saw
+      // BASS - Dark acid/Reese: detuned saws -> drive -> resonant filter sweep
       const mainOsc = ctx.createOscillator();
+      const detuneOsc = ctx.createOscillator();
       const subOsc = ctx.createOscillator();
       const voiceGain = ctx.createGain();
       const lowpass = ctx.createBiquadFilter();
+      const shaper = ctx.createWaveShaper();
 
-      const midi = bassPitches[rowIdx];
+      const midi = bassPitches[rowIdx] - 12; // an octave lower = darker
       const freq = 440 * Math.pow(2, (midi - 69) / 12);
 
       mainOsc.type = 'sawtooth';
       mainOsc.frequency.setValueAtTime(freq, t);
-
-      subOsc.type = 'sine';
+      detuneOsc.type = 'sawtooth';
+      detuneOsc.frequency.setValueAtTime(freq, t);
+      detuneOsc.detune.setValueAtTime(18, t); // Reese beating
+      subOsc.type = 'square';
       subOsc.frequency.setValueAtTime(freq / 2, t);
 
+      // Soft drive for grit
+      const curve = new Float32Array(1024);
+      for (let i = 0; i < 1024; i++) { const x = (i / 1024) * 2 - 1; curve[i] = Math.tanh(x * 2.2); }
+      shaper.curve = curve;
+
       lowpass.type = 'lowpass';
-      lowpass.frequency.setValueAtTime(750, t);
-      lowpass.frequency.exponentialRampToValueAtTime(75, t + 0.28);
-      lowpass.Q.setValueAtTime(5.5, t);
+      lowpass.frequency.setValueAtTime(1200, t);
+      lowpass.frequency.exponentialRampToValueAtTime(90, t + 0.32); // acid sweep
+      lowpass.Q.setValueAtTime(9, t); // squelchy resonance
 
       voiceGain.gain.setValueAtTime(0.001, t);
-      voiceGain.gain.linearRampToValueAtTime(0.25, t + 0.008);
-      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+      voiceGain.gain.linearRampToValueAtTime(0.3, t + 0.006);
+      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
 
-      mainOsc.connect(lowpass);
-      subOsc.connect(lowpass);
+      mainOsc.connect(shaper);
+      detuneOsc.connect(shaper);
+      subOsc.connect(lowpass); // sub stays clean
+      shaper.connect(lowpass);
       lowpass.connect(voiceGain);
       voiceGain.connect(masterGainRef.current!);
 
-      mainOsc.start(t);
-      subOsc.start(t);
-      mainOsc.stop(t + 0.55);
-      subOsc.stop(t + 0.55);
+      mainOsc.start(t); detuneOsc.start(t); subOsc.start(t);
+      mainOsc.stop(t + 0.5); detuneOsc.stop(t + 0.5); subOsc.stop(t + 0.5);
 
     } else if (soundType === 'pluck') {
-      // PLUCK - Karplus plucked string model mimic
-      const osc = ctx.createOscillator();
-      const noise = ctx.createBufferSource();
+      // PLUCK - Dark detuned techno stab (resonant, short, dubby)
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
       const filter = ctx.createBiquadFilter();
       const voiceGain = ctx.createGain();
 
-      const midi = pluckPitches[rowIdx];
-      const freq = 440 * Math.pow(2, (midi - 69) / 12);
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, t);
-
-      // Noise burst for pluck transient simulation
-      const bufferSize = ctx.sampleRate * 0.03; // 30ms snap
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.45;
-      }
-      noise.buffer = buffer;
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(2800, t);
-      filter.frequency.exponentialRampToValueAtTime(320, t + 0.16);
-      filter.Q.setValueAtTime(3.0, t);
-
-      voiceGain.gain.setValueAtTime(0.001, t);
-      voiceGain.gain.linearRampToValueAtTime(0.35, t + 0.003);
-      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
-
-      osc.connect(filter);
-      noise.connect(filter);
-      filter.connect(voiceGain);
-      voiceGain.connect(masterGainRef.current!);
-
-      osc.start(t);
-      noise.start(t);
-      osc.stop(t + 0.42);
-      noise.stop(t + 0.42);
-
-    } else if (soundType === 'percussion') {
-      // PERCUSSION -Snappy modular rhythm rack
-      if (rowIdx <= 2) {
-        // Bass Drum sweep
-        const osc = ctx.createOscillator();
-        const voiceGain = ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(140, t);
-        osc.frequency.exponentialRampToValueAtTime(42, t + 0.11);
-
-        voiceGain.gain.setValueAtTime(0.001, t);
-        voiceGain.gain.linearRampToValueAtTime(0.4, t + 0.004);
-        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
-
-        osc.connect(voiceGain);
-        voiceGain.connect(masterGainRef.current!);
-
-        osc.start(t);
-        osc.stop(t + 0.2);
-
-      } else if (rowIdx === 3 || rowIdx === 4) {
-        // Retro snare click friction
-        const noise = ctx.createBufferSource();
-        const bpf = ctx.createBiquadFilter();
-        const voiceGain = ctx.createGain();
-
-        const bufferSize = ctx.sampleRate * 0.12; 
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = Math.random() * 2 - 1;
-        }
-        noise.buffer = buffer;
-
-        bpf.type = 'bandpass';
-        bpf.frequency.setValueAtTime(1100, t);
-        bpf.Q.setValueAtTime(2.2, t);
-
-        voiceGain.gain.setValueAtTime(0.001, t);
-        voiceGain.gain.linearRampToValueAtTime(0.24, t + 0.004);
-        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
-
-        noise.connect(bpf);
-        bpf.connect(voiceGain);
-        voiceGain.connect(masterGainRef.current!);
-
-        noise.start(t);
-        noise.stop(t + 0.18);
-
-      } else {
-        // High Metal Hi-hat burst
-        const noise = ctx.createBufferSource();
-        const hpf = ctx.createBiquadFilter();
-        const voiceGain = ctx.createGain();
-
-        const bufferSize = ctx.sampleRate * 0.045; // ultra fast dec
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = Math.random() * 2 - 1;
-        }
-        noise.buffer = buffer;
-
-        hpf.type = 'highpass';
-        hpf.frequency.setValueAtTime(8500, t);
-
-        voiceGain.gain.setValueAtTime(0.001, t);
-        voiceGain.gain.linearRampToValueAtTime(rowIdx === 7 ? 0.28 : 0.16, t + 0.002);
-        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + (rowIdx === 7 ? 0.11 : 0.04));
-
-        noise.connect(hpf);
-        hpf.connect(voiceGain);
-        voiceGain.connect(masterGainRef.current!);
-
-        noise.start(t);
-        noise.stop(t + 0.13);
-      }
-
-    } else if (soundType === 'lead') {
-      // LEAD - High-fidelity detuned supersaw lead
-      const osc1 = ctx.createOscillator();
-      const osc2 = ctx.createOscillator();
-      const voiceGain = ctx.createGain();
-      const bpf = ctx.createBiquadFilter();
-
-      const midi = leadPitches[rowIdx];
+      const midi = pluckPitches[rowIdx] - 12; // lower = darker stab
       const freq = 440 * Math.pow(2, (midi - 69) / 12);
 
       osc1.type = 'sawtooth';
       osc1.frequency.setValueAtTime(freq, t);
-      osc1.detune.setValueAtTime(-14, t);
-
-      osc2.type = 'sawtooth';
+      osc1.detune.setValueAtTime(-8, t);
+      osc2.type = 'square';
       osc2.frequency.setValueAtTime(freq, t);
-      osc2.detune.setValueAtTime(14, t);
+      osc2.detune.setValueAtTime(8, t);
 
-      bpf.type = 'lowpass';
-      bpf.frequency.setValueAtTime(2200, t);
-      bpf.frequency.exponentialRampToValueAtTime(1400, t + 0.35);
-      bpf.Q.setValueAtTime(1.8, t);
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(2600, t);
+      filter.frequency.exponentialRampToValueAtTime(280, t + 0.13); // fast resonant pluck
+      filter.Q.setValueAtTime(7, t);
 
       voiceGain.gain.setValueAtTime(0.001, t);
-      voiceGain.gain.linearRampToValueAtTime(0.2, t + 0.025);
-      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.65);
+      voiceGain.gain.linearRampToValueAtTime(0.3, t + 0.002);
+      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.26);
 
-      osc1.connect(bpf);
-      osc2.connect(bpf);
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(voiceGain);
+      voiceGain.connect(masterGainRef.current!);
+
+      osc1.start(t); osc2.start(t);
+      osc1.stop(t + 0.3); osc2.stop(t + 0.3);
+
+    } else if (soundType === 'percussion') {
+      // PERCUSSION - Techno drum rack (punchy 909-style kick, clap, metallic hats)
+      if (rowIdx <= 2) {
+        // Deep techno kick: long pitch drop + transient click
+        const osc = ctx.createOscillator();
+        const click = ctx.createOscillator();
+        const voiceGain = ctx.createGain();
+        const clickGain = ctx.createGain();
+        const shaper = ctx.createWaveShaper();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(180, t);
+        osc.frequency.exponentialRampToValueAtTime(38, t + 0.16); // deep drop
+
+        // saturation for punch
+        const curve = new Float32Array(1024);
+        for (let i = 0; i < 1024; i++) { const x = (i / 1024) * 2 - 1; curve[i] = Math.tanh(x * 2.5); }
+        shaper.curve = curve;
+
+        voiceGain.gain.setValueAtTime(0.001, t);
+        voiceGain.gain.linearRampToValueAtTime(0.6, t + 0.003);
+        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.32);
+
+        // click transient
+        click.type = 'square';
+        click.frequency.setValueAtTime(1600, t);
+        clickGain.gain.setValueAtTime(0.18, t);
+        clickGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.012);
+
+        osc.connect(shaper); shaper.connect(voiceGain); voiceGain.connect(masterGainRef.current!);
+        click.connect(clickGain); clickGain.connect(masterGainRef.current!);
+        osc.start(t); click.start(t);
+        osc.stop(t + 0.38); click.stop(t + 0.02);
+
+      } else if (rowIdx === 3 || rowIdx === 4) {
+        // Clap / snare: layered noise bursts through bandpass
+        const noise = ctx.createBufferSource();
+        const bpf = ctx.createBiquadFilter();
+        const voiceGain = ctx.createGain();
+
+        const bufferSize = ctx.sampleRate * 0.18;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        noise.buffer = buffer;
+
+        bpf.type = 'bandpass';
+        bpf.frequency.setValueAtTime(1700, t);
+        bpf.Q.setValueAtTime(1.4, t);
+
+        // clap stutter envelope
+        voiceGain.gain.setValueAtTime(0.0001, t);
+        [0, 0.011, 0.022, 0.033].forEach((d, i) => {
+          voiceGain.gain.linearRampToValueAtTime(0.26 - i * 0.03, t + d + 0.001);
+          voiceGain.gain.exponentialRampToValueAtTime(0.02, t + d + 0.01);
+        });
+        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+
+        noise.connect(bpf); bpf.connect(voiceGain); voiceGain.connect(masterGainRef.current!);
+        noise.start(t); noise.stop(t + 0.2);
+
+      } else {
+        // Metallic hats: noise + square cluster -> highpass
+        const noise = ctx.createBufferSource();
+        const hpf = ctx.createBiquadFilter();
+        const voiceGain = ctx.createGain();
+        const open = rowIdx === 7;
+
+        const bufferSize = ctx.sampleRate * (open ? 0.18 : 0.05);
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+        noise.buffer = buffer;
+
+        hpf.type = 'highpass';
+        hpf.frequency.setValueAtTime(9000, t);
+        hpf.Q.setValueAtTime(1.2, t);
+
+        voiceGain.gain.setValueAtTime(0.001, t);
+        voiceGain.gain.linearRampToValueAtTime(open ? 0.22 : 0.16, t + 0.001);
+        voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + (open ? 0.18 : 0.035));
+
+        noise.connect(hpf); hpf.connect(voiceGain); voiceGain.connect(masterGainRef.current!);
+        noise.start(t); noise.stop(t + (open ? 0.2 : 0.05));
+      }
+
+    } else if (soundType === 'lead') {
+      // LEAD - Dark hypnotic detuned saw lead with resonant filter motion
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const osc3 = ctx.createOscillator();
+      const voiceGain = ctx.createGain();
+      const bpf = ctx.createBiquadFilter();
+
+      const midi = leadPitches[rowIdx] - 12; // an octave down = brooding
+      const freq = 440 * Math.pow(2, (midi - 69) / 12);
+
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(freq, t);
+      osc1.detune.setValueAtTime(-20, t);
+      osc2.type = 'sawtooth';
+      osc2.frequency.setValueAtTime(freq, t);
+      osc2.detune.setValueAtTime(20, t);
+      osc3.type = 'square';
+      osc3.frequency.setValueAtTime(freq / 2, t); // sub weight
+
+      bpf.type = 'lowpass';
+      bpf.frequency.setValueAtTime(2400, t);
+      bpf.frequency.exponentialRampToValueAtTime(700, t + 0.4); // closing sweep
+      bpf.Q.setValueAtTime(6, t); // resonant
+
+      voiceGain.gain.setValueAtTime(0.001, t);
+      voiceGain.gain.linearRampToValueAtTime(0.18, t + 0.02);
+      voiceGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+
+      osc1.connect(bpf); osc2.connect(bpf); osc3.connect(bpf);
       bpf.connect(voiceGain);
       voiceGain.connect(masterGainRef.current!);
 
-      osc1.start(t);
-      osc2.start(t);
-      osc1.stop(t + 0.72);
-      osc2.stop(t + 0.72);
+      osc1.start(t); osc2.start(t); osc3.start(t);
+      osc1.stop(t + 0.65); osc2.stop(t + 0.65); osc3.stop(t + 0.65);
     }
   };
 
