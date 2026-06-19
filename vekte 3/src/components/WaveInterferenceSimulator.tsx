@@ -30,6 +30,9 @@ export function WaveInterferenceSimulator() {
   const masterGainRef = useRef<GainNode | null>(null);
   const stepTimerRef = useRef<any>(null);
   const iosUnlockedRef = useRef<boolean>(false);
+  // Routes audio through an <audio> element so iOS plays it via the media
+  // session, which ignores the hardware silent/ring switch.
+  const sinkAudioElRef = useRef<HTMLAudioElement | null>(null);
 
   // Re-generate steps matrix on any knob changes
   const [steps, setSteps] = useState<StepData[]>([]);
@@ -73,22 +76,55 @@ export function WaveInterferenceSimulator() {
       const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtxClass) return null;
       try {
-        audioCtxRef.current = new AudioCtxClass();
-        masterGainRef.current = audioCtxRef.current.createGain();
+        const ctx = new AudioCtxClass();
+        audioCtxRef.current = ctx;
+        masterGainRef.current = ctx.createGain();
         masterGainRef.current.gain.value = 0.18; // conservative master level
-        masterGainRef.current.connect(audioCtxRef.current.destination);
+
+        // Route audio through a MediaStream -> <audio> element so iOS plays it
+        // via the media session, which ignores the silent/ring switch.
+        // Fall back to the normal destination if MediaStreamDestination is
+        // unavailable.
+        let routedToElement = false;
+        if (typeof ctx.createMediaStreamDestination === 'function') {
+          try {
+            const streamDest = ctx.createMediaStreamDestination();
+            masterGainRef.current.connect(streamDest);
+            const el = new Audio();
+            el.srcObject = streamDest.stream;
+            el.setAttribute('playsinline', 'true');
+            (el as any).playsInline = true;
+            el.autoplay = true;
+            el.muted = false;
+            el.volume = 1;
+            sinkAudioElRef.current = el;
+            routedToElement = true;
+          } catch (_) {
+            routedToElement = false;
+          }
+        }
+        if (!routedToElement) {
+          masterGainRef.current.connect(ctx.destination);
+        }
       } catch (err) {
         console.error('Failed to create AudioContext:', err);
         return null;
       }
     }
     const ctx = audioCtxRef.current;
+
+    // Start the sink <audio> element from within the gesture (required by iOS).
+    if (sinkAudioElRef.current) {
+      sinkAudioElRef.current.play().catch(() => {});
+    }
+
     if (!iosUnlockedRef.current) {
       try {
         const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
         const src = ctx.createBufferSource();
         src.buffer = buf;
-        src.connect(ctx.destination);
+        // Prime through whatever the master is connected to.
+        src.connect(masterGainRef.current!);
         src.start(0);
       } catch (_) { /* ignore */ }
       iosUnlockedRef.current = true;
