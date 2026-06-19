@@ -29,7 +29,6 @@ export function WaveInterferenceSimulator() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const stepTimerRef = useRef<any>(null);
-  const iosUnlockedRef = useRef<boolean>(false);
 
   // Re-generate steps matrix on any knob changes
   const [steps, setSteps] = useState<StepData[]>([]);
@@ -65,21 +64,22 @@ export function WaveInterferenceSimulator() {
     setSteps(generated);
   }, [knobValues]);
 
-  // Create + resume the AudioContext. Safe to call on every note (no
-  // side effects beyond resume).
-  const ensureAudio = (): AudioContext | null => {
-    const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
-    if (!AudioCtxClass) return null;
-
+  // Audio trigger module
+  const playSequenceNote = (soundType: string, rowIdx: number) => {
+    if (isMuted) return;
+    if (!window.AudioContext && !(window as any).webkitAudioContext) return;
+    
+    // Lazy initialize AudioContext on user interaction/first event
     if (!audioCtxRef.current) {
       try {
+        const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
         audioCtxRef.current = new AudioCtxClass();
         masterGainRef.current = audioCtxRef.current.createGain();
-        masterGainRef.current.gain.value = 0.5; // master level (iOS output runs quiet)
+        masterGainRef.current.gain.value = 0.18; // conservative master level
         masterGainRef.current.connect(audioCtxRef.current.destination);
       } catch (err) {
         console.error('Failed to create AudioContext:', err);
-        return null;
+        return;
       }
     }
 
@@ -87,34 +87,6 @@ export function WaveInterferenceSimulator() {
     if (ctx.state === 'suspended') {
       ctx.resume().catch(() => {});
     }
-    return ctx;
-  };
-
-  // iOS unlock: play a single one-frame silent buffer ONCE, from within a
-  // real user gesture, so the hardware output turns on. Guarded so it never
-  // runs from the sequencer interval (which is not a gesture).
-  const unlockAudio = (): AudioContext | null => {
-    const ctx = ensureAudio();
-    if (!ctx) return null;
-    if (!iosUnlockedRef.current) {
-      try {
-        const buf = ctx.createBuffer(1, 1, ctx.sampleRate);
-        const src = ctx.createBufferSource();
-        src.buffer = buf;
-        src.connect(ctx.destination);
-        src.start(0);
-        iosUnlockedRef.current = true;
-      } catch (_) { /* ignore */ }
-    }
-    return ctx;
-  };
-
-  // Audio trigger module
-  const playSequenceNote = (soundType: string, rowIdx: number) => {
-    if (isMuted) return;
-
-    const ctx = ensureAudio();
-    if (!ctx) return;
 
     const t = ctx.currentTime;
 
@@ -383,8 +355,18 @@ export function WaveInterferenceSimulator() {
   }, [isPlaying, bpm, steps, selectedSound, isMuted]);
 
   const togglePlayback = () => {
-    // Warm up + iOS-unlock the audio context from within this user gesture
-    unlockAudio();
+    // Warm context up
+    if (!audioCtxRef.current && window.AudioContext) {
+      const AudioCtxClass = window.AudioContext || (window as any).webkitAudioContext;
+      audioCtxRef.current = new AudioCtxClass();
+      masterGainRef.current = audioCtxRef.current.createGain();
+      masterGainRef.current.gain.value = 0.18;
+      masterGainRef.current.connect(audioCtxRef.current.destination);
+    }
+    
+    if (audioCtxRef.current?.state === 'suspended') {
+      audioCtxRef.current.resume();
+    }
 
     if (isPlaying) {
       setIsPlaying(false);
@@ -720,7 +702,6 @@ export function WaveInterferenceSimulator() {
                   <button
                     key={sound}
                     onClick={() => {
-                      unlockAudio(); // unlock iOS audio on this gesture
                       setSelectedSound(sound);
                       // Instantly fire a demo note if clicked while sequencer is idle
                       if (!isPlaying) {
