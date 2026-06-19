@@ -13,14 +13,14 @@ export function WaveInterferenceSimulator() {
   const [isPlaying, setIsPlaying] = useState(true);  // auto-run the demo playhead
   const [isMuted, setIsMuted] = useState(true);      // muted until the user unmutes (also the gesture that unlocks audio)
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedSound, setSelectedSound] = useState<'chord' | 'bass' | 'pluck' | 'percussion' | 'lead'>('pluck');
+  const [selectedSound, setSelectedSound] = useState<'chord' | 'bass' | 'pluck' | 'percussion' | 'lead'>('percussion');
   const [bpm] = useState(120); // fixed demo tempo; drives 16th-note step timing
 
   // Knobs: SEED (Freq A), ENT (Freq B), DIR (Mix percentage), DENS (Threshold density)
   const [knobValues, setKnobValues] = useState({
-    SEED: 4,      // Frequency A mapping (1 to 32)
-    ENT: 12,      // Frequency B mapping (1 to 32)
-    DIR: 0,      // Sine Mix (0 to 100)
+    SEED: 10,     // Frequency A mapping (1 to 32)
+    ENT: 3,       // Frequency B mapping (1 to 32)
+    DIR: 8,       // Sine Mix (0 to 100)
     DENS: 100     // Trigger density (0 to 100) — start fully dense
   });
 
