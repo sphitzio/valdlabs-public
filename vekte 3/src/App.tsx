@@ -62,8 +62,8 @@ export default function App() {
   };
 
   const DOWNLOAD_URLS = {
-    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.5/VEKTE-Setup-1.1.5-x64.exe',
-    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.5/VEKTE-1.1.5.pkg',
+    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.6/VEKTE-Setup-1.1.6-x64.exe',
+    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.6/VEKTE-1.1.6.pkg',
   };
 
   const handleBetaDownload = (os: 'win' | 'mac') => {
@@ -367,7 +367,7 @@ export default function App() {
         {/* Tag Category */}
         <div className="inline-flex items-center space-x-2.5 font-mono text-[10px] text-[#d4ff00] tracking-widest bg-[#d4ff00]/10 border border-[#d4ff00]/30 px-3 py-1 rounded-full w-max">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-          <span className="font-bold">1.1.5 VST NOW OPEN BETA</span>
+          <span className="font-bold">1.1.6 VST NOW OPEN BETA</span>
         </div>
 
         {/* Epic Main Headline title */}
