@@ -74,7 +74,9 @@ export default function App() {
     if (honey) return; // spam trap tripped
     setContactStatus('sending');
     try {
-      const res = await fetch('https://formsubmit.co/ajax/hello@valdlabs.com', {
+      // Already-activated FormSubmit inbox (same as the waitlist) → no activation
+      // email needed. Reply-To is set to the sender so replies go to them.
+      const res = await fetch('https://formsubmit.co/ajax/vald.labs.lisbon@gmail.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
