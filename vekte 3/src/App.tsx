@@ -16,7 +16,8 @@ import {
   BookOpen, 
   ExternalLink,
   SlidersHorizontal,
-  FolderLock
+  FolderLock,
+  Instagram
 } from 'lucide-react';
 import { SYNTH_ENGINES, CONTROLS_DEFINITION, Engine } from './types';
 import { VekteAudioEngine } from './components/AudioEngine';
@@ -58,6 +59,38 @@ export default function App() {
     } catch (err) {
       console.error('Subscribe failed:', err);
       setSubscribeStatus('error');
+    }
+  };
+
+  // Contact form (FormSubmit → hello@valdlabs.com). From / Subject / Message all required.
+  const [contactFrom, setContactFrom] = useState('');
+  const [contactSubject, setContactSubject] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactStatus, setContactStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+
+  const handleContact = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const honey = (e.currentTarget as HTMLFormElement).querySelector<HTMLInputElement>('input[name="_honey"]')?.value;
+    if (honey) return; // spam trap tripped
+    setContactStatus('sending');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/hello@valdlabs.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          email: contactFrom,
+          _replyto: contactFrom,
+          _subject: `VEKTE contact — ${contactSubject}`,
+          message: contactMessage,
+          _captcha: 'false',
+        }),
+      });
+      if (!res.ok) throw new Error('FormSubmit failed');
+      setContactStatus('done');
+      setContactFrom(''); setContactSubject(''); setContactMessage('');
+    } catch (err) {
+      console.error('Contact failed:', err);
+      setContactStatus('error');
     }
   };
 
@@ -1252,6 +1285,70 @@ export default function App() {
         </div>
       </section>
 
+      {/* CONTACT */}
+      <section id="contact" className="relative z-10 py-20 px-6 bg-black border-t border-white/[0.05]">
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.2em] block font-bold mb-2">GET IN TOUCH</span>
+            <h2 className="text-2xl font-display font-extrabold text-white tracking-tight sm:text-3xl">Contact</h2>
+            <p className="text-zinc-400 text-sm leading-relaxed mt-3 font-light">
+              Questions, feedback, or press? Send us a message — we'll reply by email.
+            </p>
+          </div>
+          <div className="bg-zinc-950/60 border border-white/[0.06] p-8 rounded-2xl shadow-2xl relative overflow-hidden backdrop-blur-md">
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-[#d4ff00] to-transparent opacity-50" />
+            {contactStatus === 'done' ? (
+              <p className="text-xs font-mono text-[#d4ff00] py-4 leading-relaxed text-center">
+                Message sent. We'll get back to you at the email you provided.
+              </p>
+            ) : (
+              <form onSubmit={handleContact} className="flex flex-col gap-3">
+                {/* FormSubmit spam honeypot */}
+                <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  autoComplete="email"
+                  value={contactFrom}
+                  onChange={(e) => { setContactFrom(e.target.value); if (contactStatus === 'error') setContactStatus('idle'); }}
+                  placeholder="From — your email"
+                  className="w-full px-4 py-3 bg-black border border-white/10 rounded-xl text-xs font-mono text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4ff00]/60 transition-colors"
+                />
+                <input
+                  type="text"
+                  name="subject"
+                  required
+                  value={contactSubject}
+                  onChange={(e) => { setContactSubject(e.target.value); if (contactStatus === 'error') setContactStatus('idle'); }}
+                  placeholder="Subject"
+                  className="w-full px-4 py-3 bg-black border border-white/10 rounded-xl text-xs font-mono text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4ff00]/60 transition-colors"
+                />
+                <textarea
+                  name="message"
+                  required
+                  rows={5}
+                  value={contactMessage}
+                  onChange={(e) => { setContactMessage(e.target.value); if (contactStatus === 'error') setContactStatus('idle'); }}
+                  placeholder="Message"
+                  className="w-full px-4 py-3 bg-black border border-white/10 rounded-xl text-xs font-mono text-white placeholder-zinc-600 focus:outline-none focus:border-[#d4ff00]/60 transition-colors resize-none"
+                />
+                <button
+                  type="submit"
+                  disabled={contactStatus === 'sending'}
+                  className="w-full py-3 bg-[#d4ff00] hover:bg-white text-black font-mono text-xs font-black tracking-wider rounded-xl transition-all shadow-[0_4px_20px_rgba(212,255,0,0.15)] disabled:opacity-60 disabled:cursor-wait"
+                >
+                  {contactStatus === 'sending' ? 'SENDING...' : 'SEND MESSAGE'}
+                </button>
+                {contactStatus === 'error' && (
+                  <p className="text-[10px] font-mono text-red-400 mt-1 text-center">Something went wrong. Please try again.</p>
+                )}
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-white/[0.05] bg-black py-16 px-6 font-mono text-xs text-zinc-500">
         <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
@@ -1274,6 +1371,14 @@ export default function App() {
                 Privacy Policy
               </a>
             </p>
+            <a
+              href="https://instagram.com/valdlabs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[11px] text-zinc-500 hover:text-[#d4ff00] transition-colors"
+            >
+              <Instagram className="w-3.5 h-3.5" /> @valdlabs
+            </a>
           </div>
 
           <div className="space-y-3">
