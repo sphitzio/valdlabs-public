@@ -262,6 +262,48 @@ export const SYNTH_ENGINES: Engine[] = [
     description: 'Three-rule boids flocking simulation (cohesion, separation, alignment). Pitch arrays map directly to individual flock positions.',
     isFree: true,
     category: 'physical-physics'
+  },
+  // 5 new algorithms added in the 1.1.7 line (Pack I). Integer / fixed-point
+  // only, so their patterns are identical on every machine and platform.
+  {
+    id: 31,
+    name: 'Isorhythm',
+    type: 'rhythm + pitch',
+    description: 'Medieval isorhythm: a rhythmic talea and a melodic color of unequal length cycle against each other, so the pattern only realigns after their least common multiple.',
+    isFree: false,
+    category: 'rhythm-driven'
+  },
+  {
+    id: 32,
+    name: 'Tonnetz Walk',
+    type: 'pitch + structure',
+    description: 'Triads walk the neo-Riemannian Tonnetz lattice by parallel, leading-tone and relative moves, arpeggiated into smooth, voice-led chord progressions.',
+    isFree: false,
+    category: 'melodic-markov'
+  },
+  {
+    id: 33,
+    name: 'Pendulum Waves',
+    type: 'rhythm + pitch',
+    description: 'A bank of detuned pendulums at integer-ratio cycles phase apart into shimmering polyrhythms and snap back to unison, with optional amplitude damping.',
+    isFree: false,
+    category: 'physical-physics'
+  },
+  {
+    id: 34,
+    name: 'Tether',
+    type: 'pitch only',
+    description: 'An elastic random walk always pulled back toward a home pitch, with adjustable pull, noise and a heavy-tail chance of larger jumps.',
+    isFree: false,
+    category: 'melodic-markov'
+  },
+  {
+    id: 35,
+    name: 'Voss 1/f',
+    type: 'rhythm + pitch',
+    description: 'The Voss-McCartney 1/f fractal noise algorithm: layered counters produce the pink-noise contour that sounds musically natural, with smoothing and spectral tilt.',
+    isFree: false,
+    category: 'chaotic-cellular'
   }
 ];
 

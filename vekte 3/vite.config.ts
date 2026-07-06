@@ -5,6 +5,9 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    // Served under valdlabs.com/vekte/ — asset URLs must carry this base or the
+    // JS/CSS bundle 404s (built html would otherwise reference /assets/...).
+    base: '/vekte/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

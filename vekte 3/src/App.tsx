@@ -97,8 +97,8 @@ export default function App() {
   };
 
   const DOWNLOAD_URLS = {
-    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.6/VEKTE-Setup-1.1.6-x64.exe',
-    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.6/VEKTE-1.1.6.pkg',
+    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.8/VEKTE-Setup-1.1.8-x64.exe',
+    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.8/VEKTE-1.1.8.pkg',
   };
 
   const handleBetaDownload = (os: 'win' | 'mac') => {
@@ -299,7 +299,7 @@ export default function App() {
 
   // Group sound engines into high-fidelity filter tabs
   const categories = [
-    { id: 'all', title: 'ALL 31 ALGORITHMS' },
+    { id: 'all', title: 'ALL 36 ALGORITHMS' },
     { id: 'rhythm-driven', title: 'RHYTHM SIGNATURES' },
     { id: 'chaotic-cellular', title: 'CHAOS & CELLULAR' },
     { id: 'algorithmic-fractal', title: 'FRACTALS & SEEDERS' },
@@ -357,7 +357,7 @@ export default function App() {
           <nav className="hidden md:flex items-center space-x-8 text-xs font-mono tracking-wider text-zinc-400">
             <a href="#about" className="hover:text-white transition-colors">OVERVIEW</a>
             <a href="#engines" className="hover:text-white transition-colors flex items-center gap-1">
-              ALGORITHMS <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.2 rounded-full font-sans font-normal">31</span>
+              ALGORITHMS <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.2 rounded-full font-sans font-normal">36</span>
             </a>
             <a href="#architecture" className="hover:text-white transition-colors">SPECS</a>
             <a href="#playground" className="hover:text-[#d4ff00] text-[#d4ff00]/90 transition-colors flex items-center gap-1.5 font-bold">
@@ -402,20 +402,20 @@ export default function App() {
         {/* Tag Category */}
         <div className="inline-flex items-center space-x-2.5 font-mono text-[10px] text-[#d4ff00] tracking-widest bg-[#d4ff00]/10 border border-[#d4ff00]/30 px-3 py-1 rounded-full w-max">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-          <span className="font-bold">1.1.6 VST NOW OPEN BETA</span>
+          <span className="font-bold">1.1.8 VST NOW OPEN BETA</span>
         </div>
 
         {/* Epic Main Headline title */}
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white leading-tight max-w-3xl">
           Generative, not random.<br />
           <span className="bg-gradient-to-r from-[#d4ff00] via-[#ecff80] to-white bg-clip-text text-transparent">
-            A deterministic MIDI sequencer driven by 31 mathematical algorithms.
+            A deterministic MIDI sequencer driven by 36 mathematical algorithms.
           </span>
         </h1>
 
         {/* Narrative introduction paragraph */}
         <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-3xl font-light font-sans">
-          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane and four MOD lanes) driven by 31 mathematical algorithms, from logistic maps to Lindenmayer systems and Xenakis sieves. Because it's fully deterministic, any pattern compresses into a short text key, shareable by message or social post and identical when reopened. VST3 now, with AUv3 and standalone builds in development.
+          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane and four MOD lanes) driven by 36 mathematical algorithms, from logistic maps to Lindenmayer systems and Xenakis sieves. Because it's fully deterministic, any pattern compresses into a short text key, shareable by message or social post and identical when reopened. VST3 now, with AUv3 and standalone builds in development.
         </p>
 
         {/* Beautiful modular vector features matrix */}
@@ -426,7 +426,7 @@ export default function App() {
           </div>
           <div className="flex items-center space-x-2.5 p-3 rounded-lg bg-white/[0.01] border border-white/[0.04]">
             <Cpu className="w-4 h-4 text-[#d4ff00]" />
-            <span>31 Deterministic Algos</span>
+            <span>36 Deterministic Algos</span>
           </div>
           <div className="flex items-center space-x-2.5 p-3 rounded-lg bg-white/[0.01] border border-white/[0.04]">
             <Sliders className="w-4 h-4 text-[#d4ff00]" />
@@ -528,7 +528,7 @@ export default function App() {
               />
             </div>
             <p className="mt-4 text-[10px] font-mono text-zinc-500 text-center uppercase tracking-wider">
-              • High-definition interface featuring 31 mathematical generative algorithms & 5 concurrent lane matrix engines •
+              • High-definition interface featuring 36 mathematical generative algorithms & 5 concurrent lane matrix engines •
             </p>
           </div>
 
@@ -570,7 +570,7 @@ export default function App() {
               16 Channels of Parametric Logic. Infinite Polyphonic Drift.
             </h2>
             <p className="text-zinc-300 text-sm leading-relaxed font-light">
-              VEKTE takes the multi-lane modulation thinking of Eurorack modular routing and rebuilds it as a plugin that lives in your DAW. By combining up to <span className="font-semibold text-white">five independent lanes per channel</span> (one NOTE lane and four MOD lanes) with <span className="font-semibold text-white">31 mathematical algorithms</span>, it breaks the usual step-grid constraints.
+              VEKTE takes the multi-lane modulation thinking of Eurorack modular routing and rebuilds it as a plugin that lives in your DAW. By combining up to <span className="font-semibold text-white">five independent lanes per channel</span> (one NOTE lane and four MOD lanes) with <span className="font-semibold text-white">36 mathematical algorithms</span>, it breaks the usual step-grid constraints.
             </p>
             <p className="text-zinc-400 text-sm leading-relaxed font-light">
               With immediate support for 73 scales grouped by musical family, 40 dynamic chord sets, micro-strumming controls, and smooth Catmull-Rom curve interpolation, the scope of generation runs from classic Euclidean rhythms to polyrhythmic metronomes, generative boids flocking, and reaction-diffusion arrays.
@@ -648,15 +648,15 @@ export default function App() {
         {/* Bento Grid layouts */}
         <div className="grid md:grid-cols-3 gap-6">
           
-          {/* Block 1: 31-Algorithm Engine Core */}
+          {/* Block 1: 36-Algorithm Engine Core */}
           <div className="bg-zinc-950/70 border border-white/[0.05] p-6 rounded-2xl flex flex-col justify-between hover:border-white/[0.1] transition-all">
             <div>
               <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-[#d4ff00] mb-4 shadow">
                 <Sliders className="w-5 h-5" />
               </div>
-              <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">31 Generative Algorithm Core</h3>
+              <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">36 Generative Algorithm Core</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                Each lane runs on one of 31 mathematical algorithms—including Euclidean rhythms, Chaos Logistic Maps, Lindenmayer Systems (L-Systems), Game of Life cellular automata, and Xenakis sieves. Generation is strictly deterministic; identical settings yield the exact same patterns.
+                Each lane runs on one of 36 mathematical algorithms—including Euclidean rhythms, Chaos Logistic Maps, Lindenmayer Systems (L-Systems), Game of Life cellular automata, Xenakis sieves, and the new integer-exact set (Isorhythm, Tonnetz Walk, Pendulum Waves, Tether, Voss 1/f). Generation is strictly deterministic; identical settings yield the exact same patterns.
               </p>
             </div>
             <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-widest mt-6 font-bold">STRICTLY DETERMINISTIC PATTERNS</span>
@@ -752,14 +752,14 @@ export default function App() {
                       <span className="text-[10px] font-mono text-zinc-500">ONE LANE ENGINE</span>
                     </div>
                     <div className="text-2xl font-mono font-bold text-[#FFB500] mb-2 leading-none">
-                      6.5 × 10⁷ <span className="text-xs text-zinc-500 font-normal">PATTERNS</span>
+                      &gt; 6.5 × 10⁷ <span className="text-xs text-zinc-500 font-normal">PATTERNS</span>
                     </div>
                     <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                      Summing the product of each algorithm's four parameter ranges across all 31 models yields <span className="text-zinc-200 font-medium">65,231,654</span> distinct sequences. Heavily driven by String Resonance (14.7M), Kaprekar (12.1M), Wave Interference (8.4M), and Flocking (7.2M).
+                      Summing the product of each algorithm's four parameter ranges across the original 31 models yields <span className="text-zinc-200 font-medium">65,231,654</span> distinct sequences — heavily driven by String Resonance (14.7M), Kaprekar (12.1M), Wave Interference (8.4M), and Flocking (7.2M). The five new integer-exact algorithms (Isorhythm, Tonnetz Walk, Pendulum Waves, Tether, Voss 1/f) push the single-lane total well past that.
                     </p>
                   </div>
                   <div className="text-[9px] font-mono text-zinc-500 pt-4 border-t border-white/[0.03] mt-4">
-                    ∑[31] (P₁ · P₂ · P₃ · P₄) = 65,231,654
+                    ∑[36] (P₁ · P₂ · P₃ · P₄) &gt; 65,231,654
                   </div>
                 </div>
 
@@ -899,7 +899,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* 31 ALGORITHMS RENDER LIST (STATIC SHOWCASE REGISTRY) */}
+      {/* 36 ALGORITHMS RENDER LIST (STATIC SHOWCASE REGISTRY) */}
       <section id="engines" className="relative z-10 py-16 px-6 border-t border-white/[0.05] bg-black/60">
         <div className="max-w-7xl mx-auto">
           
@@ -907,10 +907,10 @@ export default function App() {
             <div>
               <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.2em] block font-bold mb-1">GENERATIVE ALGORITHM REGISTRY</span>
               <h2 className="text-3xl font-display font-extrabold text-white tracking-tight sm:text-4xl">
-                Explore the 31 Generative Algorithms
+                Explore the 36 Generative Algorithms
               </h2>
               <p className="text-zinc-400 text-sm leading-relaxed mt-2 max-w-2xl font-light">
-                Browse our complete mathematical pattern generation library. These 31 premium algorithms are fully functional and selectable inside VEKTE sequencer lanes.
+                Browse our complete mathematical pattern generation library. These 36 premium algorithms are fully functional and selectable inside VEKTE sequencer lanes.
               </p>
             </div>
             
@@ -1176,6 +1176,9 @@ export default function App() {
             <p className="text-zinc-400 text-sm leading-relaxed mt-4 font-light">
               Beta version valid until mid-August 2026
             </p>
+            <p className="text-zinc-500 text-xs leading-relaxed mt-4 font-light max-w-xl mx-auto">
+              <span className="text-[#d4ff00] font-mono font-bold">New in 1.1.8:</span> 5 new integer-exact algorithms (36 total), seeded randomize, compact channel keys with a copy-and-share panel, grouped algorithm menu, per-lane swing lock, and in-plugin update notes.
+            </p>
           </div>
 
           <div className="max-w-xl mx-auto">
@@ -1412,7 +1415,7 @@ export default function App() {
           <div className="space-y-3">
             <span className="text-zinc-400 font-bold block">VALDLABS SUITE</span>
             <ul className="space-y-1 text-zinc-600">
-              <li className="text-white font-bold">• VEKTE — 31-Algorithm Generative MIDI Sequencer</li>
+              <li className="text-white font-bold">• VEKTE — 36-Algorithm Generative MIDI Sequencer</li>
               <li>• TRESSE — Macro Oscillator Synth</li>
               <li>• REKKE — Hardware Sequencer (in development)</li>
             </ul>
