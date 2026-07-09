@@ -1408,7 +1408,16 @@ export default function App() {
                   • Privacy Policy
                 </a>
               </li>
-              <li>• User manual coming soon.</li>
+              <li>
+                <a
+                  href="/vekte/manual.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-zinc-400 transition-colors underline decoration-zinc-800"
+                >
+                  • User Manual
+                </a>
+              </li>
             </ul>
           </div>
 
