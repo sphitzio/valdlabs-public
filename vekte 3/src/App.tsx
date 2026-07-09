@@ -360,6 +360,7 @@ export default function App() {
               ALGORITHMS <span className="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.2 rounded-full font-sans font-normal">36</span>
             </a>
             <a href="#architecture" className="hover:text-white transition-colors">SPECS</a>
+            <a href="/vekte/manual.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">MANUAL</a>
             <a href="#playground" className="hover:text-[#d4ff00] text-[#d4ff00]/90 transition-colors flex items-center gap-1.5 font-bold">
               <Sparkles className="w-3.5 h-3.5 animate-pulse" /> LIVE DEMO
             </a>
