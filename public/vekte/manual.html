@@ -380,36 +380,36 @@
             <span class="font-mono text-[10px] mr-2">03. THE NOTE LANE</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
+          <a href="#4-strum" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
+            <span class="font-mono text-[10px] mr-2">04. STRUM</span>
+            <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
+          </a>
           <a href="#4-mod-lanes-14" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">04. MOD LANES 1–4</span>
+            <span class="font-mono text-[10px] mr-2">05. MOD LANES 1–4</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#5-algorithms-36" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">05. 36 ALGORITHMS</span>
+            <span class="font-mono text-[10px] mr-2">06. 36 ALGORITHMS</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#6-playhead-modes-q" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">06. PLAYHEAD MODES</span>
+            <span class="font-mono text-[10px] mr-2">07. PLAYHEAD MODES</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#7-groove--swing--humanize" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">07. GROOVE & SWING</span>
+            <span class="font-mono text-[10px] mr-2">08. GROOVE & SWING</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#8-scales--chords" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">08. SCALES & CHORDS</span>
+            <span class="font-mono text-[10px] mr-2">09. SCALES & CHORDS</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#9-channels--slots" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">09. CHANNELS & SLOTS</span>
+            <span class="font-mono text-[10px] mr-2">10. CHANNELS & SLOTS</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#10-midi-routing" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">10. MIDI ROUTING</span>
-            <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
-          </a>
-          <a href="#11-strum" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
-            <span class="font-mono text-[10px] mr-2">11. STRUM EFFECTS</span>
+            <span class="font-mono text-[10px] mr-2">11. MIDI ROUTING</span>
             <span class="toc-dot w-1.5 h-1.5 bg-brand rounded-full opacity-0 scale-0 transition-all duration-300"></span>
           </a>
           <a href="#12-visualization" class="toc-link group flex items-center justify-between text-xs py-1.5 text-zinc-400 hover:text-white transition-colors duration-200">
@@ -594,10 +594,36 @@
             </div>
             
             <p class="text-zinc-300 mb-4"><strong>Determinism.</strong> The four algorithm knobs (<strong>P1–P4</strong>) + the algorithm choice are the <em>source of truth</em>. The same algorithm + knob settings always produce the same 32-step pattern. STEPS is a window over it, ROT navigates it, DENSE is a deterministic fill — all replicable across sessions.</p><p class="text-zinc-300 mb-4"><strong>Octave stretch.</strong> The algorithm's output is normalized to fill the chosen OCT−…OCT+ range and snapped to the scale, so the full range is always used.</p><p class="text-zinc-300 mb-4"><strong>Scale-locked editing.</strong> The piano-roll shows only in-scale rows, so notes you draw stay in key. Select <strong>Scale: NONE</strong> for free chromatic editing.</p><p class="text-zinc-300 mb-4"><strong>SNGL / DRM.</strong></p><ul class="list-disc pl-5 space-y-1 text-zinc-300 mb-4"><li><strong>SNGL</strong> (Single): collapse notes to the base pitch; the chord still plays.</li><li><strong>DRM</strong> (Drum): mono, base pitch only, no chord.</li></ul><p class="text-zinc-300 mb-4"><strong>TIE.</strong> Notes sustain toward the next note by <strong>TIE%</strong> of the gap (0–100%). TIE% is dimmed when TIE is off.</p><h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Editing the piano-roll</h3><p class="text-zinc-300">Click / drag in the grid to toggle steps and set pitch (snapped to scale). The bottom strip shows the trigger pattern. The playhead sweeps in real time.</p>
+
+            <h3 class="text-lg font-bold text-zinc-100 mt-8 mb-2">PROB and HUMN are shown ahead of the playhead</h3>
+            <p class="text-zinc-300 mb-4"><strong>PROB</strong> doesn't roll the dice at the moment a step plays. The whole pattern's coin-flips are decided <strong>once per cycle</strong>, up front — so every probability-muted step is drawn on the grid (hollow) <em>before</em> the playhead reaches it, and the whole set re-rolls at the next cycle boundary.</p>
+            <p class="text-zinc-300 mb-4"><strong>HUMN</strong> (humanize) works the same way: its timing and value jitter is predetermined per cycle and drawn on the grid in advance. Both are deterministic, so <strong>what you see is exactly what plays</strong> — you can watch the next bar's ghosts and nudges before you hear them.</p>
+
+            <h3 class="text-lg font-bold text-zinc-100 mt-8 mb-2">RND and the lane seed</h3>
+            <p class="text-zinc-300 mb-4">Next to each lane's <strong>RND</strong> button is a small editable <strong>seed</strong> box. Pressing <strong>RND</strong> rolls a fresh seed and, from it, a new algorithm plus a new set of P1–P4 values for that lane. The seed is the short code for that roll.</p>
+            <ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4">
+              <li><strong>Type a seed back in</strong> and the lane returns to that exact roll — same algorithm, same parameters.</li>
+              <li>The seed is a short alphanumeric code, and it is <strong>per lane</strong> — the NOTE lane and each of the four MOD lanes carry their own.</li>
+              <li><code>—</code> means the lane has never been rolled.</li>
+              <li>A leading <code>*</code> means you have <strong>hand-edited</strong> the lane since it was rolled, so the seed no longer describes what's on screen.</li>
+              <li>Seeds <strong>save with your project</strong>, so a reopened session shows the same rolls.</li>
+            </ul>
+            <blockquote class="border-l-2 border-lime-400 pl-4 py-1 my-4 bg-lime-400/5 text-zinc-300 italic"><strong>Seed vs. key.</strong> A seed reproduces a <em>randomize roll</em> on your machine. To reproduce a <em>pattern</em> on someone else's, share the <strong>channel key</strong> — see <a href="#13-presets-sharing--keys" class="text-lime-400 hover:underline not-italic">Presets, sharing &amp; keys</a>.</blockquote>
           </div>
         </section>
 
-        <!-- 4. MOD lanes (1–4) -->
+        <!-- Strum (a NOTE-lane chord control) -->
+        <section id="4-strum" class="border-b border-white/5 pb-12">
+          <div class="prose w-full">
+            <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">CHORD VOICING</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Strum</h2>
+            <p class="text-zinc-400 mb-6 font-light">Spread a chord's voices across time instead of playing them all at once.</p>
+            <p class="text-zinc-300 mb-4"><strong>STRUM</strong> lives on the NOTE lane. Range <strong>−100…+100</strong>: positive strums low&nbsp;→&nbsp;high, negative high&nbsp;→&nbsp;low, and the spread scales with the note length. It is only active when a <strong>chord</strong> is selected — with no chord there is a single voice and nothing to spread.</p>
+            <p class="text-zinc-300">STRUM is also available as a <strong>MOD target</strong>, so a MOD lane can sweep the strum over time for gestures that open and close, or flip direction mid-phrase.</p>
+          </div>
+        </section>
+
+        <!-- MOD lanes (1–4) -->
         <section id="4-mod-lanes-14" class="border-b border-white/5 pb-12">
           <div class="prose w-full">
             <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">MODULATION ENGINE</span>
@@ -647,7 +673,11 @@
               </table>
             </div>
             
-            <p class="text-zinc-300 mb-4"><strong>CRV</strong> (curve): smooth Catmull-Rom interpolation between mod steps — great for glides, filter sweeps, and evolving modulation. MOD lanes free-run (no forced quantization), so curves stay smooth.</p><p class="text-zinc-300">When a MOD lane drives an internal control (octave, steps, scale, chord, etc.), the corresponding NOTE knob / dropdown shows the live modulated value.</p>
+            <h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">CRV — smooth, seamlessly looping curves</h3>
+            <p class="text-zinc-300 mb-4"><strong>CRV</strong> (curve) replaces the stepped values with smooth Catmull-Rom interpolation between mod steps — the way to get glides, filter sweeps, and slowly evolving modulation. MOD lanes free-run (no forced quantization), so the motion stays fluid.</p>
+            <p class="text-zinc-300 mb-4"><strong>The curve wraps around the loop point.</strong> Its end meets its beginning on the same trajectory — matching slope, not just matching value — so a CRV lane loops <strong>seamlessly whatever you set STEPS to</strong>. There is no jump, click, or sudden reversal when the pattern comes back around, whether the lane is 3 steps long or 32.</p>
+            <p class="text-zinc-300 mb-4">The curve drawn on the canvas is the curve that is emitted, including across that boundary.</p>
+            <p class="text-zinc-300">When a MOD lane drives an internal control (octave, steps, scale, chord, etc.), the corresponding NOTE knob / dropdown shows the live modulated value.</p>
           </div>
         </section>
 
@@ -752,7 +782,18 @@
             <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">RHYTHMIC FEEL</span>
             <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Groove — swing & humanize</h2>
             <p class="text-zinc-400 mb-6 font-light">Add human micro-timing and stylistic pocket adjustments to your sequences.</p>
-            <ul class="list-disc pl-5 space-y-2 text-zinc-300"><li><strong>Swing</strong> (per channel, −100…+100) — delay or advance off-beat NOTE steps.</li><li><strong>Humanize</strong> on the NOTE lane and on each MOD lane — deterministic timing and value jitter. Double-click a Humanize knob to reset it.</li><li><strong>Swing lock</strong> per MOD lane — lock a lane's groove to the main swing so it stays in the pocket on its own division.</li></ul><p class="mt-4 text-zinc-400">All groove is computed per cycle and drawn on the canvas, so what you see is exactly what plays.</p>
+            <ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-6">
+              <li><strong>SWING</strong> (per channel, −100…+100) — delay or advance the off-beat NOTE steps.</li>
+              <li><strong>HUMN</strong> (humanize) on the NOTE lane and on each MOD lane — deterministic timing and value jitter. Double-click a HUMN knob to reset it.</li>
+              <li><strong>SWNGLCK</strong> (swing lock) per MOD lane — see below.</li>
+            </ul>
+
+            <h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">SWNGLCK — lock a MOD lane to the swing</h3>
+            <p class="text-zinc-300 mb-4">MOD lanes normally run straight, ignoring the channel's swing. Turn on <strong>SWNGLCK</strong> (next to <strong>CRV</strong> on any MOD lane) and that lane grooves in sync with the NOTE lane's <strong>SWING</strong> amount instead.</p>
+            <p class="text-zinc-300 mb-4">The important part: a locked lane still swings on <strong>its own step division (D:)</strong>, not the NOTE lane's. So a 1/8 MOD lane and a 1/16 NOTE lane sit in the same pocket instead of fighting each other. With <strong>SWING</strong> at 0, the button does nothing.</p>
+
+            <h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Groove is predetermined per cycle</h3>
+            <p class="text-zinc-300">Swing, humanize and probability are all computed <strong>once per cycle</strong> for the whole pattern, then drawn on the canvas <strong>ahead of the playhead</strong> — nothing is decided at the last instant. The shifts and ghost notes you can already see for the rest of this cycle are exactly the ones you are about to hear, and the whole set refreshes at the next cycle boundary.</p>
           </div>
         </section>
 
@@ -808,23 +849,20 @@
           </div>
         </section>
 
-        <!-- 11. Strum -->
-        <section id="11-strum" class="border-b border-white/5 pb-12">
-          <div class="prose w-full">
-            <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">CHORD VOICING</span>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Strum</h2>
-            <p class="text-zinc-400 mb-6 font-light">Create natural, acoustic-style note spreads with precision timings.</p>
-            <p class="text-zinc-300"><strong>STRUM</strong> (NOTE lane) spreads a chord's voices across time instead of playing them at once. Range <strong>−100…+100</strong>: positive strums low → high, negative high → low; the spread scales with the note length. Only active when a chord is selected. STRUM can also be a MOD target for dynamic, evolving strums.</p>
-          </div>
-        </section>
-
-        <!-- 12. Visualization -->
+        <!-- Visualization -->
         <section id="12-visualization" class="border-b border-white/5 pb-12">
           <div class="prose w-full">
             <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">TACTILE FEEDBACK</span>
             <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Visualization</h2>
             <p class="text-zinc-400 mb-6 font-light">The GUI draws real-time data to help you sculpt patterns visually.</p>
-            <ul class="list-disc pl-5 space-y-2 text-zinc-300"><li>Live piano-roll and bar / curve views with neon lane colors and a smooth 60 Hz playhead.</li><li>Gate length shown as a tail inside each note; probability-muted notes shown for the current cycle; swing and humanize visible on the grid.</li><li>Tooltips on every control.</li></ul>
+            <ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4">
+              <li>Live piano-roll and bar / curve views with neon lane colors and a smooth 60&nbsp;Hz playhead.</li>
+              <li>Gate length is drawn as a tail inside each note.</li>
+              <li><strong>Probability-muted notes, swing and humanize are drawn ahead of the playhead</strong> for the whole current cycle — they're decided at the cycle boundary, not as each step fires.</li>
+              <li><strong>CRV</strong> curves are drawn exactly as they are played, including across the loop point.</li>
+              <li>Tooltips on every control.</li>
+            </ul>
+            <p class="text-zinc-400">Because every one of those is deterministic and computed a cycle at a time, the canvas is not an approximation: <strong class="text-zinc-300">what you see is exactly what plays</strong>.</p>
           </div>
         </section>
 
@@ -835,7 +873,22 @@
             <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Presets, sharing & keys</h2>
             <p class="text-zinc-400 mb-6 font-light">Because VEKTE is fully deterministic, a pattern is a recipe, not a recording.</p>
             
-            <p class="text-zinc-300 mb-4">A given algorithm + its knob values always regenerate the exact same 32-step buffer. That is what makes sharing tiny: VEKTE only needs to store your <em>inputs</em>, then rebuild the notes on the other end.</p><h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Channel keys — share a whole channel as text</h3><p class="text-zinc-300 mb-4">A <strong>channel key</strong> is a compact, copy-and-paste text string that captures one entire channel (all five lanes, groove, scale, chord, output channel, and your manual edits — everything listed in Channels & slots).</p><ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4"><li>In the <strong>Menu → Copy Channel</strong>, the key appears in a select-all textbox with a <strong>Copy</strong> button.</li><li>It is short enough to drop into a chat message, a forum post, a caption, or a link. Send it to anyone.</li><li>They paste it into <strong>Menu → Paste Channel</strong> in <em>their</em> VEKTE and get your channel back <strong>identically — down to the note</strong>, on any machine or platform.</li></ul><p class="text-zinc-300 mb-4"><strong>Why keys stay small.</strong> The key carries your parameter inputs and any manual piano-roll edits as a diff; the engine regenerates the algorithmic bulk locally. Two people with the same key hear the same thing because the generators are deterministic and versioned, not because the notes travelled in the key.</p><p class="text-zinc-300 mb-4"><strong>Compatibility & safety.</strong></p><ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4"><li><strong>Older keys and saved files keep working</strong> — the format is backward compatible, so a key you shared last version still loads.</li><li>A key is validated on paste. If it references an algorithm a given build doesn't recognize, VEKTE <strong>rejects the key cleanly</strong> rather than loading a wrong or silently different pattern — so a shared key never mis-plays.</li><li>The five newest algorithms (Pack I, #31–#35) use integer-exact math, so keys that use them are identical across macOS, Windows, and iOS with no drift.</li></ul><h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Three levels of recall</h3><ol class="list-decimal pl-5 space-y-1 text-zinc-300"><li><strong>Channel key</strong> — one channel, as text, for quick sharing.</li><li><strong>Song</strong> — all 16 channels together (key or file), for a whole setup.</li><li><strong>DAW project</strong> — full plugin state saves inside your session automatically; reopen the project and every channel, edit, and seed returns exactly.</li></ol><blockquote class="border-l-2 border-lime-400 pl-4 py-1 my-4 bg-lime-400/5 text-zinc-300 italic"><strong>Seeds:</strong> Each lane also shows a <strong>seed</strong> you can type back in to reproduce a randomize roll you liked. Seeds save with the project and are part of the key, so a shared channel reproduces the <em>same</em> roll, not a new random one.</blockquote>
+            <p class="text-zinc-300 mb-4">A given algorithm + its knob values always regenerate the exact same 32-step buffer. That is what makes sharing tiny: VEKTE only needs to store your <em>inputs</em>, then rebuild the notes on the other end.</p><h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Channel keys — share a whole channel as text</h3><p class="text-zinc-300 mb-4">A <strong>channel key</strong> is a compact, copy-and-paste text string that captures one entire channel (all five lanes, groove, scale, chord, output channel, and your manual edits — everything listed in Channels & slots).</p><ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4"><li>In the <strong>Menu → Copy Channel</strong>, the key appears in a select-all textbox with a <strong>Copy</strong> button.</li><li>It is short enough to drop into a chat message, a forum post, a caption, or a link. Send it to anyone.</li><li>They paste it into <strong>Menu → Paste Channel</strong> in <em>their</em> VEKTE and get your channel back <strong>identically — down to the note</strong>, on any machine or platform.</li></ul><p class="text-zinc-300 mb-4"><strong>Why keys stay small.</strong> The key carries your parameter inputs and any manual piano-roll edits as a diff; the engine regenerates the algorithmic bulk locally. Two people with the same key hear the same thing because the generators are deterministic and versioned, not because the notes travelled in the key.</p><p class="text-zinc-300 mb-4"><strong>Compatibility & safety.</strong></p><ul class="list-disc pl-5 space-y-2 text-zinc-300 mb-4"><li><strong>Older keys and saved files keep working</strong> — the format is backward compatible, so a key you shared last version still loads.</li><li>A key is validated on paste. If it references an algorithm a given build doesn't recognize, VEKTE <strong>rejects the key cleanly</strong> rather than loading a wrong or silently different pattern — so a shared key never mis-plays.</li><li>The five newest algorithms (Pack I, #31–#35) use integer-exact math, so keys that use them are identical across macOS, Windows, and iOS with no drift.</li></ul><h3 class="text-lg font-bold text-zinc-100 mt-6 mb-2">Three levels of recall</h3><ol class="list-decimal pl-5 space-y-1 text-zinc-300"><li><strong>Channel key</strong> — one channel, as text, for quick sharing.</li><li><strong>Song</strong> — all 16 channels together (key or file), for a whole setup.</li><li><strong>DAW project</strong> — full plugin state saves inside your session automatically; reopen the project and every channel, edit, and seed returns exactly.</li></ol><h3 class="text-lg font-bold text-zinc-100 mt-8 mb-2">Seed vs. key — two different things</h3>
+            <p class="text-zinc-300 mb-4">Both reproduce something exactly, but they reproduce <em>different</em> things. Mixing them up is the one easy mistake here.</p>
+            <div class="overflow-x-auto border border-white/5 rounded-lg bg-zinc-950/40 my-4">
+              <table class="min-w-full divide-y divide-white/5 text-sm">
+                <thead class="bg-zinc-950/80"><tr class="divide-x divide-white/5 text-left font-mono text-zinc-400 text-xs uppercase"><th class="px-4 py-3"></th><th class="px-4 py-3">Lane seed</th><th class="px-4 py-3">Channel key</th></tr></thead>
+                <tbody class="divide-y divide-white/5 text-zinc-300">
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Reproduces</td><td class="px-4 py-3">A <strong>randomize roll</strong> — the algorithm and P1–P4 that <strong>RND</strong> picked.</td><td class="px-4 py-3">A <strong>whole pattern</strong> — every lane's inputs plus your manual edits.</td></tr>
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Scope</td><td class="px-4 py-3">One lane.</td><td class="px-4 py-3">One whole channel (all five lanes).</td></tr>
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Survives your edits?</td><td class="px-4 py-3">No — edit the lane and it shows <code>*</code>; the seed no longer describes what's on screen.</td><td class="px-4 py-3 text-lime-400/90">Yes — edits ride along in the key.</td></tr>
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Saved with the project?</td><td class="px-4 py-3 text-lime-400/90">Yes.</td><td class="px-4 py-3 text-lime-400/90">Yes (full state saves too).</td></tr>
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Carried in the key?</td><td class="px-4 py-3">No.</td><td class="px-4 py-3">—</td></tr>
+                  <tr class="divide-x divide-white/5"><td class="px-4 py-3 font-bold bg-zinc-950/10 text-zinc-100">Use it to</td><td class="px-4 py-3">Get a roll you liked back on your own machine.</td><td class="px-4 py-3 text-lime-400/90">Share a pattern with someone else.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-zinc-300">The key doesn't need the seed: it already stores the algorithm and parameter values that the roll produced, and regenerates the notes from those. So <strong>the channel key is the shareable artifact</strong> — the seed is a convenience for re-rolling your own lane.</p>
             
             <h3 class="text-lg font-bold text-zinc-100 mt-8 mb-2">Why a key grows — and when</h3>
             <p class="text-zinc-300 mb-4">A key's length is a direct readout of how much of the pattern is <em>deterministic</em> versus <em>hand-made</em>:</p>
@@ -889,7 +942,15 @@
             <span class="text-[10px] font-mono text-brand uppercase tracking-widest block mb-1">PRO WORKFLOWS</span>
             <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Tips</h2>
             <p class="text-zinc-400 mb-6 font-light">Speed up your sound design sessions with these workflow shortcuts.</p>
-            <ul class="list-grid pl-5 space-y-2 text-zinc-300"><li>Hover any control for a tooltip.</li><li><strong>LOCK</strong> a lane you like, then <strong>RND</strong> / <strong>CHAOS</strong> the rest.</li><li><strong>AUTO</strong> + a small <strong>ROT</strong> gives slowly evolving patterns.</li><li>Use <strong>CRV</strong> on a MOD → CC lane for smooth filter / parameter sweeps.</li><li>Layer two slots on one channel for thicker parts (e.g. <code>1a</code> + <code>1b</code>).</li><li>Type a lane's <strong>seed</strong> back in to reproduce a roll you liked; seeds save with your project.</li></ul>
+            <ul class="list-disc pl-5 space-y-3 text-zinc-300">
+              <li>Hover any control for a tooltip.</li>
+              <li><strong>LOCK</strong> a lane you like, then <strong>RND</strong> / <strong>CHAOS</strong> the rest.</li>
+              <li><strong>AUTO</strong> + a small <strong>ROT</strong> gives slowly evolving patterns.</li>
+              <li>Use <strong>CRV</strong> on a MOD → CC lane for smooth filter / parameter sweeps — it loops seamlessly at any STEPS setting.</li>
+              <li><strong>Build variation layers by sending several slots to the same MIDI channel.</strong> They auto-group in the header (<code>1a</code> / <code>1b</code> / <code>1c</code>) and all play the same instrument, but each slot keeps its own algorithm, division, groove and probability. Instead of one thicker part you get several independent voices interlocking — a sparse high line over a dense low one, or the same motif at three different divisions. Mute individual slots (double-tap) to arrange on the fly.</li>
+              <li><strong>Don't only route MOD lanes to CC.</strong> The most musical targets are often internal: point a MOD lane at <strong>Octave</strong> and a line leaps registers while staying in key; at <strong>Transpose</strong> for in-scale movement; at <strong>Scale</strong> or <strong>Chord</strong> to drift through a family; at <strong>Dense</strong> or <strong>Prob</strong> to breathe the rhythm in and out; at another lane's <strong>P1–P4</strong> to reshape the generator itself.</li>
+              <li>Type a lane's <strong>seed</strong> back in to reproduce a roll you liked; seeds save with your project. To share the pattern with someone else, send the <strong>channel key</strong> instead.</li>
+            </ul>
           </div>
         </section>
 
