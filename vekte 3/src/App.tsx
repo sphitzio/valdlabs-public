@@ -539,13 +539,13 @@ export default function App() {
               <div className="flex items-center space-x-2">
                 <span className="text-[10px] font-mono text-zinc-400 tracking-widest uppercase font-bold">VIDEO WALKTHROUGH</span>
               </div>
-              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">AUV3 PREVIEW (IN DEVELOPMENT)</span>
+              <span className="text-[9px] font-mono text-[#d4ff00] bg-[#d4ff00]/10 border border-[#d4ff00]/25 px-2 py-0.5 rounded font-bold">BETA VST3 DEMO</span>
             </div>
 
             <div className="relative w-full aspect-video rounded-xl border border-white/10 overflow-hidden shadow-2xl bg-black">
-              <iframe 
-                src="https://www.youtube.com/embed/e4iW2RNk9IU" 
-                title="VEKTE App Demonstration"
+              <iframe
+                src="https://www.youtube.com/embed/zV-45C8HgOA"
+                title="Våld Labs Presents Vekte Algorithmic Sequencer and Tresse Polyphonic Synth Beta VST3"
                 className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
