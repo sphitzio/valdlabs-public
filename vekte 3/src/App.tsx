@@ -97,8 +97,8 @@ export default function App() {
   };
 
   const DOWNLOAD_URLS = {
-    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.8/VEKTE-Setup-1.1.8-x64.exe',
-    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.8/VEKTE-1.1.8.pkg',
+    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.9/VEKTE-Setup-1.1.9-x64.exe',
+    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.9/VEKTE-1.1.9.pkg',
   };
 
   const handleBetaDownload = (os: 'win' | 'mac') => {
@@ -403,7 +403,7 @@ export default function App() {
         {/* Tag Category */}
         <div className="inline-flex items-center space-x-2.5 font-mono text-[10px] text-[#d4ff00] tracking-widest bg-[#d4ff00]/10 border border-[#d4ff00]/30 px-3 py-1 rounded-full w-max">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-          <span className="font-bold">1.1.8 VST NOW OPEN BETA</span>
+          <span className="font-bold">1.1.9 VST NOW OPEN BETA</span>
         </div>
 
         {/* Epic Main Headline title */}
@@ -1178,7 +1178,7 @@ export default function App() {
               Beta version valid until mid-August 2026
             </p>
             <p className="text-zinc-500 text-xs leading-relaxed mt-4 font-light max-w-xl mx-auto">
-              <span className="text-[#d4ff00] font-mono font-bold">New in 1.1.8:</span> 5 new integer-exact algorithms (36 total), seeded randomize, compact channel keys with a copy-and-share panel, grouped algorithm menu, per-lane swing lock, and in-plugin update notes.
+              <span className="text-[#d4ff00] font-mono font-bold">New in 1.1.9:</span> Ratchet, Note Div and Pitch mod targets, MIDI Learn (assign any control to a CC), per-control and per-algorithm Lock, keyboard select + arrow nudge, true TIE legato, strum that respects ties, and retrigger when you start mid-note.
             </p>
           </div>
 
