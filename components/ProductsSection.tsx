@@ -5,25 +5,51 @@ import { Product } from '../types';
 const products: Product[] = [
   {
     id: '1',
-    name: 'Consequencer',
-    tag: 'FLAGSHIP',
-    description: 'A portable, desktop-first sequencer with modular DNA — built for the art of shaping chaos.',
+    name: 'Vekte',
+    tag: 'LIVE BETA',
+    description: 'A generative MIDI sequencer plugin that turns algorithms into playable pattern flow.',
     price: 'TBA',
-    image: 'https://i.postimg.cc/rwnQVvNS/cons-1.jpg',
-    isFlagship: true
+    image: '/assets/vekte.png',
+    link: '/vekte'
   },
   {
     id: '2',
-    name: 'Crypto Terminal',
-    tag: 'UTILITY',
-    description: 'A retrofuturistic desktop market terminal for humanized data. Signal over noise.',
+    name: 'Tresse',
+    tag: 'LIVE BETA',
+    description: 'A polyphonic multi-engine synthesizer, from raw analog character to spectral texture.',
     price: 'TBA',
-    image: 'https://i.postimg.cc/G2vdkPMc/Untitled-1.jpg'
+    image: '/assets/tresse.png',
+    link: '/tresse'
   },
   {
     id: '3',
+    name: 'Rekke',
+    tag: 'DEVELOPMENT',
+    description: 'A portable, desktop-first sequencer with modular DNA — built for the art of shaping chaos.',
+    price: 'TBA',
+    image: '/assets/rekke.jpg',
+    isFlagship: true
+  },
+  {
+    id: '4',
+    name: 'Sunua',
+    tag: 'ALPHA SOON',
+    description: 'A physical-modeling voice that grows living, breathing tone from struck and bowed bodies.',
+    price: 'TBA',
+    image: '/assets/sunua.png'
+  },
+  {
+    id: '5',
+    name: 'Kurare',
+    tag: 'ALPHA SOON',
+    description: 'A coupled-oscillator synth where many voices sync, drift and phase into emergent motion.',
+    price: 'TBA',
+    image: '/assets/kurare.png'
+  },
+  {
+    id: '6',
     name: 'Modular Synth Stands',
-    tag: 'ACCESSORY',
+    tag: 'UNDER REQUEST',
     description: 'Modular, industrial-strength stands that turn desk chaos into ergonomic order.',
     price: 'TBA',
     image: 'https://i.postimg.cc/t4dWfX0L/Gemini-Generated-Image-68yj9168yj9168yj.png'
@@ -46,7 +72,7 @@ export const ProductsSection: React.FC = () => {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

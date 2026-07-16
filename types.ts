@@ -6,6 +6,7 @@ export interface Product {
   price: string;
   image: string;
   isFlagship?: boolean;
+  link?: string;
 }
 
 export interface NavLink {
