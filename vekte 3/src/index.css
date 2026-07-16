@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+/* Map Tailwind's font utilities to the fonts loaded in index.html.
+   Without this, `font-sans` falls back to the default ui-sans-serif stack
+   instead of Plus Jakarta Sans. */
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
