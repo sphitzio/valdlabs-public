@@ -321,7 +321,7 @@ export default function App() {
     <div className="min-h-screen bg-[#060606] text-zinc-100 font-sans selection:bg-[#d4ff00]/30 selection:text-white">
       
       {/* BACKGROUND GRAPHIC VIDEO LINEAGE */}
-      <div className="absolute inset-0 w-full h-[100vh] overflow-hidden z-0 pointer-events-none border-b border-zinc-900">
+      <div className="absolute inset-0 w-full h-[100vh] overflow-hidden z-0 pointer-events-none">
         {/* Seamless Dither ASCII Vector Video Loop */}
         <video 
           autoPlay 
