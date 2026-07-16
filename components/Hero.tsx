@@ -32,7 +32,7 @@ export const Hero: React.FC = () => {
             </h1>
 
             <p className="text-lg md:text-xl leading-relaxed font-light text-slate-300 font-space-mono max-w-lg">
-              Våld Labs builds instruments and objects that translate complex systems into human control. From algorithmic music sequencing to innovative synthesizers and modular studio architecture, every product is designed to turn intensity into intent.
+              Våld Labs builds instruments and objects that translate complex systems into human control. From algorithmic music sequencing to innovative synthesizers and modular studio architecture, every product is designed to turn instinct into creation.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-4">

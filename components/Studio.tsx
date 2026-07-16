@@ -25,7 +25,7 @@ export const Studio: React.FC = () => {
               The flagships Rekke (hardware) and Vekte (software) embody this philosophy in music. Instead of starting with a blank grid, it generates musically coherent structures on power-up — then gives you a control-dense, performance-forward interface to shape them.
             </p>
             <p>
-              Across the product line, the rule stays the same: <span className="text-white">machine-scale depth, human-scale control</span> — with minimal menu diving and interfaces that favor touch, flow, and eyes-down focus.
+              Across the product line, the rule stays the same: <span className="text-white">machine-scale depth, human-scale control</span> — with minimal menu diving and interfaces that favor touch, flow, and uninterrupted focus.
             </p>
           </div>
         </div>
@@ -46,7 +46,7 @@ export const Studio: React.FC = () => {
                Våld Labs is currently a deeply hands-on studio where he leads the full arc of each project — concept, industrial and interaction design, prototyping direction, visual identity, and narrative — with a simple goal: create tools that feel both intelligent and human.
             </p>
             <p className="italic border-l-2 border-[#ffff00] pl-4 text-zinc-400">
-              "We don’t fear chaos. We tame it and make it perform."
+              "We don’t fear chaos. We tame it — and then shape it."
             </p>
           </div>
         </div>

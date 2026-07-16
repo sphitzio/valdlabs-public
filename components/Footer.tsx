@@ -11,17 +11,19 @@ export const Footer: React.FC = () => {
               våld labs
             </a>
             <p className="text-lg text-zinc-500 font-light max-w-sm font-space-mono">
-              Independent boutique studio based in Lisbon. Crafting niche technology for sound design, finance, and workspace optimization.
+              Independent boutique studio based in Lisbon. Crafting niche technology for sound design and workspace optimization.
             </p>
           </div>
           
           <div>
             <h4 className="text-sm font-medium text-white mb-6 font-space-mono">Sitemap</h4>
             <ul className="space-y-4">
-              <li><a href="#" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Consequencer</a></li>
-              <li><a href="#" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Crypto Terminal</a></li>
-              <li><a href="#" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Modular Synth Stands</a></li>
-              <li><a href="#" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Firmware</a></li>
+              <li><a href="/vekte" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Vekte</a></li>
+              <li><a href="/tresse" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Tresse</a></li>
+              <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Rekke</a></li>
+              <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Sunua</a></li>
+              <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Kurare</a></li>
+              <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Modular Synth Stands</a></li>
             </ul>
           </div>
           
