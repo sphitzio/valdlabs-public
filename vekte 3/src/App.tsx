@@ -320,14 +320,18 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#060606] text-zinc-100 font-sans selection:bg-[#d4ff00]/30 selection:text-white">
       
-      {/* WHOLE-PAGE BACKGROUND — waveform texture (from Sunua), fixed behind all content */}
-      <div
-        className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-repeat bg-top"
-        style={{
-          backgroundImage: "url('https://github.com/sphitzio/valdlabs-public/raw/refs/heads/main/public/vekte/assets/bg_vekte_waves.png')",
-          backgroundSize: '900px auto',
-        }}
-      >
+      {/* WHOLE-PAGE BACKGROUND — looping motion video, fixed behind all content */}
+      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/vekte/assets/bgsite.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+
         {/* Cinematic Atmospheric Vignette Gradients */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#060606] via-[#060606]/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#060606]/85 via-transparent to-[#060606]/85" />
