@@ -320,27 +320,19 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#060606] text-zinc-100 font-sans selection:bg-[#d4ff00]/30 selection:text-white">
       
-      {/* BACKGROUND GRAPHIC VIDEO LINEAGE */}
-      <div className="absolute inset-0 w-full h-[100vh] overflow-hidden z-0 pointer-events-none">
-        {/* Seamless Dither ASCII Vector Video Loop */}
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen scale-105 select-none"
-        >
-          <source 
-            src="https://github.com/sphitzio/valdlabs-public/raw/refs/heads/main/public/vekte/assets/bgsite.mp4" 
-            type="video/mp4" 
-          />
-        </video>
-        
+      {/* WHOLE-PAGE BACKGROUND — waveform texture (from Sunua), fixed behind all content */}
+      <div
+        className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-repeat bg-top"
+        style={{
+          backgroundImage: "url('https://github.com/sphitzio/valdlabs-public/raw/refs/heads/main/public/vekte/assets/bg_vekte_waves.png')",
+          backgroundSize: '900px auto',
+        }}
+      >
         {/* Cinematic Atmospheric Vignette Gradients */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#060606] via-[#060606]/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#060606]/85 via-transparent to-[#060606]/85" />
-        
-        {/* Subtle glowing mesh overlays mimicking Vekte */}
+
+        {/* Subtle glowing mesh overlay */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[#d4ff00]/2 blur-[170px] pointer-events-none" />
       </div>
 
