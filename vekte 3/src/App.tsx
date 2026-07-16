@@ -410,13 +410,13 @@ export default function App() {
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white leading-tight max-w-3xl">
           Generative, not random.<br />
           <span className="bg-gradient-to-r from-[#d4ff00] via-[#ecff80] to-white bg-clip-text text-transparent">
-            A deterministic MIDI sequencer driven by 36 mathematical algorithms.
+            A deterministic MIDI polymetric sequencer driven by 36 mathematical algorithms.
           </span>
         </h1>
 
         {/* Narrative introduction paragraph */}
         <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-3xl font-light font-sans">
-          VEKTE is a 16-channel generative MIDI sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane and four MOD lanes) driven by 36 mathematical algorithms, from logistic maps to Lindenmayer systems and Xenakis sieves. Because it's fully deterministic, any pattern compresses into a short text key, shareable by message or social post and identical when reopened. VST3 now, with AUv3 and standalone builds in development.
+          VEKTE is a 16-channel generative MIDI polymetric sequencer plugin by Våld Labs. Each channel runs five independent lanes (one NOTE lane and four MOD lanes) driven by 36 mathematical algorithms, from logistic maps to Lindenmayer systems and Xenakis sieves. Because it's fully deterministic, any pattern compresses into a short text key, shareable by message or social post and identical when reopened. VST3 now, with AUv3 and standalone builds in development.
         </p>
 
         {/* Beautiful modular vector features matrix */}
@@ -489,6 +489,64 @@ export default function App() {
           </div>
         </div>
 
+      </section>
+
+      {/* EIGHT GROUPED PROPOSITIONS — Generate / Modulate / Shape & perform / Recall & share */}
+      <section id="propositions" className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-white/[0.05]">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.25em] block font-bold mb-2">WHAT VEKTE DOES</span>
+          <h2 className="text-3xl font-display font-extrabold text-white tracking-tight sm:text-4xl">
+            Generate. Modulate. Shape. Recall.
+          </h2>
+        </div>
+
+        <div className="flex flex-col gap-10">
+          {[
+            {
+              group: 'Generate',
+              cards: [
+                { title: '36 Mathematical Generators', body: 'From Euclidean rhythms and chaotic systems to cellular, harmonic and wave-based processes—each controlled by four playable parameters.' },
+                { title: '16 Independent Sequencers', body: 'Build an entire multi-instrument arrangement inside one Vekte instance—not merely 16 MIDI channels, but 16 independent sets of five lanes, algorithms, scales, chords and groove.' },
+              ],
+            },
+            {
+              group: 'Modulate',
+              cards: [
+                { title: 'Four Generative Modulation Lanes per Channel', body: 'Drive velocity, pitch, chords, scale, density, probability, strum, ratchet, MIDI CC and even other algorithms.' },
+                { title: 'Self-Modifying Patterns', body: 'Use one generative lane to reshape another generator’s parameters while the sequence plays.' },
+              ],
+            },
+            {
+              group: 'Shape and perform',
+              cards: [
+                { title: 'Direct, Scale-Locked Editing', body: 'Draw and adjust notes or modulation values without giving up the algorithmic foundation.' },
+                { title: 'Strum, Ratchet and Evolving Groove', body: 'Generate chord articulation, rolls, changing note divisions, swing and deterministic humanisation—plus MIDI Learn and per-control locking for hands-on control.' },
+              ],
+            },
+            {
+              group: 'Recall and share',
+              cards: [
+                { title: 'Deterministic by Design', body: 'The same recipe reconstructs the same musical result instead of merely storing a rendered pattern.' },
+                { title: 'Share Patterns as Text', body: 'Copy a complete channel into a compact key and paste it into another Vekte installation.' },
+              ],
+            },
+          ].map((section) => (
+            <div key={section.group}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.2em] font-bold">{section.group}</span>
+                <div className="flex-1 h-px bg-white/[0.06]" />
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                {section.cards.map((card) => (
+                  <div key={card.title} className="bg-zinc-950/70 border border-white/[0.05] p-6 rounded-2xl hover:border-white/[0.1] transition-all">
+                    <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">{card.title}</h3>
+                    <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">{card.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* VEKTE SOUND DESIGN COCKPIT (INTERACTIVE SIMULATOR) */}
@@ -574,7 +632,7 @@ export default function App() {
               VEKTE takes the multi-lane modulation thinking of Eurorack modular routing and rebuilds it as a plugin that lives in your DAW. By combining up to <span className="font-semibold text-white">five independent lanes per channel</span> (one NOTE lane and four MOD lanes) with <span className="font-semibold text-white">36 mathematical algorithms</span>, it breaks the usual step-grid constraints.
             </p>
             <p className="text-zinc-400 text-sm leading-relaxed font-light">
-              With immediate support for 73 scales grouped by musical family, 40 dynamic chord sets, micro-strumming controls, and smooth Catmull-Rom curve interpolation, the scope of generation runs from classic Euclidean rhythms to polyrhythmic metronomes, generative boids flocking, and reaction-diffusion arrays.
+              With immediate support for 73 scales grouped by musical family, 39 dynamic chord sets, micro-strumming controls, and smooth Catmull-Rom curve interpolation, the scope of generation runs from classic Euclidean rhythms to polyrhythmic metronomes, generative boids flocking, and reaction-diffusion arrays.
             </p>
 
             {/* Key feature highlights cards list */}
@@ -622,7 +680,7 @@ export default function App() {
                 <div className="flex justify-between items-center bg-zinc-850 border border-[#d4ff00]/20 p-3 rounded-lg shadow-lg">
                   <div>
                     <span className="text-xs text-[#d4ff00] block font-mono font-bold">VEKTE — VST3 now; AUv3 and iOS in development</span>
-                    <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 40 chords, Catmull-Rom curve interpolation.</span>
+                    <span className="text-[11px] text-zinc-300 block mt-0.5">16 independent channels, 1 NOTE + 4 MOD lanes, 73 scales, 39 chords, Catmull-Rom curve interpolation.</span>
                   </div>
                   <span className="text-[10px] font-mono bg-[#d4ff00]/10 text-[#d4ff00] px-2 py-0.5 rounded border border-[#d4ff00]/30 font-bold">SPINOFF</span>
                 </div>
@@ -642,7 +700,7 @@ export default function App() {
             Uncompromising specifications. Optimized engine logic.
           </h2>
           <p className="text-zinc-400 text-sm leading-relaxed mt-4 font-light">
-            Every layer of VEKTE's mathematical core has been designed to run with extreme lightweight efficiency, ensuring sample-accurate note timing across heavy multi-track host configurations.
+            Every layer of VEKTE's mathematical core has been designed to run with extreme lightweight efficiency, staying responsive across heavy multi-track host configurations while keeping every generated pattern exactly reproducible.
           </p>
         </div>
 
@@ -671,7 +729,7 @@ export default function App() {
               </div>
               <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">5 Lanes Per Channel</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                Run up to five concurrent lanes side by side (one NOTE lane and four MOD lanes) on every active slot. Modulation lanes smoothly target performance vectors (Velocity, Length, CC#), internal structures (Steps, Rotation), scale chords, or other lanes' parameters.
+                Run up to five concurrent lanes side by side (one NOTE lane and four MOD lanes) on every active slot. Modulation lanes smoothly target performance vectors (Velocity, Length, CC#), internal structures (Steps, Rotation), scale chords, or any of their own channel's lane parameters.
               </p>
             </div>
             <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mt-6">1 NOTE + 4 MOD LAYER CLUSTERS</span>
@@ -685,7 +743,7 @@ export default function App() {
               </div>
               <h3 className="text-base font-mono font-extrabold text-white uppercase tracking-wider">73 Musical Scale Snappers</h3>
               <p className="text-xs text-zinc-400 leading-relaxed mt-2.5 font-light">
-                Configure patterns with 73 built-in scales grouped into families (Diatonic, Major/Minor, Symmetric, Greek, Microtonal) and 40 chords. When MOD lanes target Scale/Chord, they dynamically sweep parameters inside that musical family. Choose Scale: NONE for chromatic editing.
+                Configure patterns with 73 built-in scales grouped into families (Diatonic, Major/Minor, Symmetric, Greek, Microtonal) and 39 chords. When MOD lanes target Scale/Chord, they dynamically sweep parameters inside that musical family. Choose Scale: NONE for chromatic editing.
               </p>
             </div>
             <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-widest mt-6 font-bold">NONE ➔ DIATONIC ➔ MICROTONAL</span>
@@ -777,7 +835,7 @@ export default function App() {
                     <p className="text-xs text-zinc-400 font-light leading-relaxed">
                       The raw generator output is reshaped by lane structural controls, multiplying the total phase dimension space: 
                       <span className="text-zinc-200 font-mono block text-[11px] bg-zinc-900/60 p-1.5 rounded border border-white/[0.03] my-2 leading-tight">
-                        STEPS(32) × ROT(32) × DENSE(33) × PROB(101) × BASE(12) × SCALE(73) × CHORD(40) × OCT(45) × TIE(101)
+                        STEPS(32) × ROT(32) × DENSE(33) × PROB(101) × BASE(12) × SCALE(73) × CHORD(39) × OCT(45) × TIE(101)
                       </span>
                     </p>
                   </div>
@@ -888,7 +946,7 @@ export default function App() {
                 <div className="p-4 rounded-xl bg-black/40 border border-white/[0.03] text-[11px] text-zinc-400 font-light flex items-start space-x-3">
                   <Info className="w-4 h-4 text-[#d4ff00] shrink-0 mt-0.5" />
                   <span>
-                    When you also factor in that VEKTE supports <span className="text-white font-medium">16 distinct channels</span> running simultaneously, and that any Mod Lane can target any neighboring channel's algorithms—the compounding combinations surpass standard nomenclature entirely.
+                    And this is one channel. When you factor in that VEKTE runs <span className="text-white font-medium">16 distinct channels</span> simultaneously, each with its own five lanes, the full configuration space of a project surpasses standard nomenclature entirely.
                   </span>
                 </div>
               </div>
@@ -911,7 +969,7 @@ export default function App() {
                 Explore the 36 Generative Algorithms
               </h2>
               <p className="text-zinc-400 text-sm leading-relaxed mt-2 max-w-2xl font-light">
-                Browse our complete mathematical pattern generation library. These 36 premium algorithms are fully functional and selectable inside VEKTE sequencer lanes.
+                Browse our complete mathematical pattern generation library. All 36 algorithms are fully functional and selectable inside VEKTE sequencer lanes.
               </p>
             </div>
             
@@ -1127,7 +1185,7 @@ export default function App() {
                   </div>
                   <div>
                     <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">Expansion & Connectivity</h4>
-                    <p className="text-[11px] text-zinc-400 font-light mt-0.5">One cartridge connector for hardware expansion, with CV, MIDI, BLE, WiFi, and Ableton Link on board.</p>
+                    <p className="text-[11px] text-zinc-400 font-light mt-0.5">MIDI, CV, and clock connectivity, with a cartridge expansion system for hardware add-ons.</p>
                   </div>
                 </div>
               </div>
