@@ -576,8 +576,8 @@ export default function App() {
             </div>
             
             <div className="rounded-xl border border-white/10 overflow-hidden bg-black/50 shadow-2xl relative group">
-              <img 
-                src="https://github.com/sphitzio/valdlabs-public/blob/main/public/vekte/assets/vekte_5lanes.png?raw=true"
+              <img
+                src="https://github.com/sphitzio/valdlabs-public/blob/main/public/vekte/assets/vekte-interface.png?raw=true"
                 alt="VEKTE Plugin Interface"
                 className="w-full h-auto object-cover transform hover:scale-[1.01] transition-transform duration-500"
                 referrerPolicy="no-referrer"
