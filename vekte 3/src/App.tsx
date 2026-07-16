@@ -406,7 +406,7 @@ export default function App() {
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white leading-tight max-w-3xl">
           Generative, not random.<br />
           <span className="bg-gradient-to-r from-[#d4ff00] via-[#ecff80] to-white bg-clip-text text-transparent">
-            A deterministic MIDI polymetric sequencer driven by 36 mathematical algorithms.
+            A deterministic polymetric MIDI sequencer driven by 36 generative algorithms.
           </span>
         </h1>
 
