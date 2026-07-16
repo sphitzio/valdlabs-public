@@ -532,10 +532,7 @@ export default function App() {
             },
           ].map((section) => (
             <div key={section.group}>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.2em] font-bold">{section.group}</span>
-                <div className="flex-1 h-px bg-white/[0.06]" />
-              </div>
+              <span className="block text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.2em] font-bold mb-4">{section.group}</span>
               <div className="grid md:grid-cols-2 gap-4">
                 {section.cards.map((card) => (
                   <div key={card.title} className="bg-zinc-950/70 border border-white/[0.05] p-6 rounded-2xl hover:border-white/[0.1] transition-all">
