@@ -742,7 +742,7 @@ export function WaveInterferenceSimulator() {
                 className={`flex items-center space-x-2 px-4 h-9 rounded-lg text-[10px] font-bold tracking-widest transition-all ${isPlaying ? 'bg-[#d4ff00] text-black shadow-lg shadow-[#d4ff00]/20' : 'bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'}`}
               >
                 {isPlaying ? <Pause className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
-                <span>{isPlaying ? 'STOP PREVIEW' : 'RUN PREVIEW'}</span>
+                <span>{isPlaying ? 'STOP' : 'RUN'}</span>
               </button>
 
               <button
