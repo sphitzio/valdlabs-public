@@ -737,9 +737,9 @@ export function WaveInterferenceSimulator() {
             
             {/* Play, Stop and Volume Mute selectors */}
             <div className="flex items-center space-x-2">
-              <button 
+              <button
                 onClick={togglePlayback}
-                className={`flex items-center space-x-2 px-4 h-9 rounded-lg text-[10px] font-bold tracking-widest transition-all ${isPlaying ? 'bg-[#d4ff00] text-black shadow-lg shadow-[#d4ff00]/20' : 'bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'}`}
+                className={`flex items-center justify-center space-x-2 w-[92px] h-9 rounded-lg text-[10px] font-bold tracking-widest transition-all ${isPlaying ? 'bg-[#d4ff00] text-black shadow-lg shadow-[#d4ff00]/20' : 'bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'}`}
               >
                 {isPlaying ? <Pause className="w-3 h-3 fill-current" /> : <Play className="w-3 h-3 fill-current" />}
                 <span>{isPlaying ? 'STOP' : 'RUN'}</span>
@@ -747,10 +747,10 @@ export function WaveInterferenceSimulator() {
 
               <button
                 onClick={toggleMute}
-                className={`h-9 rounded-lg flex items-center justify-center gap-1.5 px-2.5 transition-all ${
+                className={`h-9 w-[128px] rounded-lg flex items-center justify-center gap-1.5 px-2.5 transition-all ${
                   isMuted
                     ? 'bg-[#d4ff00] text-black border border-[#d4ff00] animate-pulse shadow-[0_0_16px_rgba(212,255,0,0.5)]'
-                    : 'w-9 px-0 bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'
+                    : 'bg-zinc-900 border border-white/5 text-zinc-400 hover:text-white'
                 }`}
                 title={isMuted ? "Unmute to hear the demo" : "Mute Sound"}
               >
@@ -760,7 +760,10 @@ export function WaveInterferenceSimulator() {
                     <span className="text-[9px] font-mono font-black uppercase tracking-wider">Tap to hear</span>
                   </>
                 ) : (
-                  <Volume2 className="w-3.5 h-3.5 text-[#d4ff00]" />
+                  <>
+                    <Volume2 className="w-3.5 h-3.5 text-[#d4ff00]" />
+                    <span className="text-[9px] font-mono font-black uppercase tracking-wider">Sound on</span>
+                  </>
                 )}
               </button>
             </div>
@@ -795,7 +798,7 @@ export function WaveInterferenceSimulator() {
             <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0 px-3 py-1 rounded-lg border border-white/[0.02] bg-zinc-950/40">
               <span className="text-[8px] text-zinc-500">STEP</span>
               <span className="text-[10px] font-mono text-[#d4ff00] font-bold shrink-0 tabular-nums">
-                {(isPlaying ? currentStep + 1 : 1)} / {STEP_COUNT}
+                <span className="inline-block w-[2ch] text-right">{(isPlaying ? currentStep + 1 : 1)}</span> / {STEP_COUNT}
               </span>
             </div>
 
