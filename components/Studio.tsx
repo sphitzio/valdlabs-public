@@ -46,7 +46,7 @@ export const Studio: React.FC = () => {
                Våld Labs is currently a deeply hands-on studio where he leads the full arc of each project — concept, industrial and interaction design, prototyping direction, visual identity, and narrative — with a simple goal: create tools that feel both intelligent and human.
             </p>
             <p className="italic border-l-2 border-[#ffff00] pl-4 text-zinc-400">
-              "We don’t fear chaos. We domesticate it and make it perform."
+              "We don’t fear chaos. We tame it and make it perform."
             </p>
           </div>
         </div>
