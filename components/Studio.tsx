@@ -22,7 +22,7 @@ export const Studio: React.FC = () => {
               Most creative tools either overwhelm you with complexity or starve you with emptiness. Våld Labs is built on a third path.
             </p>
             <p>
-              The flagship Consequencer embodies this philosophy in music. Instead of starting with a blank grid, it generates musically coherent structures on power-up — then gives you a control-dense, performance-forward interface to shape them.
+              The flagships Rekke (hardware) and Vekte (software) embody this philosophy in music. Instead of starting with a blank grid, it generates musically coherent structures on power-up — then gives you a control-dense, performance-forward interface to shape them.
             </p>
             <p>
               Across the product line, the rule stays the same: <span className="text-white">machine-scale depth, human-scale control</span> — with minimal menu diving and interfaces that favor touch, flow, and eyes-down focus.
