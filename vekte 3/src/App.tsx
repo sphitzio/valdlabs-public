@@ -492,7 +492,7 @@ export default function App() {
       </section>
 
       {/* EIGHT GROUPED PROPOSITIONS — Generate / Modulate / Shape & perform / Recall & share */}
-      <section id="propositions" className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-white/[0.05]">
+      <section id="propositions" className="relative z-10 py-16 px-6 max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-[10px] font-mono text-[#d4ff00] uppercase tracking-[0.25em] block font-bold mb-2">WHAT VEKTE DOES</span>
           <h2 className="text-3xl font-display font-extrabold text-white tracking-tight sm:text-4xl">
