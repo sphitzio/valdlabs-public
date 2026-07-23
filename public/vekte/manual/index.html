@@ -1,0 +1,1264 @@
+<!doctype html>
+<!--
+  VEKTE — User Manual
+  Served at valdlabs.com/vekte/manual (Vite static passthrough: public/vekte/manual/index.html)
+
+  Style is lifted 1:1 from the VEKTE landing page (valdlabs-public/vekte 3/src/App.tsx).
+  Single self-contained file. No build step, no framework — vanilla JS renders from data arrays.
+
+  ── TO UPDATE THE MANUAL ──
+  Edit the data arrays at the top of the <script> block:
+    ALGORITHMS     — the 36 generative algorithms (mirrors SYNTH_ENGINES in types.ts)
+    GLOBAL_KNOBS   — global controls (mirrors CONTROLS_DEFINITION in types.ts)
+    NOTE_KNOBS     — NOTE-lane knob table
+    MOD_KNOBS      — MOD-lane knob table
+    MOD_TARGETS    — MOD target groups
+    PLAYHEAD_MODES — Q playhead directions
+    SCALE_FAMILIES / CHORD_FAMILIES / SLOT_ACTIONS / ROUTING / TIPS
+  The page re-renders itself from these — no HTML surgery needed to add an algorithm or knob.
+
+  DARK-ONLY BY DESIGN: the VEKTE site is a deliberately dark visual world (near-black ground,
+  lime accent). A single theme is the intentional choice here, matching the product identity —
+  not an omission. There is no light theme.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VEKTE — User Manual</title>
+    <meta name="description" content="The complete user manual for VEKTE — a 16-channel generative MIDI sequencer plugin with 36 deterministic algorithms and five lanes per channel." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      /* ─────────────────────────  TOKENS (from landing page)  ───────────────────────── */
+      :root {
+        --bg:        #060606;   /* page ground              */
+        --bg-alt:    #0a0a0a;   /* alternating section band */
+        --panel:     rgba(9, 9, 11, 0.7);      /* zinc-950/70 cards */
+        --accent:    #d4ff00;   /* signature lime           */
+        --accent-dim:#a8cc00;
+        --track:     #161801;   /* knob background arc      */
+        --text:      #f4f4f5;   /* zinc-100 primary         */
+        --text-2:    #a1a1aa;   /* zinc-400 secondary       */
+        --text-3:    #71717a;   /* zinc-500 muted           */
+        --text-4:    #52525b;   /* zinc-600 faint           */
+        --hair:      rgba(255, 255, 255, 0.05);
+        --hair-2:    rgba(255, 255, 255, 0.09);
+        /* lane accents — identical to plugin + site */
+        --note: #d4ff00;
+        --mod1: #ffb500;
+        --mod2: #7369ff;
+        --mod3: #26d1d1;
+        --mod4: #ff0044;
+        --maxw: 80rem;
+        --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+        --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+        --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-weight: 500;
+        background-color: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+
+      .font-display { font-family: var(--font-display); font-weight: 800; }
+      .font-mono    { font-family: var(--font-mono); }
+
+      a { color: inherit; }
+      ::selection { background: var(--accent); color: #000; }
+
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      /* ─────────────────────────  AMBIENT BACKGROUND  ───────────────────────── */
+      .atmosphere {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .atmosphere::before {          /* lime radial glow */
+        content: "";
+        position: absolute;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60rem;
+        height: 60rem;
+        background: radial-gradient(circle, rgba(212, 255, 0, 0.10), transparent 60%);
+        filter: blur(170px);
+        animation: drift 22s ease-in-out infinite alternate;
+      }
+      .atmosphere::after {           /* vignette */
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 50% 0%, transparent 40%, rgba(0,0,0,0.6) 100%),
+          linear-gradient(180deg, transparent, var(--bg) 90%);
+      }
+      @keyframes drift {
+        from { transform: translateX(-55%) translateY(0); }
+        to   { transform: translateX(-45%) translateY(4rem); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .atmosphere::before { animation: none; }
+      }
+
+      /* ─────────────────────────  NAV  ───────────────────────── */
+      header.nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--hair);
+      }
+      .nav-inner {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0.85rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .brand { display: flex; align-items: flex-end; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
+      .brand .word {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: 1.25rem;
+        letter-spacing: 0.22em;
+        background: linear-gradient(90deg, var(--accent), #fff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        line-height: 1;
+      }
+      .brand .sub {
+        font-family: var(--font-mono);
+        font-size: 0.55rem;
+        color: var(--text-3);
+        letter-spacing: normal;
+        margin-bottom: 1px;
+      }
+      .nav-badge {
+        font-family: var(--font-mono);
+        font-size: 0.55rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        background: rgba(212, 255, 0, 0.1);
+        border: 1px solid rgba(212, 255, 0, 0.3);
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        white-space: nowrap;
+      }
+      .nav-links {
+        margin-left: auto;
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        text-decoration: none;
+        padding: 0.4rem 0.55rem;
+        border-radius: 6px;
+        white-space: nowrap;
+        transition: color 0.15s, background 0.15s;
+      }
+      .nav-links a:hover { color: var(--text); }
+      .nav-links a.active { color: var(--accent); background: rgba(212, 255, 0, 0.08); }
+
+      .nav-toggle {
+        display: none;
+        margin-left: auto;
+        background: none;
+        border: 1px solid var(--hair-2);
+        border-radius: 8px;
+        color: var(--text);
+        width: 2.4rem; height: 2.4rem;
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+
+      @media (max-width: 860px) {
+        .nav-links {
+          position: absolute;
+          top: 100%; left: 0; right: 0;
+          flex-direction: column;
+          gap: 0;
+          background: rgba(6, 6, 6, 0.97);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid var(--hair);
+          padding: 0.5rem;
+          max-height: 70vh;
+          overflow-y: auto;
+          display: none;
+        }
+        .nav-links.open { display: flex; }
+        .nav-links a { font-size: 0.72rem; padding: 0.7rem 0.75rem; }
+        .nav-toggle { display: block; }
+        .nav-badge { display: none; }
+      }
+
+      /* ─────────────────────────  SECTIONS  ───────────────────────── */
+      main { position: relative; z-index: 10; }
+      section {
+        border-top: 1px solid var(--hair);
+        padding: 5rem 0;
+      }
+      section:nth-of-type(even) { background: var(--bg-alt); }
+      #hero { border-top: none; }
+      .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 1.5rem; }
+
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.25em;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .eyebrow::before {
+        content: attr(data-num);
+        color: var(--text-4);
+        font-weight: 500;
+      }
+      h1, h2, h3 { text-wrap: balance; }
+      h2.title {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(1.7rem, 4vw, 2.5rem);
+        letter-spacing: -0.02em;
+        margin: 0.8rem 0 0;
+        color: #fff;
+      }
+      .intro {
+        color: var(--text-2);
+        font-weight: 300;
+        font-size: 0.95rem;
+        max-width: 46rem;
+        margin: 1rem 0 0;
+      }
+      .section-body { margin-top: 2.5rem; }
+
+      h3.sub {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #fff;
+        margin: 2.5rem 0 0.9rem;
+        letter-spacing: -0.01em;
+      }
+      p.copy { color: var(--text-2); font-weight: 300; font-size: 0.9rem; max-width: 46rem; }
+      p.copy strong, .copy b { color: var(--text); font-weight: 600; }
+      code.k {
+        font-family: var(--font-mono);
+        font-size: 0.8em;
+        background: rgba(212, 255, 0, 0.08);
+        border: 1px solid rgba(212, 255, 0, 0.2);
+        color: var(--accent);
+        padding: 0.08em 0.4em;
+        border-radius: 5px;
+        white-space: nowrap;
+      }
+
+      /* ─────────────────────────  HERO  ───────────────────────── */
+      #hero { padding-top: 5rem; padding-bottom: 5rem; text-align: center; }
+      .hero-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--accent);
+        background: rgba(212, 255, 0, 0.1);
+        border: 1px solid rgba(212, 255, 0, 0.3);
+        border-radius: 999px;
+        padding: 0.4rem 0.9rem;
+        text-transform: uppercase;
+      }
+      .hero-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+      #hero h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(2.4rem, 7vw, 4.2rem);
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+        margin: 1.5rem 0 0;
+      }
+      #hero h1 .grad {
+        background: linear-gradient(120deg, var(--accent), #ecff80 40%, #fff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hero-lede { color: var(--text-2); font-weight: 300; max-width: 40rem; margin: 1.4rem auto 0; font-size: 1rem; }
+      .hero-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-top: 2rem; }
+      .chip {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.05em;
+        color: var(--text-2);
+        border: 1px solid var(--hair-2);
+        background: rgba(0,0,0,0.4);
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+      }
+      .chip b { color: var(--accent); font-weight: 700; }
+      .jumpbar { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-top: 2.2rem; }
+      .jumpbar a {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--accent);
+        background: #000;
+        border: 1px solid rgba(212, 255, 0, 0.2);
+        border-radius: 10px;
+        padding: 0.6rem 1rem;
+        transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      }
+      .jumpbar a:hover { border-color: var(--accent); background: rgba(212, 255, 0, 0.05); }
+      .jumpbar a:active { transform: scale(0.96); }
+
+      /* ─────────────────────────  CARDS / GRID  ───────────────────────── */
+      .grid { display: grid; gap: 1rem; }
+      .cols-2 { grid-template-columns: repeat(2, 1fr); }
+      .cols-3 { grid-template-columns: repeat(3, 1fr); }
+      .cols-4 { grid-template-columns: repeat(4, 1fr); }
+      @media (max-width: 860px) { .cols-3, .cols-4 { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 560px) { .cols-2, .cols-3, .cols-4 { grid-template-columns: 1fr; } }
+
+      .card {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid var(--hair);
+        border-radius: 1rem;
+        padding: 1.4rem;
+        transition: border-color 0.2s, transform 0.2s;
+      }
+      .card:hover { border-color: var(--hair-2); }
+      .card.accent-top::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 1.5rem; right: 1.5rem;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      }
+      .card h4 {
+        margin: 0 0 0.4rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #fff;
+      }
+      .card p { margin: 0; color: var(--text-2); font-weight: 300; font-size: 0.82rem; }
+
+      /* numbered steps */
+      .steps { display: grid; gap: 0.9rem; counter-reset: step; }
+      .step {
+        display: grid;
+        grid-template-columns: 2.6rem 1fr;
+        align-items: start;
+        gap: 1rem;
+        background: var(--panel);
+        border: 1px solid var(--hair);
+        border-radius: 0.9rem;
+        padding: 1.1rem 1.2rem;
+      }
+      .step .n {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .step p { margin: 0; color: var(--text-2); font-size: 0.88rem; font-weight: 300; }
+      .step p strong { color: var(--text); font-weight: 600; }
+
+      /* ─────────────────────────  TABLES  ───────────────────────── */
+      .table-scroll { overflow-x: auto; border: 1px solid var(--hair); border-radius: 0.9rem; }
+      table.knobs { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 30rem; }
+      table.knobs th, table.knobs td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--hair); vertical-align: top; }
+      table.knobs tr:last-child td { border-bottom: none; }
+      table.knobs th {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--text-3);
+        font-weight: 700;
+        background: rgba(0,0,0,0.3);
+      }
+      table.knobs td.name { font-family: var(--font-mono); font-weight: 700; color: var(--accent); white-space: nowrap; }
+      table.knobs td.range { font-family: var(--font-mono); color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+      table.knobs td.desc { color: var(--text-2); font-weight: 300; }
+
+      /* ─────────────────────────  KNOB STRIP  ───────────────────────── */
+      .knob-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+        padding: 1.4rem;
+        background: rgba(0,0,0,0.35);
+        border: 1px solid var(--hair);
+        border-radius: 1rem;
+      }
+      .knob-hint {
+        width: 100%;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        color: var(--text-4);
+        text-transform: uppercase;
+        margin-bottom: 0.4rem;
+      }
+      .knob {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        user-select: none;
+        background: rgba(0,0,0,0.4);
+        padding: 0.9rem 0.5rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(255,255,255,0.03);
+        transition: border-color 0.2s;
+        min-width: 5.2rem;
+      }
+      .knob:hover { border-color: rgba(255,255,255,0.09); }
+      .knob-dial {
+        position: relative;
+        width: 4.5rem; height: 4.5rem;
+        cursor: ns-resize;
+        touch-action: none;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .knob-dial svg { width: 100%; height: 100%; transform: rotate(135deg); }
+      .knob-dial svg circle { transition: stroke-dashoffset 0.06s linear; }
+      .knob-val {
+        position: absolute;
+        inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-family: var(--font-mono);
+        font-weight: 800;
+        font-size: 1.15rem;
+        letter-spacing: -0.03em;
+        color: var(--accent);
+        pointer-events: none;
+      }
+      .knob-label {
+        margin-top: 0.55rem;
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: rgba(255,255,255,0.9);
+        text-align: center;
+        line-height: 1;
+      }
+      .knob-tip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-bottom: 0.5rem;
+        width: 9rem;
+        background: #09090b;
+        border: 1px solid #18181b;
+        border-radius: 6px;
+        padding: 0.5rem;
+        text-align: center;
+        font-family: var(--font-mono);
+        z-index: 40;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.15s;
+        pointer-events: none;
+      }
+      .knob:hover .knob-tip { opacity: 1; visibility: visible; }
+      .knob-tip .t-name { display: block; color: var(--accent); font-weight: 700; font-size: 0.6rem; margin-bottom: 0.2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+      .knob-tip .t-desc { display: block; color: var(--text-2); font-size: 0.62rem; font-weight: 300; line-height: 1.4; }
+
+      /* ─────────────────────────  LANE DIAGRAM  ───────────────────────── */
+      .lanes { display: grid; gap: 0.5rem; margin-top: 1.5rem; }
+      .lane-row {
+        display: grid;
+        grid-template-columns: 6.5rem 1fr;
+        align-items: center;
+        gap: 1rem;
+        background: var(--panel);
+        border: 1px solid var(--hair);
+        border-left-width: 3px;
+        border-radius: 0.6rem;
+        padding: 0.85rem 1rem;
+      }
+      .lane-row .lane-name { font-family: var(--font-mono); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; }
+      .lane-row .lane-desc { color: var(--text-2); font-size: 0.8rem; font-weight: 300; }
+
+      /* ─────────────────────────  ALGORITHMS  ───────────────────────── */
+      .algo-controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 1.8rem; }
+      .algo-search {
+        flex: 1 1 14rem;
+        min-width: 12rem;
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        color: var(--text);
+        background: #000;
+        border: 1px solid var(--hair-2);
+        border-radius: 10px;
+        padding: 0.65rem 0.9rem;
+      }
+      .algo-search::placeholder { color: var(--text-4); }
+      .algo-count { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-3); letter-spacing: 0.1em; white-space: nowrap; }
+      .algo-count b { color: var(--accent); }
+      .filter-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+      .filter-tabs button {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        background: rgba(0,0,0,0.4);
+        border: 1px solid var(--hair);
+        border-radius: 999px;
+        padding: 0.45rem 0.85rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .filter-tabs button:hover { color: var(--text); border-color: var(--hair-2); }
+      .filter-tabs button.active { color: #000; background: var(--accent); border-color: var(--accent); }
+
+      .algo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.8rem; }
+      @media (max-width: 860px) { .algo-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 560px) { .algo-grid { grid-template-columns: 1fr; } }
+      .algo-card {
+        position: relative;
+        background: var(--panel);
+        border: 1px solid var(--hair);
+        border-radius: 0.9rem;
+        padding: 1.2rem;
+        transition: border-color 0.2s, transform 0.15s;
+      }
+      .algo-card:hover { border-color: rgba(212,255,0,0.25); transform: translateY(-2px); }
+      .algo-card .algo-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+      .algo-card .algo-id { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-4); }
+      .algo-card h4 { margin: 0.5rem 0 0.15rem; font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: #fff; }
+      .algo-card .algo-type { font-family: var(--font-mono); font-size: 0.58rem; color: var(--accent-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+      .algo-card p { margin: 0.7rem 0 0; color: var(--text-2); font-size: 0.78rem; font-weight: 300; line-height: 1.55; }
+      .badge {
+        font-family: var(--font-mono);
+        font-size: 0.5rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.45rem;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .badge.free { color: var(--accent); background: rgba(212,255,0,0.1); border: 1px solid rgba(212,255,0,0.3); }
+      .badge.pro  { color: var(--text-3); background: rgba(255,255,255,0.03); border: 1px solid var(--hair-2); }
+      .algo-empty { grid-column: 1 / -1; text-align: center; color: var(--text-3); font-family: var(--font-mono); font-size: 0.8rem; padding: 3rem 0; }
+
+      /* ─────────────────────────  MISC LISTS  ───────────────────────── */
+      .taglist { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 1rem; }
+      .taglist span {
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--text-2);
+        border: 1px solid var(--hair);
+        background: rgba(0,0,0,0.3);
+        border-radius: 7px;
+        padding: 0.4rem 0.7rem;
+      }
+      .group-title { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-3); margin: 1.4rem 0 0.3rem; font-weight: 700; }
+      ul.plain { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.55rem; }
+      ul.plain li { color: var(--text-2); font-size: 0.86rem; font-weight: 300; padding-left: 1.1rem; position: relative; }
+      ul.plain li::before { content: "•"; color: var(--accent); position: absolute; left: 0; }
+      ul.plain li strong { color: var(--text); font-weight: 600; }
+
+      .callout {
+        border-left: 2px solid var(--accent);
+        background: rgba(212,255,0,0.04);
+        border-radius: 0 0.6rem 0.6rem 0;
+        padding: 0.9rem 1.1rem;
+        margin-top: 1.2rem;
+      }
+      .callout p { margin: 0; color: var(--text-2); font-size: 0.85rem; font-weight: 300; }
+      .callout p strong { color: var(--accent); font-weight: 700; }
+
+      /* ─────────────────────────  FOOTER  ───────────────────────── */
+      footer {
+        position: relative;
+        z-index: 10;
+        border-top: 1px solid var(--hair);
+        background: #000;
+        padding: 4rem 1.5rem 3rem;
+      }
+      .footer-inner { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; }
+      @media (max-width: 760px) { .footer-inner { grid-template-columns: 1fr; gap: 2rem; } }
+      footer .word { font-family: var(--font-display); font-weight: 900; font-size: 1.1rem; letter-spacing: 0.22em; background: linear-gradient(90deg, var(--accent), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      footer p { font-family: var(--font-body); font-size: 0.72rem; font-weight: 300; color: var(--text-4); margin: 0.9rem 0 0; max-width: 20rem; line-height: 1.6; }
+      footer .col-title { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--text-2); letter-spacing: 0.05em; }
+      footer ul { list-style: none; padding: 0; margin: 0.8rem 0 0; display: grid; gap: 0.5rem; }
+      footer li { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 300; color: var(--text-4); }
+      footer li.hot { color: #fff; font-weight: 700; }
+      footer li.link { color: var(--text-3); }
+
+      .backtop {
+        position: fixed;
+        bottom: 1.5rem; right: 1.5rem;
+        z-index: 45;
+        width: 2.8rem; height: 2.8rem;
+        border-radius: 50%;
+        background: #000;
+        border: 1px solid rgba(212,255,0,0.25);
+        color: var(--accent);
+        font-size: 1.1rem;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s, border-color 0.15s;
+      }
+      .backtop.show { opacity: 1; visibility: visible; }
+      .backtop:hover { border-color: var(--accent); }
+    </style>
+  </head>
+
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+
+    <!-- ─────────────────────────  NAV  ───────────────────────── -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#hero" aria-label="VEKTE manual home">
+          <span class="word">VEKTE</span>
+          <span class="sub">vāld.labs</span>
+        </a>
+        <span class="nav-badge">USER MANUAL · 1.2</span>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <nav class="nav-links" id="navLinks" aria-label="Manual sections"></nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- ───────────  HERO  ─────────── -->
+      <section id="hero">
+        <div class="wrap">
+          <span class="hero-pill"><span class="dot"></span>VST3 · AUv3 · STANDALONE</span>
+          <h1>The <span class="grad">VEKTE</span> manual.</h1>
+          <p class="hero-lede">
+            A 16-channel generative MIDI sequencer. Five lanes per channel, 36 deterministic
+            algorithms, per-lane modulation, chords and strum. This is the complete reference —
+            every knob, every algorithm, every routing path.
+          </p>
+          <div class="hero-chips">
+            <span class="chip"><b>16</b> channels</span>
+            <span class="chip"><b>5</b> lanes each</span>
+            <span class="chip"><b>36</b> algorithms</span>
+            <span class="chip"><b>73</b> scales</span>
+            <span class="chip"><b>39</b> chords</span>
+          </div>
+          <div class="jumpbar" id="jumpbar"></div>
+        </div>
+      </section>
+
+      <!-- Sections are injected here by JS renderers, in order -->
+      <div id="sections"></div>
+    </main>
+
+    <!-- ─────────────────────────  FOOTER  ───────────────────────── -->
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <span class="word">VEKTE</span>
+          <p>VEKTE, its interface, algorithm implementations, and generative engine are intellectual property under development by Våld Labs.</p>
+          <p>© 2026 Våld Labs. All rights reserved.</p>
+        </div>
+        <div>
+          <span class="col-title">RESOURCES</span>
+          <ul>
+            <li class="hot">• User Manual (this page)</li>
+            <li class="link"><a href="/vekte">• VEKTE overview &amp; download</a></li>
+            <li class="link"><a href="https://valdlabs.com/privacy" target="_blank" rel="noopener noreferrer">• Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="col-title">VALDLABS SUITE</span>
+          <ul>
+            <li class="hot">• VEKTE — 36-Algorithm Generative MIDI Sequencer</li>
+            <li>• TRESSE — Macro Oscillator Synth</li>
+            <li>• REKKE — Hardware Sequencer (in development)</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <button class="backtop" id="backtop" aria-label="Back to top">↑</button>
+
+    <script>
+      /* ════════════════════════════════════════════════════════════════════
+         DATA — edit these arrays to update the manual. The page renders from them.
+         ════════════════════════════════════════════════════════════════════ */
+
+      // 36 generative algorithms — mirrors SYNTH_ENGINES in vekte 3/src/types.ts
+      const ALGORITHMS = [
+        { id: 0,  name: 'Euclidean',       type: 'rhythm + pitch',   free: true,  category: 'rhythm-driven',       desc: 'Bjorklund even distribution. Spreads hits as evenly as possible over step counts. Creates world rhythms and foundational loops.' },
+        { id: 1,  name: 'Random Walk',     type: 'pitch only',       free: true,  category: 'melodic-markov',      desc: 'Pitch walker drifting through note space. A point wanders up and down through a pitch range, moving by random amounts with gravity pull.' },
+        { id: 2,  name: 'Kaprekar',        type: 'pitch + structure',free: false, category: 'algorithmic-fractal', desc: "Takes a 4-digit seed, sorts digits ascending and descending, subtracts, and repeats. The orbits converge to Kaprekar's constant." },
+        { id: 3,  name: 'Fibonacci',       type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'Fibonacci sequence terms modulo a range mapped onto pitch. Triggers fire on regular intervals with a probabilistic wrap fill.' },
+        { id: 4,  name: 'Primes',          type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'Walks the prime number sequence, mapping values into a pitch range. Gated by prime stride divisibility tests.' },
+        { id: 5,  name: 'Thue-Morse',      type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'Parity bit sequence indexed by binary indicators. Self-similar, never-repeating fractal driving trigger hits and 8-note pitch maps.' },
+        { id: 6,  name: 'Kolakoski',       type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'A run-length self-describing sequence over {1,2} or {1,2,3} alphabets that indexes structural pitch maps with gated note-on triggers.' },
+        { id: 7,  name: 'Cell. Automata',  type: 'rhythm + pitch',   free: true,  category: 'chaotic-cellular',    desc: '1D Wolfram cellular automaton running rule sets (e.g. 110, 90). Pitch represents cell lifespans across historical generations.' },
+        { id: 8,  name: 'Markov',          type: 'rhythm + pitch',   free: false, category: 'melodic-markov',      desc: 'Dynamic Markov chain walking pitch states. Weights next notes on softmax distance to running averages and remembered echoes.' },
+        { id: 9,  name: 'L-Systems',       type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'Lindenmayer string rewriting from axiom rules. Symbols map to custom pitches and note-trigger patterns.' },
+        { id: 10, name: 'Logistic Map',    type: 'rhythm + pitch',   free: false, category: 'chaotic-cellular',    desc: 'Textbook route to chaos (x = r·x·(1−x)). Settles in neat cycles below 3.57 and enters chaotic orbits up to 3.99.' },
+        { id: 11, name: 'Polyrhythm',      type: 'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'Three independent, coprime metronome clocks running parallel ratios. Active layer combinations map to three pitch tiers.' },
+        { id: 12, name: 'Bresenham',       type: 'rhythm + pitch',   free: false, category: 'rhythm-driven',       desc: 'The classic integer line-drawing routine as a rhythmic divider. Height-rise coordinates dictate pitch heights.' },
+        { id: 13, name: 'Voice Leading',   type: 'pitch only',       free: false, category: 'melodic-markov',      desc: 'Smooth part-writing solver. Restricts voice jumps, follows contour biases, and maintains register gravity anchors.' },
+        { id: 14, name: 'Cantor Set',      type: 'rhythm + pitch',   free: false, category: 'rhythm-driven',       desc: 'Recursive middle-thirds removal producing fractal dust rhythm grids. Empty nodes fill probabilistically over a 6-note map.' },
+        { id: 15, name: 'Penrose',         type: 'rhythm + pitch',   free: false, category: 'algorithmic-fractal', desc: 'Inflation-based quasiperiodic sequence substituting Long (L) and Short (S) tile lengths without repeating exact macro patterns.' },
+        { id: 16, name: 'Harmonic Series', type: 'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'Integer overtone partials above adjustable scale fundamentals, scanning window arrays of complex acoustic fractions.' },
+        { id: 17, name: 'Lissajous',       type: 'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'Dual coprime sine generators mapping 2D planar intersections into trigger nodes and dynamic pitch ranges.' },
+        { id: 18, name: 'Drunk w/ Memory', type: 'pitch only',       free: false, category: 'melodic-markov',      desc: 'A drunkard walk that tracks visit histories to attract or repel from occupied spaces — cycling loops or seeking ranges.' },
+        { id: 19, name: 'Sieve (Xenakis)', type: 'rhythm-dominant',  free: true,  category: 'rhythm-driven',       desc: "Xenakis's modular residue sieves combined with Boolean operators (AND, OR, XOR) to generate complex non-octave rhythms." },
+        { id: 20, name: 'Bouncing Ball',   type: 'rhythm + pitch',   free: false, category: 'rhythm-driven',       desc: 'Decaying bouncing-ball simulator under gravity. Accelerating ratios build on restitution damping spikes.' },
+        { id: 21, name: 'Call & Response', type: 'rhythm + pitch',   free: false, category: 'melodic-markov',      desc: 'Alternates call segments with responses processed by retrograde, inversion, transposition, or augmentation transforms.' },
+        { id: 22, name: 'Tension Curve',   type: 'rhythm + pitch',   free: false, category: 'melodic-markov',      desc: 'Aligns notes on tension arcs — consonant pitches in valleys, high chromatic dissonance on peak crests.' },
+        { id: 23, name: 'Game of Life',    type: 'rhythm + pitch',   free: false, category: 'chaotic-cellular',    desc: "Conway's 2D game of life. Grid slice columns map to pitch values and active rows to note triggers." },
+        { id: 24, name: 'Gravity Wells',   type: 'pitch only',       free: false, category: 'physical-physics',    desc: 'Two orbital gravity wells swing a mass back and forth in continuous pitch trajectories with variable damping.' },
+        { id: 25, name: 'Entropy Gradient',type: 'rhythm + pitch',   free: false, category: 'chaotic-cellular',    desc: 'Takes an ordered motif and progressively injects entropy to dissolve order into complete noise.' },
+        { id: 26, name: 'Wave Interference',type:'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'Combines multiple base-frequency sine loops. Triggers and pitch register along the tallest combined peaks.' },
+        { id: 27, name: 'String Resonance',type: 'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'Simulates sympathetic string resonance, raising the probability of adjacent consonant notes with selectable decay.' },
+        { id: 28, name: 'Run-Length',      type: 'rhythm-dominant',  free: false, category: 'rhythm-driven',       desc: 'Run-Length Encoding of 8-bit seed patterns, stretched or compressed over configurable dilation multipliers.' },
+        { id: 29, name: 'Turing Pattern',  type: 'rhythm + pitch',   free: true,  category: 'chaotic-cellular',    desc: 'Gray-Scott reaction-diffusion sim. Evolved stripe/spot patterns resolve to triggers and microtonal value sweeps.' },
+        { id: 30, name: 'Flocking',        type: 'pitch-dominant',   free: true,  category: 'physical-physics',    desc: 'Three-rule boids flocking (cohesion, separation, alignment). Pitch arrays map to individual flock positions.' },
+        { id: 31, name: 'Isorhythm',       type: 'rhythm + pitch',   free: false, category: 'rhythm-driven',       desc: 'Medieval isorhythm: a rhythmic talea and a melodic color of unequal length cycle against each other, realigning only at their least common multiple.' },
+        { id: 32, name: 'Tonnetz Walk',    type: 'pitch + structure',free: false, category: 'melodic-markov',      desc: 'Triads walk the neo-Riemannian Tonnetz lattice by parallel, leading-tone and relative moves, arpeggiated into smooth, voice-led progressions.' },
+        { id: 33, name: 'Pendulum Waves',  type: 'rhythm + pitch',   free: false, category: 'physical-physics',    desc: 'A bank of detuned pendulums at integer-ratio cycles phase apart into shimmering polyrhythms then snap back to unison, with optional damping.' },
+        { id: 34, name: 'Tether',          type: 'pitch only',       free: false, category: 'melodic-markov',      desc: 'An elastic random walk always pulled back toward a home pitch, with adjustable pull, noise and a heavy-tail chance of larger jumps.' },
+        { id: 35, name: 'Voss 1/f',        type: 'rhythm + pitch',   free: false, category: 'chaotic-cellular',    desc: 'The Voss-McCartney 1/f fractal noise algorithm: layered counters produce the pink-noise contour that sounds musically natural, with smoothing and spectral tilt.' }
+      ];
+
+      // Algorithm family filter — label + which categories it maps to
+      const ALGO_FAMILIES = [
+        { key: 'all',                 label: 'All' },
+        { key: 'rhythm-driven',       label: 'Rhythmic' },
+        { key: 'melodic-markov',      label: 'Melodic / Markov' },
+        { key: 'algorithmic-fractal', label: 'Number / Fractal' },
+        { key: 'chaotic-cellular',    label: 'Chaos / Cellular' },
+        { key: 'physical-physics',    label: 'Physics / Wave' }
+      ];
+
+      // NOTE-lane knobs (MANUAL.md §3)
+      const NOTE_KNOBS = [
+        { id: 'MIDI',  range: '1–16',       desc: 'Output MIDI channel for this slot.' },
+        { id: 'STEPS', range: '1–32',       desc: 'Playback window length over the 32-step pattern.' },
+        { id: 'DENSE', range: '0–100',      desc: 'Deterministic note-density sculptor (adds / removes on-steps).' },
+        { id: 'STRUM', range: '−100…+100',  desc: 'Spread chord voices over time (needs a chord).' },
+        { id: 'OCT+',  range: 'octave',     desc: 'Top of the note range.' },
+        { id: 'OCT−',  range: 'octave',     desc: 'Bottom of the note range.' },
+        { id: 'BASE',  range: '0–24',       desc: 'Root note, snapped to the scale.' },
+        { id: 'PROB',  range: '0–100',      desc: 'Probability each on-step actually fires.' },
+        { id: 'ROT',   range: '−16…+16',    desc: 'Rotate the pattern window (bipolar).' },
+        { id: 'TIE%',  range: '0–100',      desc: 'Sustain toward the next note (with TIE on).' },
+        { id: 'P1–P4', range: 'per algo',   desc: "The selected algorithm's four parameters — the source of truth for the pattern." }
+      ];
+
+      // Knobs shown live in the NOTE-lane demo strip (subset with numeric 0–100 feel)
+      const NOTE_DEMO = [
+        { id: 'STEPS', label: 'STEPS', value: 16, min: 0,    max: 32,  def: 16, bipolar: false, desc: 'Playback window length over the 32-step pattern.' },
+        { id: 'DENSE', label: 'DENSE', value: 50, min: 0,    max: 100, def: 50, bipolar: false, desc: 'Deterministic density sculptor.' },
+        { id: 'PROB',  label: 'PROB',  value: 80, min: 0,    max: 100, def: 80, bipolar: false, desc: 'Gate trigger probability.' },
+        { id: 'ROT',   label: 'ROT',   value: 0,  min: -16,  max: 16,  def: 0,  bipolar: true,  desc: 'Rotate the pattern window (bipolar).' },
+        { id: 'STRUM', label: 'STRUM', value: 0,  min: -100, max: 100, def: 0,  bipolar: true,  desc: 'Spread chord voices in time.' },
+        { id: 'TIE%',  label: 'TIE%',  value: 50, min: 0,    max: 100, def: 50, bipolar: false, desc: 'Sustain toward the next note.' }
+      ];
+
+      // MOD-lane knobs (MANUAL.md §4)
+      const MOD_KNOBS = [
+        { id: 'STEPS', range: '1–32',      desc: 'Window length of this MOD lane.' },
+        { id: 'ROT',   range: '−16…+16',   desc: 'Rotate the MOD window (bipolar).' },
+        { id: 'MIN',   range: '0–100',     desc: 'Bottom of the output band the value sweeps.' },
+        { id: 'MAX',   range: '0–100',     desc: 'Top of the output band the value sweeps.' },
+        { id: 'P1–P4', range: 'per algo',  desc: "The selected algorithm's four parameters." }
+      ];
+
+      const MOD_DEMO = [
+        { id: 'STEPS', label: 'STEPS', value: 16, min: 0, max: 32,  def: 16, bipolar: false, desc: 'MOD window length.' },
+        { id: 'ROT',   label: 'ROT',   value: 0,  min: -16, max: 16, def: 0,  bipolar: true,  desc: 'Rotate MOD window.' },
+        { id: 'MIN',   label: 'MIN',   value: 0,  min: 0, max: 100, def: 0,   bipolar: false, desc: 'Output floor.' },
+        { id: 'MAX',   label: 'MAX',   value: 100,min: 0, max: 100, def: 100, bipolar: false, desc: 'Output ceiling.' },
+        { id: 'P1',    label: 'P1',    value: 40, min: 0, max: 100, def: 40,  bipolar: false, desc: 'Algorithm parameter 1.' },
+        { id: 'P2',    label: 'P2',    value: 60, min: 0, max: 100, def: 60,  bipolar: false, desc: 'Algorithm parameter 2.' }
+      ];
+
+      // MOD targets grouped (MANUAL.md §4)
+      const MOD_TARGETS = [
+        { group: 'None',        items: ['Runs but writes nowhere'] },
+        { group: 'Performance', items: ['Velocity', 'Length', 'CC (pick CC# in the adjacent dropdown)'] },
+        { group: 'Pitch',       items: ['Transpose (in-scale)', 'Scale (within family)', 'Chord (within family)', 'Octave'] },
+        { group: 'Generator shape', items: ['Steps', 'Rotation', 'Prob', 'Dense', 'Trail', 'Strum'] },
+        { group: 'Algo params', items: ["Any NOTE or MOD lane's P1–P4"] }
+      ];
+
+      // Playhead modes (MANUAL.md §6)
+      const PLAYHEAD_MODES = [
+        { name: 'Forward',      desc: 'Step order low → high.' },
+        { name: 'Reverse',      desc: 'Step order high → low.' },
+        { name: 'Q-Reverse',    desc: 'Reversed step order, each step still runs its internal motion forward.' },
+        { name: 'Ping-Pong',    desc: 'Sweeps up then back down.' },
+        { name: 'Q-Ping-Pong',  desc: 'Ping-pong order with forward internal motion per step.' },
+        { name: 'Random',       desc: 'Picks a random step each tick.' },
+        { name: 'Brownian',     desc: 'Random walk — drifts to neighbouring steps.' },
+        { name: 'Rnd-Skip',     desc: 'Forward but randomly skips steps.' },
+        { name: 'Bounce-4',     desc: 'Bounces within a moving 4-step window.' }
+      ];
+
+      // Scale + chord families (MANUAL.md §7)
+      const SCALE_FAMILIES = ['Diatonic / Modes', 'Pentatonic / Blues', 'Minor variants', 'Major variants', 'Symmetric / Synthetic', 'World / Exotic', 'Greek / Tritone', 'Microtonal / xET'];
+      const CHORD_FAMILIES = ['Triads / Majors', 'Triads / Minors', 'Dominant', 'Suspended / Power / Quartal', 'Diminished / Augmented'];
+
+      // Slot behaviour (MANUAL.md §8)
+      const SLOT_ACTIONS = [
+        { id: 'Single tap',  desc: 'Select the slot — its channel fills the lanes for editing.' },
+        { id: 'Double tap',  desc: 'Mute / unmute (silences output; the playhead keeps moving).' },
+        { id: 'Drag',        desc: 'Reorder slots freely (swap positions).' },
+        { id: 'Indicator',   desc: 'NOTE blink + tie fade, plus four mod-output bars whose width = live mod amount.' }
+      ];
+
+      // MIDI routing (MANUAL.md §9)
+      const ROUTING = [
+        { os: 'macOS',   body: 'VEKTE publishes a CoreMIDI virtual port named <b>“VEKTE”</b>. Set each destination track’s <b>MIDI From / input</b> to VEKTE and choose the channel (1–16). In Ableton Live this is the reliable path — Live flattens track-to-track MIDI to channel 1, so the virtual port + input channel filter preserves channels.' },
+        { os: 'Windows', body: 'No built-in virtual MIDI. Install <b>loopMIDI</b> (free), create a port, then in <b>Menu → MIDI Output</b> choose that port. Route your DAW tracks from that port + channel filter.' },
+        { os: 'Reaper / Bitwig / Cubase', body: 'These pass MIDI channels through device chains — use the bundled <b>Vekte2Live</b> helper after VEKTE, or filter by channel on the receiving track.' }
+      ];
+
+      // Presets & menu (MANUAL.md §11)
+      const MENU_ITEMS = [
+        { id: 'Copy / Paste Channel', desc: 'Current channel as a shareable VKT text key (clipboard).' },
+        { id: 'Save / Load Channel…', desc: 'One channel to a .vekte file.' },
+        { id: 'Copy / Paste Song',    desc: 'All 16 channels at once.' },
+        { id: 'Save / Load Song…',    desc: 'All 16 channels to a file.' },
+        { id: 'MIDI Output…',         desc: 'Choose the virtual / loopMIDI port (plugin).' },
+        { id: 'CHAOS',                desc: 'Randomize all lanes.' }
+      ];
+
+      const TIPS = [
+        'Hover any control for a tooltip.',
+        '<b>LOCK</b> a lane you like, then <b>RND</b> / <b>CHAOS</b> the rest.',
+        '<b>AUTO</b> + a small <b>ROT</b> gives slowly evolving patterns.',
+        'Use <b>CRV</b> on a MOD → CC lane for smooth filter / parameter sweeps.',
+        'Layer two slots on one channel for thicker parts (e.g. <code class="k">1a</code> + <code class="k">1b</code>).'
+      ];
+
+      // Section registry — drives nav, jump bar, and scroll-spy. `render` builds the body.
+      const SECTIONS = [
+        { id: 'quick-start', nav: 'Quick Start',  title: 'Quick start',        eyebrow: 'Get running',        intro: 'Five steps from insert to sound.' },
+        { id: 'layout',      nav: 'Layout',        title: 'Layout',             eyebrow: 'The window',         intro: 'The header, the five lanes, and what lives on each lane.' },
+        { id: 'note-lane',   nav: 'NOTE Lane',     title: 'The NOTE lane',      eyebrow: 'Pitched notes',      intro: 'Generates pitched notes. The algorithm choice + P1–P4 are the deterministic source of truth.' },
+        { id: 'mod-lanes',   nav: 'MOD Lanes',     title: 'MOD lanes (1–4)',    eyebrow: 'Modulation',         intro: 'Each MOD lane runs its own algorithm to produce a 0–1 value sequence, then writes it to a target.' },
+        { id: 'algorithms',  nav: 'Algorithms',    title: 'Algorithms',         eyebrow: '36 generators',      intro: 'Every lane can run any of these. Filter by family or search. FREE algorithms work in the open beta; PRO ones are premium.' },
+        { id: 'playhead',    nav: 'Playhead',      title: 'Playhead modes (Q)', eyebrow: 'Direction',          intro: '“Q” variants reverse the step order but keep each step’s internal motion forward.' },
+        { id: 'scales',      nav: 'Scales / Chords',title: 'Scales & chords',   eyebrow: 'Pitch material',     intro: '73 scales and 39 chords, grouped by family. MOD lanes targeting Scale or Chord sweep within the current family.' },
+        { id: 'channels',    nav: 'Channels',      title: 'Channels & slots',   eyebrow: '16 slots',           intro: 'The 16 header buttons are slots. Each edits one channel and sends MIDI on a chosen output channel.' },
+        { id: 'routing',     nav: 'MIDI Routing',  title: 'MIDI routing',       eyebrow: 'Output',             intro: 'VEKTE emits all 16 channels on one MIDI port. How you route depends on your platform and host.' },
+        { id: 'strum',       nav: 'Strum',         title: 'Strum',              eyebrow: 'Chord spread',       intro: 'STRUM spreads a chord’s voices across time instead of playing them at once.' },
+        { id: 'presets',     nav: 'Presets & Menu',title: 'Presets & menu',     eyebrow: 'Save & recall',      intro: 'Patterns are fully recallable — the same algorithm + knobs reproduce the same notes.' },
+        { id: 'tips',        nav: 'Tips',          title: 'Tips',               eyebrow: 'Get more out of it',  intro: 'A few habits that pay off.' }
+      ];
+
+      /* ════════════════════════════════════════════════════════════════════
+         RENDERERS
+         ════════════════════════════════════════════════════════════════════ */
+
+      const el = (tag, cls, html) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (html != null) n.innerHTML = html;
+        return n;
+      };
+
+      // ── Draggable SVG knob (ported from InteractiveKnob in App.tsx) ──
+      function makeKnob(k) {
+        const R = 35, C = 2 * Math.PI * R, ARC = C * 0.75; // 270° arc
+        const wrap = el('div', 'knob');
+        wrap.innerHTML = `
+          <div class="knob-tip">
+            <span class="t-name">${k.label}</span>
+            <span class="t-desc">${k.desc || ''}</span>
+          </div>
+          <div class="knob-dial" tabindex="0" role="slider"
+               aria-label="${k.label}" aria-valuemin="${k.min}" aria-valuemax="${k.max}">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="${R}" fill="transparent" stroke="var(--track)"
+                      stroke-width="9" stroke-linecap="round"
+                      stroke-dasharray="${ARC} ${C}"></circle>
+              <circle class="active" cx="50" cy="50" r="${R}" fill="transparent" stroke="var(--accent)"
+                      stroke-width="9" stroke-linecap="round"
+                      stroke-dasharray="${ARC} ${C}"></circle>
+            </svg>
+            <div class="knob-val"></div>
+          </div>
+          <span class="knob-label">${k.label}</span>`;
+
+        const dial   = wrap.querySelector('.knob-dial');
+        const active = wrap.querySelector('circle.active');
+        const valEl  = wrap.querySelector('.knob-val');
+        let value = k.value;
+
+        function paint() {
+          const pct = (value - k.min) / (k.max - k.min);      // 0..1 across full travel
+          active.setAttribute('stroke-dashoffset', ARC - pct * ARC);
+          valEl.textContent = (k.bipolar && value > 0 ? '+' : '') + value;
+          dial.setAttribute('aria-valuenow', value);
+        }
+        function set(v) { value = Math.max(k.min, Math.min(k.max, Math.round(v))); paint(); }
+
+        // vertical drag → value (same sensitivity as the site)
+        let dragging = false, startY = 0, startVal = 0;
+        const sens = 0.85, span = (k.max - k.min);
+        function down(clientY) { dragging = true; startY = clientY; startVal = value; document.body.style.cursor = 'ns-resize'; }
+        function move(clientY) { if (!dragging) return; const dy = startY - clientY; set(startVal + (dy * span) / (200 * sens)); }
+        function up() { if (dragging) { dragging = false; document.body.style.cursor = ''; } }
+
+        dial.addEventListener('mousedown', e => { e.preventDefault(); down(e.clientY); });
+        dial.addEventListener('touchstart', e => down(e.touches[0].clientY), { passive: true });
+        window.addEventListener('mousemove', e => move(e.clientY));
+        window.addEventListener('touchmove', e => { if (dragging) move(e.touches[0].clientY); }, { passive: true });
+        window.addEventListener('mouseup', up);
+        window.addEventListener('touchend', up);
+        dial.addEventListener('dblclick', () => set(k.def));
+        dial.addEventListener('keydown', e => {
+          const stepv = Math.max(1, Math.round(span / 20));
+          if (e.key === 'ArrowUp' || e.key === 'ArrowRight') { set(value + stepv); e.preventDefault(); }
+          else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') { set(value - stepv); e.preventDefault(); }
+          else if (e.key === 'Home') { set(k.def); e.preventDefault(); }
+        });
+
+        paint();
+        return wrap;
+      }
+
+      function knobStrip(defs, hint) {
+        const strip = el('div', 'knob-strip');
+        strip.appendChild(el('div', 'knob-hint', hint || 'Drag any dial vertically · double-click to reset'));
+        defs.forEach(d => strip.appendChild(makeKnob(d)));
+        return strip;
+      }
+
+      function knobTable(rows) {
+        const wrap = el('div', 'table-scroll');
+        const t = el('table', 'knobs');
+        t.innerHTML = '<thead><tr><th>Knob</th><th>Range</th><th>Function</th></tr></thead>';
+        const tb = el('tbody');
+        rows.forEach(r => {
+          const tr = el('tr');
+          tr.innerHTML = `<td class="name">${r.id}</td><td class="range">${r.range}</td><td class="desc">${r.desc}</td>`;
+          tb.appendChild(tr);
+        });
+        t.appendChild(tb);
+        wrap.appendChild(t);
+        return wrap;
+      }
+
+      function cardGrid(cols, items) {
+        const g = el('div', 'grid cols-' + cols);
+        items.forEach(it => {
+          const c = el('div', 'card');
+          c.innerHTML = `<h4>${it.id || it.name}</h4><p>${it.desc}</p>`;
+          g.appendChild(c);
+        });
+        return g;
+      }
+
+      // ── section builders keyed by id ──
+      const BUILDERS = {
+        'quick-start'(body) {
+          const steps = [
+            'Insert VEKTE on a MIDI / instrument track (on iOS: load the AUv3 in your host, or run the VEKTE app).',
+            'Start your DAW transport (or press <strong>Play</strong> in the iOS app).',
+            'Turn on a lane (the colored square at its left) — notes generate.',
+            'Pick an <strong>algorithm</strong> from the lane’s top-right dropdown to change the pattern.',
+            'Route VEKTE’s MIDI to your synth(s) — see <strong>MIDI routing</strong>.'
+          ];
+          const wrap = el('div', 'steps');
+          steps.forEach((s, i) => {
+            const st = el('div', 'step');
+            st.innerHTML = `<div class="n">${String(i + 1).padStart(2, '0')}</div><p>${s}</p>`;
+            wrap.appendChild(st);
+          });
+          body.appendChild(wrap);
+          body.appendChild(calloutHTML('The host transport drives the plugin. The iOS standalone app opens stopped and has its own Play / Stop.'));
+        },
+
+        'layout'(body) {
+          body.appendChild(subHead('Header'));
+          const hdr = [
+            { id: 'VEKTE logo + version', desc: 'Top-left.' },
+            { id: 'BPM box + EXT', desc: 'EXT lights when the host supplies tempo.' },
+            { id: 'Play / Stop', desc: 'iOS standalone only — the host transport runs the plugin.' },
+            { id: '16 channel slots', desc: 'Select / mute / reorder — see Channels & slots.' },
+            { id: 'Menu (hamburger)', desc: 'Presets, MIDI output, randomize.' }
+          ];
+          body.appendChild(cardGrid(3, hdr.map(h => ({ name: h.id, desc: h.desc }))));
+
+          body.appendChild(subHead('The five lanes'));
+          const lanes = [
+            { name: 'NOTE',  color: 'var(--note)', desc: 'Pitched notes. Scale, chord, SNGL, DRM, TIE.' },
+            { name: 'MOD 1', color: 'var(--mod1)', desc: 'Modulation lane → any target.' },
+            { name: 'MOD 2', color: 'var(--mod2)', desc: 'Modulation lane → any target.' },
+            { name: 'MOD 3', color: 'var(--mod3)', desc: 'Modulation lane → any target.' },
+            { name: 'MOD 4', color: 'var(--mod4)', desc: 'Modulation lane → any target.' }
+          ];
+          const lg = el('div', 'lanes');
+          lanes.forEach(l => {
+            const row = el('div', 'lane-row');
+            row.style.borderLeftColor = l.color;
+            row.innerHTML = `<span class="lane-name" style="color:${l.color}">${l.name}</span><span class="lane-desc">${l.desc}</span>`;
+            lg.appendChild(row);
+          });
+          body.appendChild(lg);
+          body.appendChild(calloutHTML('Every lane has: an <strong>enable</strong> square, <strong>RND</strong>, <strong>LOCK</strong>, <strong>AUTO</strong>, a <strong>Q</strong> playhead selector, a <strong>D:</strong> step division, an algorithm dropdown + description, plus knobs (left) and a visualization (right).'));
+        },
+
+        'note-lane'(body) {
+          body.appendChild(knobTable(NOTE_KNOBS));
+          body.appendChild(knobStrip(NOTE_DEMO, 'Illustrative NOTE-lane knobs — drag vertically, double-click to reset'));
+
+          body.appendChild(subHead('Determinism'));
+          body.appendChild(copy('The four algorithm knobs (<strong>P1–P4</strong>) + the algorithm choice are the source of truth. The same algorithm + knob settings always produce the same 32-step pattern. STEPS is a window over it, ROT navigates it, DENSE is a deterministic fill — all replicable across sessions.'));
+
+          body.appendChild(subHead('Octave stretch & scale-locked editing'));
+          body.appendChild(copy('The algorithm’s output is normalized to fill the chosen OCT−…OCT+ range and snapped to the scale, so the full range is always used. The piano-roll shows only in-scale rows; select <code class="k">Scale: NONE</code> for free chromatic editing.'));
+
+          body.appendChild(subHead('SNGL / DRM / TIE'));
+          const l = el('ul', 'plain');
+          l.innerHTML = `
+            <li><strong>SNGL</strong> (Single): collapse notes to the base pitch; the chord still plays.</li>
+            <li><strong>DRM</strong> (Drum): mono, base pitch only, no chord.</li>
+            <li><strong>TIE</strong>: notes sustain toward the next note by <strong>TIE%</strong> of the gap (0–100%). TIE% is dimmed when TIE is off.</li>`;
+          body.appendChild(l);
+        },
+
+        'mod-lanes'(body) {
+          body.appendChild(knobTable(MOD_KNOBS));
+          body.appendChild(copy('<strong>MIN / MAX</strong> set the output band the value sweeps within.'));
+          body.appendChild(knobStrip(MOD_DEMO, 'Illustrative MOD-lane knobs — drag vertically, double-click to reset'));
+
+          body.appendChild(subHead('Targets (T:)'));
+          MOD_TARGETS.forEach(g => {
+            body.appendChild(el('div', 'group-title', g.group));
+            const tl = el('div', 'taglist');
+            g.items.forEach(i => tl.appendChild(el('span', null, i)));
+            body.appendChild(tl);
+          });
+
+          body.appendChild(calloutHTML('<strong>CRV</strong> (curve): smooth Catmull-Rom interpolation between mod steps — great for glides, filter sweeps and evolving modulation. MOD lanes free-run (no forced quantization), so curves stay smooth. When a MOD lane drives an internal control, the matching NOTE knob shows the live modulated value.'));
+        },
+
+        'algorithms'(body) {
+          const controls = el('div', 'algo-controls');
+          const search = el('input', 'algo-search');
+          search.type = 'search';
+          search.placeholder = 'Search algorithms…';
+          search.setAttribute('aria-label', 'Search algorithms');
+          const count = el('div', 'algo-count');
+          controls.appendChild(search);
+          controls.appendChild(count);
+          body.appendChild(controls);
+
+          const tabs = el('div', 'filter-tabs');
+          ALGO_FAMILIES.forEach((f, i) => {
+            const b = el('button', i === 0 ? 'active' : null, f.label);
+            b.dataset.key = f.key;
+            tabs.appendChild(b);
+          });
+          body.appendChild(tabs);
+
+          const grid = el('div', 'algo-grid');
+          body.appendChild(grid);
+
+          let activeKey = 'all', query = '';
+          function draw() {
+            grid.innerHTML = '';
+            const list = ALGORITHMS.filter(a =>
+              (activeKey === 'all' || a.category === activeKey) &&
+              (query === '' || a.name.toLowerCase().includes(query) || a.desc.toLowerCase().includes(query))
+            );
+            count.innerHTML = `<b>${list.length}</b> / ${ALGORITHMS.length} shown`;
+            if (!list.length) { grid.appendChild(el('div', 'algo-empty', 'No algorithms match that search.')); return; }
+            list.forEach(a => {
+              const c = el('div', 'algo-card');
+              c.innerHTML = `
+                <div class="algo-head">
+                  <span class="algo-id">#${String(a.id).padStart(2, '0')}</span>
+                  <span class="badge ${a.free ? 'free' : 'pro'}">${a.free ? 'FREE' : 'PRO'}</span>
+                </div>
+                <h4>${a.name}</h4>
+                <span class="algo-type">${a.type}</span>
+                <p>${a.desc}</p>`;
+              grid.appendChild(c);
+            });
+          }
+          tabs.addEventListener('click', e => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            tabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+            activeKey = btn.dataset.key; draw();
+          });
+          search.addEventListener('input', () => { query = search.value.trim().toLowerCase(); draw(); });
+          draw();
+        },
+
+        'playhead'(body) { body.appendChild(cardGrid(3, PLAYHEAD_MODES)); },
+
+        'scales'(body) {
+          body.appendChild(subHead('73 scales — 8 families'));
+          const s = el('div', 'taglist'); SCALE_FAMILIES.forEach(f => s.appendChild(el('span', null, f)));
+          body.appendChild(s);
+          body.appendChild(copy('<code class="k">NONE</code> = chromatic (free editing).'));
+          body.appendChild(subHead('39 chords'));
+          const c = el('div', 'taglist'); CHORD_FAMILIES.forEach(f => c.appendChild(el('span', null, f)));
+          body.appendChild(c);
+          body.appendChild(calloutHTML('When a MOD lane targets Scale or Chord, it sweeps <strong>within the current family</strong> so changes stay musical.'));
+        },
+
+        'channels'(body) {
+          body.appendChild(knobTable(SLOT_ACTIONS.map(s => ({ id: s.id, range: '', desc: s.desc }))));
+          body.appendChild(calloutHTML('<strong>Output channel + grouping:</strong> set a slot’s output MIDI channel with the NOTE lane’s <strong>MIDI</strong> knob. Slots sharing a channel auto-group adjacently, get a faint box, and are labeled <code class="k">1a / 1b / 2a …</code> — so several slots can layer on one MIDI channel. A slot with no active lanes is faded; a muted slot is struck through.'));
+        },
+
+        'routing'(body) {
+          const g = el('div', 'grid cols-3');
+          ROUTING.forEach(r => {
+            const c = el('div', 'card accent-top');
+            c.innerHTML = `<h4>${r.os}</h4><p>${r.body}</p>`;
+            g.appendChild(c);
+          });
+          body.appendChild(g);
+        },
+
+        'strum'(body) {
+          body.appendChild(copy('<strong>STRUM</strong> (NOTE lane) spreads a chord’s voices across time instead of playing them at once. Range <code class="k">−100…+100</code>: positive strums low→high, negative high→low; the spread scales with note length. Only active when a chord is selected. STRUM can also be a MOD target for dynamic, evolving strums.'));
+          body.appendChild(knobStrip([
+            { id: 'STRUM', label: 'STRUM', value: 0, min: -100, max: 100, def: 0, bipolar: true, desc: 'Spread chord voices in time. + = low→high, − = high→low.' }
+          ], 'Bipolar — arc fills from center. Drag up for low→high, down for high→low'));
+        },
+
+        'presets'(body) {
+          body.appendChild(subHead('Menu (hamburger)'));
+          body.appendChild(knobTable(MENU_ITEMS.map(m => ({ id: m.id, range: '', desc: m.desc }))));
+          body.appendChild(calloutHTML('Patterns are fully recallable: the same algorithm + knobs reproduce the same notes, and edits / state save with the project.'));
+        },
+
+        'tips'(body) {
+          const l = el('ul', 'plain');
+          TIPS.forEach(t => { const li = el('li'); li.innerHTML = t; l.appendChild(li); });
+          body.appendChild(l);
+        }
+      };
+
+      // small helpers
+      function subHead(t) { return el('h3', 'sub', t); }
+      function copy(html) { return el('p', 'copy', html); }
+      function calloutHTML(html) { const c = el('div', 'callout'); c.innerHTML = `<p>${html}</p>`; return c; }
+
+      /* ════════════════════════════════════════════════════════════════════
+         MOUNT
+         ════════════════════════════════════════════════════════════════════ */
+      const sectionsRoot = document.getElementById('sections');
+      SECTIONS.forEach((s, i) => {
+        const sec = el('section');
+        sec.id = s.id;
+        const wrap = el('div', 'wrap');
+        const eyebrow = el('div', 'eyebrow', s.eyebrow);
+        eyebrow.dataset.num = String(i + 1).padStart(2, '0');
+        wrap.appendChild(eyebrow);
+        wrap.appendChild(el('h2', 'title', s.title));
+        wrap.appendChild(el('p', 'intro', s.intro));
+        const body = el('div', 'section-body');
+        (BUILDERS[s.id] || (() => {}))(body);
+        wrap.appendChild(body);
+        sec.appendChild(wrap);
+        sectionsRoot.appendChild(sec);
+      });
+
+      // nav + jump bar from SECTIONS
+      const navLinks = document.getElementById('navLinks');
+      const jumpbar = document.getElementById('jumpbar');
+      SECTIONS.forEach(s => {
+        const a = el('a', null, s.nav); a.href = '#' + s.id; navLinks.appendChild(a);
+        const j = el('a', null, s.nav); j.href = '#' + s.id; jumpbar.appendChild(j);
+      });
+
+      // mobile nav toggle
+      const navToggle = document.getElementById('navToggle');
+      navToggle.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', String(open));
+      });
+      navLinks.addEventListener('click', e => {
+        if (e.target.tagName === 'A') { navLinks.classList.remove('open'); navToggle.setAttribute('aria-expanded', 'false'); }
+      });
+
+      // scroll-spy
+      const linkFor = {};
+      navLinks.querySelectorAll('a').forEach(a => { linkFor[a.getAttribute('href').slice(1)] = a; });
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) {
+            Object.values(linkFor).forEach(a => a.classList.remove('active'));
+            const active = linkFor[en.target.id];
+            if (active) {
+              active.classList.add('active');
+              active.scrollIntoView({ block: 'nearest', inline: 'center' });
+            }
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      SECTIONS.forEach(s => { const n = document.getElementById(s.id); if (n) spy.observe(n); });
+
+      // back to top
+      const backtop = document.getElementById('backtop');
+      backtop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      window.addEventListener('scroll', () => backtop.classList.toggle('show', window.scrollY > 800), { passive: true });
+    </script>
+  </body>
+</html>
