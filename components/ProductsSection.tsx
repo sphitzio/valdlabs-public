@@ -23,6 +23,15 @@ const products: Product[] = [
   },
   {
     id: '3',
+    name: 'Kurare',
+    tag: 'LIVE BETA',
+    description: 'A Kuramoto swarm synthesizer — two swarms of coupled oscillators herded from cloud to choir.',
+    price: 'TBA',
+    image: '/assets/kurare.png',
+    link: '/kurare'
+  },
+  {
+    id: '4',
     name: 'Rekke',
     tag: 'DEVELOPMENT',
     description: 'A portable, desktop-first sequencer with modular DNA — built for the art of shaping chaos.',
@@ -31,7 +40,31 @@ const products: Product[] = [
     isFlagship: true
   },
   {
-    id: '4',
+    id: '5',
+    name: 'Ravik',
+    tag: 'IN THE LAB',
+    description: 'Unannounced. Engines, shapes and depth — something is humming behind the curtain.',
+    price: 'TBA',
+    image: '/assets/ravik.png'
+  },
+  {
+    id: '6',
+    name: 'Lemnis',
+    tag: 'IN THE LAB',
+    description: 'Unannounced. Notes in orbit — geometry that plays itself.',
+    price: 'TBA',
+    image: '/assets/lemnis.png'
+  },
+  {
+    id: '7',
+    name: 'Sherpa',
+    tag: 'IN THE LAB',
+    description: 'Unannounced. A quiet companion that carries the heavy lifting.',
+    price: 'TBA',
+    image: '/assets/sherpa.png'
+  },
+  {
+    id: '8',
     name: 'Sunua',
     tag: 'ALPHA SOON',
     description: 'A physical-modeling voice that grows living, breathing tone from struck and bowed bodies.',
@@ -39,15 +72,7 @@ const products: Product[] = [
     image: '/assets/sunua.png'
   },
   {
-    id: '5',
-    name: 'Kurare',
-    tag: 'ALPHA SOON',
-    description: 'A coupled-oscillator synth where many voices sync, drift and phase into emergent motion.',
-    price: 'TBA',
-    image: '/assets/kurare.png'
-  },
-  {
-    id: '6',
+    id: '9',
     name: 'Modular Synth Stands',
     tag: 'UNDER REQUEST',
     description: 'Modular, industrial-strength stands that turn desk chaos into ergonomic order.',

@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KURARE — Kuramoto Swarm Synthesizer · VST3 &amp; AU</title>
+  <meta name="description" content="KURARE is a polyphonic swarm synthesizer by Våld Labs: two swarms of coupled oscillators per note, herdable from a boiling cloud into one fused voice. Built on the Kuramoto model. Deterministic to the bit." />
+  <link rel="canonical" href="https://valdlabs.com/kurare" />
+  <meta property="og:title" content="KURARE — Kuramoto Swarm Synthesizer" />
+  <meta property="og:description" content="Every note is a crowd. Two swarms of coupled oscillators per note — red and white — herdable from a boiling cloud into one fused voice. VST3 &amp; AU." />
+  <meta property="og:image" content="https://valdlabs.com/assets/kurare.png" />
+  <meta property="og:url" content="https://valdlabs.com/kurare" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;            /* zinc-950 */
+      --panel: rgba(24, 24, 27, 0.5);
+      --border: rgba(255, 255, 255, 0.05);
+      --border-strong: rgba(255, 255, 255, 0.1);
+      --txt: #ffffff;
+      --txt-body: #cbd5e1;      /* slate-300 */
+      --txt-dim: #a1a1aa;       /* zinc-400 */
+      --txt-mute: #71717a;      /* zinc-500 */
+      --txt-faint: #52525b;     /* zinc-600 */
+      --red: #FF0044;           /* Kurare accent */
+      --yellow: #ffff00;        /* Våld Labs accent (header only) */
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--txt-body);
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+    img, video { display: block; max-width: 100%; }
+    .jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .wrap { max-width: 80rem; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ---- Navbar (mirrors valdlabs.com) ---- */
+    nav {
+      position: fixed; top: 0; z-index: 50; width: 100%;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; height: 4rem; align-items: center; justify-content: space-between; max-width: 80rem; margin: 0 auto; padding: 0 1.5rem; }
+    .nav-logo img { height: 1.5rem; width: auto; opacity: 0.9; transition: opacity 0.2s; }
+    .nav-logo:hover img { opacity: 1; }
+    .nav-links { display: none; align-items: center; gap: 2rem; }
+    .nav-links a { font-size: 0.875rem; color: var(--txt-dim); transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-login { display: none; font-size: 0.875rem; color: var(--txt-dim); transition: color 0.2s; }
+    .nav-login:hover { color: #fff; }
+    .nav-cart {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.05); color: #fff;
+      border: 1px solid var(--border-strong); border-radius: 9999px;
+      padding: 0.5rem 1rem; font-size: 0.75rem; font-family: 'Space Mono', monospace;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .nav-cart:hover { background: rgba(255,255,255,0.1); }
+    .nav-cart span {
+      background: var(--yellow); color: #000; width: 1rem; height: 1rem; border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
+    }
+    @media (min-width: 768px) { .nav-links { display: flex; } }
+    @media (min-width: 640px) { .nav-login { display: flex; } }
+
+    /* ---- Hero ---- */
+    .hero {
+      position: relative; min-height: 90vh; display: flex; align-items: center;
+      padding: 8rem 1.5rem 5rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.3;
+      -webkit-mask-image: linear-gradient(180deg, transparent, black 20%, black 80%, transparent);
+      mask-image: linear-gradient(180deg, transparent, black 20%, black 80%, transparent);
+    }
+    .hero-grid { position: relative; z-index: 10; max-width: 80rem; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr; gap: 3rem; }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 5fr 7fr; align-items: stretch; } }
+    .hero-copy { display: flex; flex-direction: column; gap: 2rem; justify-content: center; }
+    .badge {
+      display: inline-flex; gap: 0.5rem; align-items: center; width: fit-content;
+      font-size: 0.75rem; color: var(--red);
+      background: rgba(255, 0, 68, 0.05); border: 1px solid rgba(255, 0, 68, 0.2);
+      border-radius: 9999px; padding: 0.25rem 0.75rem;
+    }
+    .dot { position: relative; display: flex; width: 0.5rem; height: 0.5rem; }
+    .dot .ping { position: absolute; inset: 0; border-radius: 9999px; background: var(--red); opacity: 0.75; animation: ping 1.2s cubic-bezier(0,0,0.2,1) infinite; }
+    .dot .core { position: relative; display: inline-flex; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--red); }
+    @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .dot .ping { animation: none; opacity: 0; } }
+    .hero-logo { height: 1.75rem; width: auto; align-self: flex-start; }
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: #fff;
+      font-size: 3rem; line-height: 0.95; letter-spacing: -0.05em;
+    }
+    @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
+    .hero-sub { font-size: 1.125rem; line-height: 1.75; font-weight: 400; max-width: 32rem; }
+    @media (min-width: 768px) { .hero-sub { font-size: 1.25rem; } }
+    .hero-ctas { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    @media (min-width: 640px) { .hero-ctas { flex-direction: row; } }
+    .btn-primary {
+      display: flex; gap: 0.5rem; align-items: center; justify-content: center;
+      height: 3rem; padding: 0 1.5rem; border-radius: 0.375rem;
+      background: var(--red); color: #fff; font-size: 0.875rem; font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #d90039; }
+    .btn-primary svg { transition: transform 0.2s; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+    .btn-secondary {
+      display: flex; gap: 0.5rem; align-items: center; justify-content: center;
+      height: 3rem; padding: 0 1.5rem; border-radius: 0.375rem;
+      background: rgba(24, 24, 27, 0.8); color: #fff; font-size: 0.875rem; font-weight: 500;
+      border: 1px solid #27272a; backdrop-filter: blur(4px);
+      transition: background 0.2s; cursor: pointer;
+    }
+    .btn-secondary:hover { background: #27272a; }
+    .btn-secondary svg { color: var(--red); }
+    .hero-fine { font-size: 0.75rem; color: var(--txt-mute); }
+    .hero-stats { display: flex; align-items: center; gap: 2rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; }
+    .stat b { font-size: 0.75rem; color: var(--txt-mute); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400; margin-bottom: 0.25rem; }
+    .stat span { font-size: 1rem; color: #e4e4e7; }
+    .hero-media { position: relative; height: 100%; }
+    .hero-video {
+      position: relative; border-radius: 0.75rem; overflow: hidden;
+      border: 1px solid var(--border-strong); background: var(--panel);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      width: 100%; aspect-ratio: 1 / 1; max-width: 40rem; margin: 0 auto;
+    }
+    .hero-media { display: flex; align-items: center; }
+    .hero-video video { width: 100%; height: 100%; object-fit: cover; }
+    .hero-glow {
+      position: absolute; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 80%; height: 80%; border-radius: 9999px;
+      background: rgba(255, 0, 68, 0.07); filter: blur(100px);
+    }
+
+    /* ---- Sections ---- */
+    section { padding: 6rem 1.5rem; border-top: 1px solid var(--border); position: relative; overflow: hidden; }
+    .rule-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .rule-label i { display: block; height: 1px; width: 2rem; background: var(--red); }
+    .rule-label span { color: var(--red); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; }
+    h2 { font-family: 'Plus Jakarta Sans', sans-serif; color: #fff; font-weight: 500; letter-spacing: -0.025em; font-size: 1.875rem; line-height: 1.25; }
+    @media (min-width: 768px) { h2 { font-size: 2.25rem; } }
+    .model-grid { max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 5rem; }
+    @media (min-width: 1024px) { .model-grid { grid-template-columns: 1fr 1fr; } }
+    .model-copy { display: flex; flex-direction: column; gap: 1.5rem; }
+    .model-copy p { color: var(--txt-dim); font-size: 1.125rem; font-weight: 400; line-height: 1.75; }
+    .model-copy p strong { color: #fff; font-weight: 400; }
+    .axes { display: flex; flex-direction: column; gap: 1.5rem; }
+    @media (min-width: 1024px) { .axes { padding-left: 3rem; border-left: 1px solid var(--border); } }
+    .axes-label { color: var(--txt-mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem; }
+    .axis { display: flex; flex-direction: column; gap: 0.25rem; padding: 1rem 0; border-bottom: 1px solid var(--border); }
+    .axis:last-of-type { border-bottom: none; }
+    .axis b { color: #fff; font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; }
+    .axis b em { color: var(--red); font-style: normal; font-weight: 400; font-size: 0.75rem; margin-left: 0.5rem; }
+    .axis span { color: var(--txt-mute); font-size: 0.9375rem; line-height: 1.6; }
+    .axes blockquote { font-style: italic; border-left: 2px solid var(--red); padding-left: 1rem; color: var(--txt-dim); font-size: 1rem; line-height: 1.6; margin-top: 0.5rem; }
+
+    /* ---- Instrument ---- */
+    .shot-wrap { max-width: 80rem; margin: 0 auto; }
+    .shot-head { max-width: 42rem; margin-bottom: 3.5rem; display: flex; flex-direction: column; gap: 1rem; }
+    .shot-head p { color: var(--txt-dim); font-size: 1.125rem; font-weight: 400; line-height: 1.75; }
+    .shot {
+      border-radius: 0.75rem; overflow: hidden; border: 1px solid var(--border-strong);
+      background: var(--panel); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .shot img { width: 100%; height: auto; }
+    .cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3rem; }
+    @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+    .card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 0.75rem;
+      padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem;
+      transition: border-color 0.3s;
+    }
+    .card:hover { border-color: rgba(255, 0, 68, 0.3); }
+    .card h3 { color: #fff; font-size: 1.0625rem; font-weight: 700; letter-spacing: -0.01em; font-family: 'Space Mono', monospace; }
+    .card p { color: var(--txt-mute); font-size: 0.9375rem; line-height: 1.65; }
+
+    /* ---- Specs strip ---- */
+    .specs { max-width: 80rem; margin: 3rem auto 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden; }
+    @media (min-width: 768px) { .specs { grid-template-columns: repeat(4, 1fr); } }
+    .spec { background: var(--bg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .spec b { font-size: 0.6875rem; color: var(--txt-mute); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 400; }
+    .spec span { color: #e4e4e7; font-size: 0.9375rem; }
+
+    /* ---- Beta ---- */
+    .beta { text-align: center; max-width: 48rem; margin: 0 auto; }
+    .beta h2 { font-size: 2.25rem; letter-spacing: -0.05em; font-weight: 600; margin-bottom: 1.5rem; }
+    @media (min-width: 768px) { .beta h2 { font-size: 3rem; } }
+    .beta > p { font-size: 1.125rem; color: var(--txt-dim); font-weight: 400; margin: 0 auto 2.5rem; max-width: 36rem; line-height: 1.7; }
+    .beta form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 28rem; margin: 0 auto; }
+    @media (min-width: 640px) { .beta form { flex-direction: row; } }
+    .beta input {
+      flex: 1; height: 3rem; background: rgba(24,24,27,0.5); border: 1px solid #27272a;
+      border-radius: 0.375rem; padding: 0 1rem; color: #fff; font-family: 'Space Mono', monospace; font-size: 0.9375rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .beta input::placeholder { color: var(--txt-faint); }
+    .beta input:focus { border-color: rgba(255,0,68,0.5); box-shadow: 0 0 0 1px rgba(255,0,68,0.5); }
+    .beta button {
+      height: 3rem; background: #fff; color: #000; padding: 0 1.5rem; border: none; border-radius: 0.375rem;
+      font-family: 'Space Mono', monospace; font-weight: 700; font-size: 0.9375rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem; white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+    .beta button:hover { background: var(--red); color: #fff; }
+    .beta button:disabled { background: #3f3f46; color: #d4d4d8; cursor: not-allowed; }
+    .beta .msg { margin-top: 1rem; font-size: 0.875rem; min-height: 1.25rem; }
+    .beta .msg.ok { color: var(--red); }
+    .beta .msg.err { color: #f87171; }
+    .beta .fine { margin-top: 1.5rem; font-size: 0.75rem; color: var(--txt-faint); }
+
+    /* ---- Footer (mirrors valdlabs.com) ---- */
+    footer { padding: 6rem 1.5rem 3rem; border-top: 1px solid var(--border); }
+    .foot-grid { max-width: 80rem; margin: 0 auto 5rem; display: grid; grid-template-columns: 1fr; gap: 3rem; }
+    @media (min-width: 768px) { .foot-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+    .foot-brand a { display: inline-block; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; color: #fff; font-weight: 600; letter-spacing: -0.05em; margin-bottom: 1.5rem; }
+    .foot-brand p { font-size: 1.125rem; color: var(--txt-mute); font-weight: 400; max-width: 24rem; line-height: 1.7; }
+    .foot-col h4 { font-size: 0.875rem; color: #fff; font-weight: 500; margin-bottom: 1.5rem; }
+    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .foot-col a { font-size: 1rem; color: var(--txt-mute); transition: color 0.2s; }
+    .foot-col a:hover { color: var(--red); }
+    .foot-bottom { max-width: 80rem; margin: 0 auto; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--txt-faint); }
+    @media (min-width: 640px) { .foot-bottom { flex-direction: row; } }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Navbar — same structure as valdlabs.com ===== -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="Våld Labs">
+        <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/df76b444-7f90-4e1e-9c20-de09704ac295_320w.png" alt="Våld Labs" />
+      </a>
+      <div class="nav-links">
+        <a href="/#products">Products</a>
+        <a href="/#philosophy">Studio</a>
+        <a href="/#support">Support</a>
+      </div>
+      <div class="nav-actions">
+        <a href="/" class="nav-login">Login</a>
+        <button class="nav-cart" type="button">Cart <span>0</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <main class="hero">
+    <video class="hero-bg" src="/kurare/kurare_hero.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="badge">
+          <span class="dot"><span class="ping"></span><span class="core"></span></span>
+          KURARE — beta now running
+        </div>
+        <img class="hero-logo" src="/kurare/kurare_logo.svg" alt="KURARE" />
+        <h1>Every note<br />is a crowd.</h1>
+        <p class="hero-sub">
+          KURARE is a polyphonic swarm synthesizer: two swarms of coupled
+          oscillators per note — red and white, up to 64 in all — herdable from
+          a boiling cloud into one fused voice. Built on the Kuramoto model of
+          collective synchronization. Deterministic to the bit.
+        </p>
+        <div class="hero-ctas">
+          <a href="#beta" class="btn-primary">
+            Request beta access
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+          <a href="#model" class="btn-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+            Explore the model
+          </a>
+        </div>
+        <p class="hero-fine">VST3 · AU — macOS &amp; Windows. Commercial release; beta by invitation.</p>
+        <div class="hero-stats">
+          <div class="stat"><b>Synthesis</b><span>Kuramoto swarm</span></div>
+          <div class="stat"><b>Population</b><span>2 × 32 per note</span></div>
+          <div class="stat"><b>Output</b><span>Bit-deterministic</span></div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-video">
+          <video src="/kurare/kurare_demo.mp4" poster="/kurare/demo_poster.jpg" autoplay muted loop playsinline></video>
+        </div>
+        <div class="hero-glow" aria-hidden="true"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== The model ===== -->
+  <section id="model">
+    <div class="model-grid">
+      <div class="model-copy">
+        <div class="rule-label"><i></i><span>The Model</span></div>
+        <h2>One equation,<br />herded by hand.</h2>
+        <p>
+          In 1975, physicist Yoshiki Kuramoto wrote down the simplest equation
+          for how a crowd of rhythmic things falls into step — fireflies
+          flashing, crickets chirping, heart cells beating. Each oscillator has
+          its own natural tempo; each nudges toward the group. Weak coupling is
+          chaos. Cross a threshold and the crowd snaps into synchrony.
+        </p>
+        <p>
+          Between the two lies the interesting zone — clusters forming,
+          breathing, drifting, re-forming. <strong>KURARE puts that zone under
+          your fingers.</strong> Four axes define a swarm, and they are the four
+          macro knobs. A two-phase oscillator core guarantees the locked choir:
+          phases can march in perfect step while pitches stay fanned into
+          sub-octave and overtone layers.
+        </p>
+      </div>
+      <div class="axes">
+        <div class="axes-label">The four axes</div>
+        <div class="axis"><b>POPULATE <em>N</em></b><span>How many oscillators are alive — 1 to 32 per swarm. Dots join and leave the disc as you turn.</span></div>
+        <div class="axis"><b>DECOUPLE <em>K</em></b><span>At zero, a fused choir. Turn it up and the swarm loosens: beating, breathing, then a free cloud.</span></div>
+        <div class="axis"><b>DIVERGE <em>Δω</em></b><span>Pitch spread that survives full coupling — members fan into octave layers while phases still march together.</span></div>
+        <div class="axis"><b>EXCITE <em>D</em></b><span>Temperature. Deterministic noise agitates phase and pitch — a swarm simmering at the edge of sync.</span></div>
+        <blockquote>Coupling freezes; temperature boils. The signature sound lives right at the threshold.</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== The instrument ===== -->
+  <section id="instrument">
+    <div class="shot-wrap">
+      <div class="shot-head">
+        <div class="rule-label"><i></i><span>The Instrument</span></div>
+        <h2>What you hear is what you see.</h2>
+        <p>
+          The disc at the centre is not decoration — those particles are the
+          real oscillators of the note you are playing, driven by the engine's
+          own phases. Cloud at low coupling. Lattice when they lock. Shiver
+          when you turn up the heat.
+        </p>
+      </div>
+      <div class="shot">
+        <img src="/kurare/ui.png" alt="KURARE interface — swarm disc, per-swarm macro knobs, filter and envelope racks" loading="lazy" />
+      </div>
+
+      <div class="model-grid" style="margin-top: 6rem; margin-bottom: 1.5rem;">
+        <div class="model-copy">
+          <div class="rule-label"><i></i><span>The Waves</span></div>
+          <h2>Five roads,<br />two travelers.</h2>
+          <p>
+            Every oscillator reads a <strong>wavetable road</strong>: 127
+            single-cycle frames sorted by spectral brightness, so a sweep is a
+            smooth walk from dark to bright — never a lottery. The red swarm
+            and the white swarm each choose their own road.
+          </p>
+          <p>
+            WAVE X and WAVE Y are two positions on that road, and RATIO mixes
+            them by <strong>interference</strong> — the two frames are
+            quarter-phase-shifted before summing, so no mix position can cancel
+            to thin. SPLIT keeps each swarm on its own frame; BLND fuses both
+            swarms into one shared wave.
+          </p>
+          <p>
+            Under the hood the tables are FFT-built with per-octave mip levels,
+            cached across all sixteen voices, and rebuilt double-buffered at a
+            bounded rate — a fast wave sweep costs one build at a time, never a
+            storm, and always lands bit-identical.
+          </p>
+        </div>
+        <div class="axes">
+          <div class="axes-label">The five roads</div>
+          <div class="axis"><b>PROCEDURAL</b><span>Additive frames generated from the bank seed — the red swarm's home. Sine at one end, pitched near-noise at the other.</span></div>
+          <div class="axis"><b>CLASSICAL</b><span>The analog canon: sine into saw into square into reverse saw. The white swarm's home.</span></div>
+          <div class="axis"><b>VOX</b><span>Vocal and formant frames — the swarm starts to speak.</span></div>
+          <div class="axis"><b>ACOUSTIC</b><span>Frames drawn from acoustic instruments: plucked, bowed, blown.</span></div>
+          <div class="axis"><b>DIGITAL</b><span>Hard-edged digital spectra — PWM, folded and gritty tables for the bright end.</span></div>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Two swarms, five roads</h3>
+          <p>Red reads generated additive wavetables; white reads the classics. Five curated roads — Procedural, Classical, Vox, Acoustic, Digital — with wave interference between two positions on each.</p>
+        </div>
+        <div class="card">
+          <h3>The locked choir</h3>
+          <p>A two-phase oscillator core keeps DIVERGE alive at full coupling: phases entrained completely, pitches fanned by construction. No other swarm architecture guarantees it.</p>
+        </div>
+        <div class="card">
+          <h3>Deterministic to the bit</h3>
+          <p>Stateless seeded hashes, pinned math, fixed internal rate. Same patch, same notes, bit-identical audio — and every patch travels as a short share key you can paste anywhere.</p>
+        </div>
+        <div class="card">
+          <h3>A full instrument</h3>
+          <p>16 voices, per-swarm filters and envelopes, three LFOs, two generative modulation lanes, bitcrush, chorus, wavefold, four delays and four reverbs including shimmer.</p>
+        </div>
+        <div class="card">
+          <h3>Powered by VEKTE</h3>
+          <p>The onboard generative sequencer drives the swarm with seven algorithms — from wave interference to Kaprekar and Fibonacci — plus arp modes, DENSE thinning, swing and humanize.</p>
+        </div>
+        <div class="card">
+          <h3>Herd it live</h3>
+          <p>MUTUAL couples the two swarms to each other; octave pills transpose each one whole; MIDI CC learn on every parameter. Built for hands, not menus.</p>
+        </div>
+      </div>
+
+      <div class="specs">
+        <div class="spec"><b>Formats</b><span>VST3 · AU</span></div>
+        <div class="spec"><b>Platforms</b><span>macOS (universal) · Windows</span></div>
+        <div class="spec"><b>Voices</b><span>16 · up to 64 oscillators each</span></div>
+        <div class="spec"><b>Presets</b><span>Factory bank + KRR share keys</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Beta ===== -->
+  <section id="beta">
+    <div class="beta">
+      <h2>Join the swarm.</h2>
+      <p>
+        KURARE is in active beta ahead of its commercial release. Leave your
+        email for beta access, launch pricing and development drops.
+      </p>
+      <form id="betaForm">
+        <input type="email" name="email" placeholder="Enter your email" required autocomplete="email" aria-label="Email address" />
+        <button type="submit">
+          Request access
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+      <p class="msg" id="betaMsg" aria-live="polite"></p>
+      <p class="fine">No spam. Unsubscribe at any time.</p>
+    </div>
+  </section>
+
+  <!-- ===== Footer — same structure as valdlabs.com ===== -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="/">våld labs</a>
+        <p>Independent boutique studio based in Lisbon. Crafting niche technology for sound design and workspace optimization.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Sitemap</h4>
+        <ul>
+          <li><a href="/vekte">Vekte</a></li>
+          <li><a href="/tresse">Tresse</a></li>
+          <li><a href="/kurare">Kurare</a></li>
+          <li><a href="/#products">Rekke</a></li>
+          <li><a href="/#products">Sunua</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/terms">Terms of Service</a></li>
+          <li><a href="/refund-policy">Refund Policy</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://instagram.com/valdlabs" target="_blank" rel="noreferrer">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Våld Labs. All rights reserved.</span>
+      <span>Made in Lisbon</span>
+    </div>
+  </footer>
+
+  <script>
+    // Respect reduced-motion: park both hero videos on their first frame.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+    }
+
+    // Beta signup — same FormSubmit endpoint the main site's waitlist uses.
+    const form = document.getElementById('betaForm');
+    const msg = document.getElementById('betaMsg');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      if (!email) return;
+      const btn = form.querySelector('button');
+      btn.disabled = true; btn.firstChild.textContent = 'Sending... ';
+      msg.className = 'msg';
+      msg.textContent = '';
+      const data = new FormData();
+      data.append('email', email);
+      data.append('_subject', 'KURARE beta request');
+      data.append('_template', 'table');
+      data.append('_captcha', 'false');
+      try {
+        const r = await fetch('https://formsubmit.co/ajax/vald.labs.lisbon@gmail.com', {
+          method: 'POST', headers: { Accept: 'application/json' }, body: data,
+        });
+        if (!r.ok) throw new Error();
+        msg.className = 'msg ok';
+        msg.textContent = 'You’re on the list. We’ll be in touch.';
+        form.reset();
+      } catch {
+        msg.className = 'msg err';
+        msg.textContent = 'Submission failed. Try again in a moment.';
+      }
+      btn.disabled = false; btn.firstChild.textContent = 'Request access ';
+    });
+  </script>
+</body>
+</html>

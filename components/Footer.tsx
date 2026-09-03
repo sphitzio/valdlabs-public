@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
               <li><a href="/tresse" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Tresse</a></li>
               <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Rekke</a></li>
               <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Sunua</a></li>
-              <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Kurare</a></li>
+              <li><a href="/kurare" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Kurare</a></li>
               <li><a href="#products" className="text-base text-zinc-500 hover:text-[#ffff00] transition-colors font-space-mono">Modular Synth Stands</a></li>
             </ul>
           </div>
