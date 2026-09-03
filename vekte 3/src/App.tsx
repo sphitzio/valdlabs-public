@@ -97,8 +97,8 @@ export default function App() {
   };
 
   const DOWNLOAD_URLS = {
-    win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.9/VEKTE-Setup-1.1.9-x64.exe',
-    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.1.9/VEKTE-1.1.9.pkg',
+        win: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.2.2/VEKTE-Setup-1.2.2-x64.exe',
+    mac: 'https://github.com/sphitzio/valdlabs-public/releases/download/v1.2.2/VEKTE-1.2.2.pkg',
   };
 
   const handleBetaDownload = (os: 'win' | 'mac') => {
@@ -399,7 +399,7 @@ export default function App() {
         {/* Tag Category */}
         <div className="inline-flex items-center space-x-2.5 font-mono text-[10px] text-[#d4ff00] tracking-widest bg-[#d4ff00]/10 border border-[#d4ff00]/30 px-3 py-1 rounded-full w-max">
           <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-          <span className="font-bold">1.1.9 VST NOW OPEN BETA</span>
+          <span className="font-bold">1.2.2 VST NOW OPEN BETA</span>
         </div>
 
         {/* Epic Main Headline title */}
@@ -595,7 +595,7 @@ export default function App() {
 
             <div className="relative w-full aspect-video rounded-xl border border-white/10 overflow-hidden shadow-2xl bg-black">
               <iframe
-                src="https://www.youtube.com/embed/zV-45C8HgOA"
+                src="https://www.youtube-nocookie.com/embed/zV-45C8HgOA"
                 title="Våld Labs Presents Vekte Algorithmic Sequencer and Tresse Polyphonic Synth Beta VST3"
                 className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -1229,7 +1229,7 @@ export default function App() {
               Beta version valid until mid-August 2026
             </p>
             <p className="text-zinc-500 text-xs leading-relaxed mt-4 font-light max-w-xl mx-auto">
-              <span className="text-[#d4ff00] font-mono font-bold">New in 1.1.9:</span> Ratchet, Note Div and Pitch mod targets, MIDI Learn (assign any control to a CC), per-control and per-algorithm Lock, keyboard select + arrow nudge, true TIE legato, strum that respects ties, and retrigger when you start mid-note.
+              <span className="text-[#d4ff00] font-mono font-bold">New in 1.2.2:</span> The PRESETS library (SET / SONG / PATTERN / PART) with drag and drop, BRANCH quicksave, a 512-state history with log-mode audition, QR key sharing, MIDI clock out, a rebuilt header with live telemetry and real transport, per-step note locks, RND amount control — and a macOS AUv3 for Logic’s MIDI FX slot.
             </p>
           </div>
 
@@ -1418,15 +1418,12 @@ export default function App() {
               VEKTE, its interface, algorithm implementations, and generative engine are intellectual property under development by Våld Labs.
             </p>
             <p className="text-[10px] text-zinc-600">
-              © 2026 Våld Labs. All rights reserved. •{" "}
-              <a 
-                href="https://valdlabs.com/privacy" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="hover:text-zinc-400 transition-colors underline decoration-zinc-800"
-              >
-                Privacy Policy
-              </a>
+                            © 2026 Våld Labs. All rights reserved. •{" "}
+              <a href="https://valdlabs.com/terms" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">Terms</a>
+              {" • "}
+              <a href="https://valdlabs.com/refund-policy" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">Refund Policy</a>
+              {" • "}
+              <a href="https://valdlabs.com/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">Privacy Policy</a>
             </p>
             <a
               href="https://instagram.com/valdlabs"
@@ -1450,13 +1447,18 @@ export default function App() {
           <div className="space-y-3">
             <span className="text-zinc-400 font-bold block">RESOURCES</span>
             <ul className="space-y-1.5 text-[11px] text-zinc-600 font-light">
+                            <li>
+                <a href="https://valdlabs.com/terms" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">
+                  • Terms of Service
+                </a>
+              </li>
               <li>
-                <a 
-                  href="https://valdlabs.com/privacy" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="hover:text-zinc-400 transition-colors underline decoration-zinc-800"
-                >
+                <a href="https://valdlabs.com/refund-policy" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">
+                  • Refund Policy
+                </a>
+              </li>
+              <li>
+                <a href="https://valdlabs.com/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 transition-colors underline decoration-zinc-800">
                   • Privacy Policy
                 </a>
               </li>

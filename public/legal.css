@@ -1,0 +1,34 @@
+/* Shared layout for the Våld Labs legal pages: /privacy, /terms, /refund-policy. */
+:root{
+  --bg:#0a0b07; --panel:#111308; --panel-2:#15180c;
+  --lime:#c4ee00; --lime-soft:#d8f64f; --lime-dim:#8fa600;
+  --ink:#eceee2; --ink-dim:#9a9f90; --ink-faint:#6f7565;
+  --rule:rgba(196,238,0,.14); --rule-soft:rgba(255,255,255,.06);
+  --mono:"SFMono-Regular","SF Mono","JetBrains Mono","Menlo","Consolas","Liberation Mono",monospace;
+  --maxw:760px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink-dim);font-family:var(--mono);
+  font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+a{color:var(--lime-dim);text-decoration:none}
+a:hover{color:var(--lime)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(40px,8vw,80px) clamp(20px,5vw,40px)}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime-dim)}
+.eyebrow a{color:inherit}
+h1{color:var(--ink);font-size:clamp(28px,6vw,44px);line-height:1.1;letter-spacing:-.01em;margin:14px 0 8px;font-weight:600}
+.updated{font-size:13px;color:var(--ink-faint);margin-bottom:40px}
+h2{color:var(--ink);font-size:clamp(18px,3.5vw,22px);font-weight:600;letter-spacing:-.01em;
+  margin:38px 0 12px;padding-top:24px;border-top:1px solid var(--rule-soft)}
+h3{color:var(--ink);font-size:15px;font-weight:600;margin:24px 0 8px}
+p{margin-bottom:14px}
+strong{color:var(--ink);font-weight:600}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:8px}
+.lead{color:var(--ink);font-size:16px;margin-bottom:8px}
+address{font-style:normal;color:var(--ink);margin-bottom:14px}
+footer{border-top:1px solid var(--rule-soft);margin-top:48px;padding-top:24px;font-size:13px;color:var(--ink-faint)}
+footer a{color:var(--lime-dim)}
+footer nav{margin-bottom:10px}

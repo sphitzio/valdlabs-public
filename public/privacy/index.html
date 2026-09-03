@@ -5,131 +5,342 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Privacy Policy | Våld Labs</title>
 <meta name="description" content="Privacy policy for Våld Labs products, apps, plugins, and websites.">
-<meta name="robots" content="index, follow">
-<style>
-  :root{
-    --bg:#0a0b07; --panel:#111308; --panel-2:#15180c;
-    --lime:#c4ee00; --lime-soft:#d8f64f; --lime-dim:#8fa600;
-    --ink:#eceee2; --ink-dim:#9a9f90; --ink-faint:#6f7565;
-    --rule:rgba(196,238,0,.14); --rule-soft:rgba(255,255,255,.06);
-    --mono:"SFMono-Regular","SF Mono","JetBrains Mono","Menlo","Consolas","Liberation Mono",monospace;
-    --maxw:760px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--bg);color:var(--ink-dim);font-family:var(--mono);
-    font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--lime-dim);text-decoration:none}
-  a:hover{color:var(--lime)}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:clamp(40px,8vw,80px) clamp(20px,5vw,40px)}
-  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime-dim)}
-  h1{color:var(--ink);font-size:clamp(28px,6vw,44px);line-height:1.1;letter-spacing:-.01em;margin:14px 0 8px;font-weight:600}
-  .updated{font-size:13px;color:var(--ink-faint);margin-bottom:40px}
-  h2{color:var(--ink);font-size:clamp(18px,3.5vw,22px);font-weight:600;letter-spacing:-.01em;
-    margin:38px 0 12px;padding-top:24px;border-top:1px solid var(--rule-soft)}
-  p{margin-bottom:14px}
-  strong{color:var(--ink);font-weight:600}
-  ul{margin:0 0 14px 22px}
-  li{margin-bottom:8px}
-  .lead{color:var(--ink);font-size:16px;margin-bottom:8px}
-  footer{border-top:1px solid var(--rule-soft);margin-top:48px;padding-top:24px;font-size:13px;color:var(--ink-faint)}
-  footer a{color:var(--lime-dim)}
-</style>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+<link rel="stylesheet" href="/legal.css">
 </head>
 <body>
   <div class="wrap">
-    <div class="eyebrow">Våld Labs</div>
+    <div class="eyebrow"><a href="/">Våld Labs</a></div>
     <h1>Privacy Policy</h1>
-    <div class="updated">Last updated: 28 August 2026</div>
+    <div class="updated">Last updated: 3 September 2026</div>
 
     <p class="lead">This policy explains what information Våld Labs ("we", "us") collects
     and how we handle it across our products, applications, audio plugins, and websites
     (collectively, the "Services").</p>
-    <p>Våld Labs is an independent music-software studio based in Lisbon, Portugal. We
-    aim to collect as little personal data as possible.</p>
+    <p>We aim to collect as little personal data as possible. We do not use third-party
+    advertising, we do not track you across other apps or websites, and we do not sell
+    your data.</p>
+
+    <h2>Data controller</h2>
+    <p>The data controller responsible for the Services is:</p>
+    <address>
+      Jaime Paiva<br>
+      Operating under the brand name Våld Labs<br>
+      Largo da Graça 127, 3D<br>
+      1170-296 Lisbon<br>
+      Portugal<br>
+      Tax ID: 236072064<br>
+      Email: <a href="mailto:vald.labs.lisbon@gmail.com">vald.labs.lisbon@gmail.com</a>
+    </address>
+    <p>Våld Labs is a brand name and is not a separate legal entity. Jaime Paiva is an
+    independent software developer based in Lisbon, Portugal, who develops and operates
+    the Services under that brand.</p>
 
     <h2>Our apps and plugins</h2>
-    <p>Our instruments and plugins — including TRESSE, Vekte, and others — run locally on
-    your device. We <strong>do not</strong> use third-party advertising or cross-app
-    tracking, and we do not sell your data. Your audio, presets, and projects are not
-    sent to us as part of normal use.</p>
-    <p>Settings and presets you create are stored locally on your device or within your
-    host application's project files.</p>
-    <p>To operate and improve the Services, our apps contact our own server for a small
-    set of purposes, and send only what each purpose needs:</p>
+    <p>Our instruments and plugins — including TRESSE, VEKTE, KURARE and others — run
+    locally on your device. Your audio, MIDI, presets and projects are not sent to us as
+    part of normal use. Settings and presets you create are stored locally on your device
+    or within your host application's project files.</p>
+    <p>To operate and improve the Services, our apps contact our own server (hosted on
+    Vercel) for a small set of purposes, and send only what each purpose needs. The
+    sections below describe our current desktop builds and our iOS apps; where a
+    behaviour applies to one platform only, we say so.</p>
+
+    <h3>Installation identifier</h3>
+    <p>The first time an app runs, it generates a random installation identifier and
+    stores it in a small file on your device. This identifier is
+    <strong>pseudonymous</strong>: it contains no name or email and does not by itself
+    identify you, but it is stable for that installation, and if you register an email
+    address in the app the records described below become associated with that email. It
+    is not used for advertising or for tracking across other apps or websites.</p>
+
+    <h3>Update, news and beta-status check</h3>
+    <p>When the app starts or the plugin window is opened, the app asks our server whether
+    an update, a product announcement or a change in beta status is available. This
+    request includes the app version, operating system and processor architecture, the
+    host application and plugin format (for a plugin), the product name and the
+    installation identifier. Our server records the time of the request and an
+    approximate location (country and city) that our hosting provider derives from the
+    IP address of the request; the IP address itself is not stored with this record.</p>
+
+    <h3>Activity signals</h3>
+    <p>While the plugin window is open, the app may send a short "still open" signal, and
+    when you interact with the interface it sends a short "in use" signal, in each case
+    at most about once per minute and with the same fields as the check above. We use
+    these signals to see that a version works in the wild and to estimate roughly how
+    long it is used. They contain no audio, MIDI, presets or other content.</p>
+
+    <h3>Email registration for beta access</h3>
+    <p>Our current desktop beta builds ask you to register an email address and confirm
+    it through a verification link before the beta is unlocked. In TRESSE for iOS,
+    registration is optional (Menu &rarr; Register) and nothing is locked without it.
+    When you register, we
+    receive the email address together with the app version, operating system,
+    architecture, host application, plugin format, product and installation identifier,
+    and we store the email with the installation identifier. We use the address to send
+    the verification email, to administer beta access, and to send you the product
+    updates and beta news you signed up for. No purchased product requires an account,
+    and you can ask us to remove a registration at any time.</p>
+
+    <h3>Feedback and diagnostic reports</h3>
+    <p>If you use an in-app feedback form, we receive the message you write together with
+    the app version, operating system, architecture, host application, plugin format,
+    product and installation identifier, so that we can reply and reproduce problems.
+    Feedback is forwarded to our mailbox by email.</p>
+    <p>The apps also send an automatic diagnostic report when they hit an internal error,
+    for example when the interface fails to load or a script error occurs. A report
+    contains the error type and message, the app version, operating system, architecture,
+    host application, plugin format, product and installation identifier. Our server
+    records the IP address of the request with the report and gives crash reports a short
+    reference code so that a problem can be traced back to a specific installation. If the
+    installation is linked to a registered email, the report is linked to that email
+    too.</p>
+
+    <h3>Licence check-in (paid desktop licences)</h3>
+    <p>Paid desktop licences are verified offline on your computer using a signed licence
+    key; the software does not need our server to keep working. When your computer is
+    online, the software may occasionally (at most once a day) confirm its licence with
+    our server, sending the licence identifier, product, version, operating system,
+    architecture and the installation identifier. For this purpose our server stores the
+    installation identifier only as a salted hash, never the raw value, and uses the data
+    solely to detect abuse such as one key being used on an unusual number of machines or
+    forged keys. Any alert is reviewed by a person; nothing is disabled automatically, and
+    a check-in can never lock or restrict the software.</p>
+
+    <h3>Notifications</h3>
+    <p>Reminders in our iOS apps are scheduled locally on your device and send us
+    nothing. News notifications in TRESSE for iOS work by the app fetching the latest
+    announcement from our server in the background (iOS decides when, at most about
+    every 12 hours); that request carries only the product name and platform, no
+    identifier, and nothing is stored from it beyond the hosting provider's standard
+    server logs. The notification itself is then scheduled locally on your device.</p>
+
+    <h2>Purchases through Lemon Squeezy</h2>
+    <p>Paid desktop products on valdlabs.com are sold through Lemon Squeezy, which acts as
+    merchant of record. Lemon Squeezy processes your payment-card or other payment
+    details, checkout information, applicable taxes, invoices, refunds and chargebacks
+    under its own privacy policy. <strong>Våld Labs does not receive or store complete
+    payment-card details.</strong></p>
+    <p>After a purchase, Lemon Squeezy notifies our server so that we can issue your
+    licence. From that notification we keep:</p>
     <ul>
-      <li><strong>Update and news check.</strong> On launch the app asks our server
-      whether an update or product announcement is available. This request includes the
-      app version, operating system and architecture, the host application (for a
-      plugin), and a random installation identifier generated on your device.</li>
-      <li><strong>Usage signal.</strong> While you use the app it may send an occasional
-      anonymous "in use" ping tied to the same installation identifier, so we can see
-      that a version works in the wild. It contains no audio, presets, or content.</li>
-      <li><strong>Optional registration.</strong> If you choose to register your email
-      inside an app (for updates or beta access), we store that email together with the
-      installation identifier. Registration is optional and no functionality requires
-      it.</li>
-      <li><strong>Feedback.</strong> If you use an in-app feedback form, we receive the
-      message you write along with the app version, host application, and installation
-      identifier, so we can reply and reproduce problems.</li>
+      <li>your purchase email;</li>
+      <li>the Lemon Squeezy order number;</li>
+      <li>the product purchased;</li>
+      <li>the order status (paid or refunded) and the dates of the order and of any later
+      change; and</li>
+      <li>the licence identifier and issue date from which your licence key is generated,
+      and the licence status (for example, active, or revoked after a refund).</li>
     </ul>
-    <p>The installation identifier is a random value that does not itself identify you;
-    if you register an email, the data above can be associated with that email. We do
-    not use any of it for advertising or tracking, and we do not sell it. Notification
-    features (such as reminders or news alerts) are scheduled locally on your device and
-    send us nothing.</p>
+    <p>The notification may contain further order details, such as your name or billing
+    country; we do not store those. We use the order and licence data to deliver the
+    product and licence key, to administer and re-send licences, to provide customer
+    support, to prevent fraud, to process refunds, and to comply with tax and accounting
+    obligations. Your licence key is emailed to your purchase email through our email
+    provider (see "Service providers and recipients" below).</p>
 
-    <h2>In-app purchases</h2>
-    <p>Some products offer a paid unlock (for example, the TRESSE "Pro" unlock).
-    Purchases are processed entirely by the relevant platform store — Apple App Store or
-    other distribution platforms. We never see or store your payment-card details. Those
-    platforms handle the transaction under their own privacy policies. We may receive
-    aggregate, non-identifying sales information from the store.</p>
+    <h2>Apple App Store and other marketplaces</h2>
+    <p>Our iOS apps are distributed through the Apple App Store, and some offer a paid
+    unlock as an in-app purchase (for example, the TRESSE "Pro" unlock). These purchases
+    are processed entirely by Apple under Apple's privacy policy. We never see or store
+    your payment details, we do not issue licence keys for App Store purchases, and
+    restoring a purchase is handled by Apple. We may receive aggregate, non-identifying
+    sales information from the store.</p>
+    <p>App Store in-app purchases are separate from desktop purchases made through Lemon
+    Squeezy, and the licence check-in described above does not apply to our iOS apps.</p>
 
-    <h2>Website and waitlist</h2>
-    <p>When you submit your email address to a waitlist or contact form on our websites,
-    we use it solely to:</p>
+    <h2>Website, waitlists and support</h2>
+    <p><strong>Waitlist and notify-me forms.</strong> When you submit your email address
+    to a waitlist or notify-me form on valdlabs.com, the form is delivered through
+    FormSubmit (formsubmit.co), a form-to-email service, which forwards it to our mailbox.
+    We use the address solely to send you the release notes, launch updates or replies
+    you asked for about the product you signed up for. We may also keep waitlist
+    addresses in our backend and add them to a contact list at our email provider so that
+    we can send those updates. We do not sell or rent your email address. You can
+    unsubscribe at any time using the link in any email we send, or by contacting us at
+    the address below.</p>
+    <p><strong>Support and correspondence.</strong> When you email us, whether for
+    support, a refund, a licence question or anything else, we receive your email
+    address, the contents of your message and any information you choose to include. Our
+    mailbox is provided by Google (Gmail). We use correspondence to answer you, to resolve
+    support and order issues, and to keep appropriate records of those issues.</p>
+    <p><strong>Emails we send</strong> (licence keys, beta verification links, product
+    updates and discount codes) go out through Resend, our email delivery provider.</p>
+    <p><strong>Downloads.</strong> Installers are hosted as release files on GitHub. When
+    you download one, GitHub receives standard request information such as your IP
+    address, under GitHub's privacy policy.</p>
+
+    <h2>Cookies, embeds and logs</h2>
+    <p>Our websites are served as static pages. We do not run analytics, and we do not set
+    advertising or cross-site tracking cookies. We do not use cookies or browser storage
+    for tracking at all, which is why our sites show no cookie banner.</p>
+    <p>Some pages load resources from third parties, which receive your IP address and
+    standard request information when the page loads:</p>
     <ul>
-      <li>send you the release notes, updates, or replies you asked for; and</li>
-      <li>let you know about the specific product you signed up for.</li>
+      <li><strong>Fonts</strong> are loaded from Google Fonts.</li>
+      <li><strong>Product images and video</strong> on the product pages are loaded from
+      GitHub, and the homepage loads its logo image from a Supabase storage bucket.</li>
+      <li><strong>Styling</strong> on the homepage and the VEKTE manual is loaded from the
+      Tailwind CSS CDN.</li>
+      <li><strong>YouTube videos</strong> on the VEKTE and TRESSE pages are embedded in
+      YouTube's privacy-enhanced mode (youtube-nocookie.com), which is designed not to
+      set cookies until you play a video. Once you play a video, YouTube and Google may
+      set cookies and collect data under Google's privacy policy.</li>
     </ul>
-    <p>We do not sell or rent your email address. You can unsubscribe at any time using
-    the link in any email we send, or by contacting us at the address below.</p>
-    <p>Our websites are served as static pages and do not set advertising or
-    cross-site tracking cookies. Our hosting provider (Vercel) may process standard
-    server log data, such as IP address and request information, for security and
-    operational purposes.</p>
+    <p>The Meteor web app at valdlabs.com/meteor can be installed as an offline web app;
+    it stores its own files in your browser's cache so that it works offline, and sends
+    nothing to us.</p>
+    <p>Our hosting provider (Vercel) may process standard server-log information, such as
+    IP address and request details, for security and operational purposes. Our backend
+    server also uses the country and city that Vercel derives from the IP address, as
+    described above, and stores the IP address with diagnostic reports.</p>
 
-    <h2>Legal basis and your rights</h2>
-    <p>Where the EU General Data Protection Regulation (GDPR) applies, we process the
-    limited personal data above on the basis of your consent (waitlist sign-up, in-app
-    registration) and our legitimate interest in operating, improving, and securing the
-    Services (update checks, usage signals, feedback).</p>
-    <p>You have the right to access, correct, or delete the personal data we hold about
-    you, and to withdraw consent at any time. To exercise any of these rights, contact us
-    using the details below.</p>
+    <h2>Legal bases</h2>
+    <p>Where the EU General Data Protection Regulation (GDPR) applies, we rely on the
+    following legal bases:</p>
+    <ul>
+      <li><strong>Consent</strong> for waitlists, product-update emails and email
+      registration in an app. You can withdraw consent at any time, without affecting the
+      lawfulness of processing carried out before the withdrawal.</li>
+      <li><strong>Contract</strong> for product delivery, licence issuance and
+      administration, purchases, refunds and customer support.</li>
+      <li><strong>Legitimate interests</strong> for security, fraud and licence-abuse
+      prevention, essential update and beta-status checks, diagnostic reports and
+      reliability signals, and the operation of our websites. We balance these interests
+      against your privacy by collecting only minimal or pseudonymous data for these
+      purposes.</li>
+      <li><strong>Legal obligations</strong> for accounting, tax, consumer-law and other
+      legally required records relating to orders.</li>
+    </ul>
+
+    <h2>Service providers and recipients</h2>
+    <p>We share personal data only with providers that help us run the Services, and each
+    receives only the information required for its function:</p>
+    <ul>
+      <li><strong>Lemon Squeezy</strong> — checkout and merchant-of-record services for
+      desktop purchases (payment processing, taxes, invoices, refunds and
+      chargebacks).</li>
+      <li><strong>Vercel</strong> — hosting for valdlabs.com and for our backend server,
+      including the Redis (Upstash) and PostgreSQL databases provisioned through Vercel in
+      which registration, installation, licence and order records are stored.</li>
+      <li><strong>Resend</strong> — sending licence keys, verification emails, product
+      updates and other transactional email, and holding the contact lists used for
+      product updates.</li>
+      <li><strong>FormSubmit</strong> — delivery of website waitlist and notify-me forms
+      to our mailbox.</li>
+      <li><strong>Google</strong> — our Gmail mailbox for correspondence, plus Google
+      Fonts and YouTube as described above.</li>
+      <li><strong>GitHub</strong> — hosting of downloads and product media, and a private,
+      access-controlled repository that holds our nightly backup snapshots of licence,
+      order, registration and waitlist records.</li>
+      <li><strong>Apple</strong> — App Store distribution and in-app purchases for our iOS
+      apps.</li>
+      <li><strong>Professional advisers and public authorities</strong> where legally
+      required, for example tax authorities or a court order.</li>
+    </ul>
+    <p>We do not sell or rent personal data, and we do not share it with advertisers.</p>
+
+    <h2>International transfers</h2>
+    <p>Several of these providers (Lemon Squeezy, Vercel, Resend, FormSubmit, Google,
+    GitHub and Apple) are based in, or operate infrastructure in, the United States and
+    other countries outside the European Economic Area, so your personal data may be
+    processed outside the EEA. Where that happens we rely on the safeguards recognised by
+    the GDPR, such as an adequacy decision (including the EU–US Data Privacy Framework
+    where a provider is certified under it) or the European Commission's Standard
+    Contractual Clauses included in the provider's data-processing terms. We do not claim
+    that all data stays within the EU.</p>
 
     <h2>Data retention</h2>
-    <p>We keep waitlist, registration, and contact emails — and the feedback and usage
-    records described above — only for as long as needed to provide the updates and
-    support you requested, or until you ask us to remove them.</p>
+    <ul>
+      <li><strong>Waitlist and product-update contacts</strong> — until you unsubscribe or
+      withdraw consent, or until we stop the mailing.</li>
+      <li><strong>Order and licence records</strong> — for as long as needed to provide
+      your perpetual licence, re-send keys, administer refunds and support, and satisfy
+      legal accounting and tax obligations.</li>
+      <li><strong>Beta registrations and installation records</strong> — while the beta or
+      product is active and the installation is in use; you can ask us to remove a
+      registration at any time.</li>
+      <li><strong>Support and feedback correspondence</strong> — for as long as reasonably
+      necessary to resolve the issue and keep appropriate records of it.</li>
+      <li><strong>Diagnostic reports</strong> — the report list on our server keeps only
+      the most recent 500 reports; crash reports with a reference code are kept for as
+      long as needed to investigate and fix the problem.</li>
+      <li><strong>Licence check-in records</strong> — deleted automatically after 180 days
+      without a check-in; records of unknown or forged licence identifiers are deleted
+      after 365 days.</li>
+      <li><strong>Backups</strong> — nightly snapshots of the records above are kept for
+      disaster recovery in a private repository. If you ask us to delete your data, we
+      remove it from the live records and the current snapshot, and from earlier backup
+      versions where technically feasible.</li>
+      <li><strong>Server logs</strong> — according to the hosting provider's own
+      operational and security retention.</li>
+    </ul>
+
+    <h2>Your rights</h2>
+    <p>Where the GDPR applies, you have the right to:</p>
+    <ul>
+      <li>access the personal data we hold about you;</li>
+      <li>have inaccurate data corrected;</li>
+      <li>have your data deleted;</li>
+      <li>restrict how we process it;</li>
+      <li>object to processing based on our legitimate interests;</li>
+      <li>receive the data you provided to us in a portable format, where applicable;</li>
+      <li>withdraw consent at any time, without affecting earlier lawful processing; and</li>
+      <li>complain to a data-protection supervisory authority.</li>
+    </ul>
+    <p>Deletion may not apply where we must keep information to meet legal obligations
+    (for example, order records for tax purposes), to prevent fraud, to establish or
+    defend legal claims, or to administer a continuing software licence.</p>
+    <p>To exercise any of these rights, email
+    <a href="mailto:vald.labs.lisbon@gmail.com">vald.labs.lisbon@gmail.com</a>. We may
+    need to confirm your identity, for example by asking you to write from the email
+    address on the record.</p>
+    <p>You can also complain to your local supervisory authority. In Portugal this is the
+    Comissão Nacional de Proteção de Dados (CNPD):
+    <a href="https://www.cnpd.pt" rel="noopener">www.cnpd.pt</a>. Complaints can be
+    submitted at
+    <a href="https://www.cnpd.pt/cidadaos/participacoes/" rel="noopener">www.cnpd.pt/cidadaos/participacoes/</a>.</p>
+
+    <h2>Automated decisions</h2>
+    <p>We do not use personal information for automated decision-making or profiling that
+    produces legal or similarly significant effects. Licence-abuse alerts generated by our
+    server are reviewed by a person before any action is taken.</p>
 
     <h2>Children</h2>
     <p>Our Services are not directed at children under 13 (or the equivalent minimum age
     in your jurisdiction), and we do not knowingly collect personal data from them.</p>
+
+    <h2>Security</h2>
+    <p>We take reasonable technical and organisational measures appropriate to the scale
+    of the Services: connections to our websites and server use HTTPS, administrative
+    access to our backend is protected by secret credentials, licence keys are
+    cryptographically signed, installation identifiers in licence check-ins are stored
+    only as salted hashes, and backups are kept in a private, access-controlled
+    repository. No system is completely secure and we cannot guarantee absolute security,
+    but we work to limit the data we hold and to protect it.</p>
 
     <h2>Changes to this policy</h2>
     <p>We may update this policy from time to time. The "Last updated" date at the top
     reflects the most recent revision. Material changes will be posted on this page.</p>
 
     <h2>Contact</h2>
-    <p>Questions about this policy or your data? Email
-    <a href="mailto:vald.labs.lisbon@gmail.com">vald.labs.lisbon@gmail.com</a>.</p>
+    <p>Questions about this policy or your data? Contact the data controller:</p>
+    <address>
+      Jaime Paiva<br>
+      Operating under the brand name Våld Labs<br>
+      Largo da Graça 127, 3D<br>
+      1170-296 Lisbon<br>
+      Portugal<br>
+      Tax ID: 236072064<br>
+      Email: <a href="mailto:vald.labs.lisbon@gmail.com">vald.labs.lisbon@gmail.com</a>
+    </address>
+    <p>Våld Labs is a brand name under which Jaime Paiva operates the Services; it is not
+    a separate legal entity.</p>
 
     <footer>
-      &copy; 2026 Våld Labs, Lisbon. &middot; <a href="https://valdlabs.com">valdlabs.com</a>
+      <nav aria-label="Legal"><a href="/terms">Terms of Service</a> &middot; <a href="/refund-policy">Refund Policy</a> &middot; <a href="/privacy">Privacy Policy</a></nav>
+      &copy; 2026 Jaime Paiva &middot; Våld Labs, Lisbon &middot; <a href="https://valdlabs.com">valdlabs.com</a>
     </footer>
   </div>
 </body>
