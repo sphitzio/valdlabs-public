@@ -24,11 +24,10 @@ const products: Product[] = [
   {
     id: '3',
     name: 'Kurare',
-    tag: 'LIVE BETA',
-    description: 'A Kuramoto swarm synthesizer — two swarms of coupled oscillators herded from cloud to choir.',
+    tag: 'IN THE LAB',
+    description: 'Unannounced. Many voices falling into step — a crowd learning to sing.',
     price: 'TBA',
-    image: '/assets/kurare.png',
-    link: '/kurare'
+    image: '/assets/kurare.png'
   },
   {
     id: '4',
