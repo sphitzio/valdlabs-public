@@ -6,7 +6,7 @@ const products: Product[] = [
   {
     id: '1',
     name: 'Vekte',
-    tag: 'LIVE BETA',
+    tag: 'RELEASE CANDIDATE',
     description: 'A generative MIDI sequencer plugin that turns algorithms into playable pattern flow.',
     price: 'TBA',
     image: '/assets/vekte.png',
@@ -15,16 +15,16 @@ const products: Product[] = [
   {
     id: '2',
     name: 'Tresse',
-    tag: 'LIVE BETA',
+    tag: 'OUT NOW',
     description: 'A polyphonic multi-engine synthesizer, from raw analog character to spectral texture.',
-    price: 'TBA',
+    price: '€19.99',
     image: '/assets/tresse.png',
     link: '/tresse'
   },
   {
     id: '3',
     name: 'Kurare',
-    tag: 'IN THE LAB',
+    tag: 'CLOSED BETA',
     description: 'Unannounced. Many voices falling into step — a crowd learning to sing.',
     price: 'TBA',
     image: '/assets/kurare.png'
@@ -41,7 +41,7 @@ const products: Product[] = [
   {
     id: '5',
     name: 'Ravik',
-    tag: 'IN THE LAB',
+    tag: 'ALPHA',
     description: 'Unannounced. Engines, shapes and depth — something is humming behind the curtain.',
     price: 'TBA',
     image: '/assets/ravik.png'

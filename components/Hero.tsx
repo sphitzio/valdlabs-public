@@ -24,7 +24,7 @@ export const Hero: React.FC = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffff00] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffff00]"></span>
               </span>
-              Vekte / Tresse in beta
+              Tresse out now · Vekte release candidate
             </div>
 
             <h1 className="text-5xl md:text-7xl leading-[0.95] font-semibold text-white tracking-tighter font-jakarta">
