@@ -277,16 +277,19 @@
           collective synchronization. Deterministic to the bit.
         </p>
         <div class="hero-ctas">
-          <a href="#beta" class="btn-primary">
-            Request beta access
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="https://github.com/sphitzio/valdlabs-public/releases/download/kurare-v0.5.0/KURARE-0.5.0.pkg" class="btn-primary" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.47 2.22-1.23 3.02-.83.87-2.2 1.54-3.3 1.45-.13-1.1.44-2.26 1.2-3.02.84-.86 2.28-1.5 3.33-1.45zM20.9 17.13c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.01-3.05-1.78-4.04-3.35C.34 15.9-.05 10.72 1.87 8.03c1.12-1.58 2.9-2.5 4.57-2.5 1.7 0 2.77.93 4.18.93 1.36 0 2.19-.93 4.16-.93 1.48 0 3.05.81 4.17 2.2-3.66 2.01-3.07 7.24.95 8.4z"/></svg>
+            Download for macOS
           </a>
-          <a href="#model" class="btn-secondary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-            Explore the model
+          <a href="https://github.com/sphitzio/valdlabs-public/releases/download/kurare-v0.5.0/KURARE-Setup-0.5.0-x64.exe" class="btn-secondary" download>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10 4.6v6.9H3V5.5zm0 13L10 19.4v-6.8H3v5.9zM11 4.45 21 3v8.5H11V4.45zM11 19.55 21 21v-8.4H11v6.95z"/></svg>
+            Download for Windows
           </a>
         </div>
-        <p class="hero-fine">VST3 · AU — macOS &amp; Windows. Commercial release; beta by invitation.</p>
+        <p class="hero-fine">
+          v0.5.0 public beta — free while in beta. VST3 · AU, macOS (universal) &amp; Windows x64.
+          <a href="#beta" style="color: var(--txt-mute); text-decoration: underline;">Get release notifications</a>.
+        </p>
         <div class="hero-stats">
           <div class="stat"><b>Synthesis</b><span>Kuramoto swarm</span></div>
           <div class="stat"><b>Population</b><span>2 × 32 per note</span></div>
@@ -401,6 +404,10 @@
           <p>Stateless seeded hashes, pinned math, fixed internal rate. Same patch, same notes, bit-identical audio — and every patch travels as a short share key you can paste anywhere.</p>
         </div>
         <div class="card">
+          <h3>Two filter characters</h3>
+          <p>Each swarm picks its own: an SEM-inspired state-variable filter morphing LP → BP → notch → HP, or a Polivoks-inspired one — LP/BP only, its op-amp pair clipping inside the resonance loop. One swarm can scream while the other stays smooth.</p>
+        </div>
+        <div class="card">
           <h3>A full instrument</h3>
           <p>16 voices, per-swarm filters and envelopes, three LFOs, two generative modulation lanes, bitcrush, chorus, wavefold, four delays and four reverbs including shimmer.</p>
         </div>
@@ -418,6 +425,7 @@
         <div class="spec"><b>Formats</b><span>VST3 · AU</span></div>
         <div class="spec"><b>Platforms</b><span>macOS (universal) · Windows</span></div>
         <div class="spec"><b>Voices</b><span>16 · up to 64 oscillators each</span></div>
+        <div class="spec"><b>Filters</b><span>SEM- and Polivoks-inspired, per swarm</span></div>
         <div class="spec"><b>Presets</b><span>Factory bank + KRR share keys</span></div>
       </div>
     </div>
@@ -428,8 +436,9 @@
     <div class="beta">
       <h2>Join the swarm.</h2>
       <p>
-        KURARE is in active beta ahead of its commercial release. Leave your
-        email for beta access, launch pricing and development drops.
+        KURARE is in public beta ahead of its commercial release — free to
+        download and use while the beta runs. Leave your email for new builds,
+        launch pricing and development drops.
       </p>
       <form id="betaForm">
         <input type="email" name="email" placeholder="Enter your email" required autocomplete="email" aria-label="Email address" />
