@@ -99,12 +99,15 @@
     .dot .core { position: relative; display: inline-flex; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--red); }
     @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { .dot .ping { animation: none; opacity: 0; } }
-    .hero-logo { height: 1.75rem; width: auto; align-self: flex-start; }
+    .hero-logo { height: 2.1rem; width: auto; align-self: flex-start; }
     h1 {
       font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; color: #fff;
-      font-size: 3rem; line-height: 0.95; letter-spacing: -0.05em;
+      /* Mobile: fills the column instead of sitting at a timid 3rem. Scales
+         with the viewport, clamped so tiny phones and phablets both behave. */
+      font-size: clamp(3.25rem, 13.5vw, 5.25rem);
+      line-height: 1.02; letter-spacing: -0.05em;
     }
-    @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
+    @media (min-width: 768px) { h1 { font-size: 4.5rem; line-height: 0.95; } }
     .hero-sub { font-size: 1.125rem; line-height: 1.75; font-weight: 400; max-width: 32rem; }
     @media (min-width: 768px) { .hero-sub { font-size: 1.25rem; } }
     .hero-ctas { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
@@ -137,10 +140,18 @@
       position: relative; border-radius: 0.75rem; overflow: hidden;
       border: 1px solid var(--border-strong); background: var(--panel);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      width: 100%; aspect-ratio: 1 / 1; max-width: 40rem; margin: 0 auto;
+      width: 100%; aspect-ratio: 1776 / 1166; max-width: 44rem; margin: 0 auto;
     }
-    .hero-media { display: flex; align-items: center; }
-    .hero-video video { width: 100%; height: 100%; object-fit: cover; }
+    .hero-media { display: flex; align-items: stretch; flex-direction: column; gap: 1.5rem; justify-content: flex-start; }
+    /* contain, not cover: the panel shot must not be cropped */
+    .hero-video video { width: 100%; height: 100%; object-fit: contain; display: block; }
+    /* Download buttons sit under the video and span its full width */
+    .hero-media .hero-ctas { width: 100%; max-width: 44rem; margin: 0 auto; }
+    .hero-media .hero-ctas > a { flex: 1 1 0; }
+    .hero-media .hero-fine { max-width: 44rem; margin: 0 auto; text-align: center; }
+    /* Video's top edge lines up with the H1, not the badge above it. Offset =
+       badge (1.75rem) + gap (2rem) + logo (2.1rem) + gap (2rem) = 7.85rem. */
+    @media (min-width: 1024px) { .hero-media { padding-top: 7.85rem; } }
     .hero-glow {
       position: absolute; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%);
       width: 80%; height: 80%; border-radius: 9999px;
@@ -272,10 +283,21 @@
         <h1>Every note<br />is a crowd.</h1>
         <p class="hero-sub">
           KURARE is a polyphonic swarm synthesizer: two swarms of coupled
-          oscillators per note — red and white, up to 64 in all — herdable from
+          oscillators per note — red and white, up to 32 each — herdable from
           a boiling cloud into one fused voice. Built on the Kuramoto model of
-          collective synchronization. Deterministic to the bit.
+          collective synchronization.
         </p>
+        <div class="hero-stats">
+          <div class="stat"><b>Synthesis</b><span>Kuramoto swarm</span></div>
+          <div class="stat"><b>Population</b><span>32 oscillators per swarm</span></div>
+          <div class="stat"><b>Filters</b><span>SEM- &amp; Polivoks-inspired</span></div>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-video">
+          <video src="/kurare/kurare_hero_v2.mp4" autoplay muted loop playsinline></video>
+        </div>
         <div class="hero-ctas">
           <a href="https://github.com/sphitzio/valdlabs-public/releases/download/kurare-v0.5.0/KURARE-0.5.0.pkg" class="btn-primary" download>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.47 2.22-1.23 3.02-.83.87-2.2 1.54-3.3 1.45-.13-1.1.44-2.26 1.2-3.02.84-.86 2.28-1.5 3.33-1.45zM20.9 17.13c-.55 1.27-.82 1.84-1.53 2.96-.99 1.57-2.39 3.53-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.01-3.05-1.78-4.04-3.35C.34 15.9-.05 10.72 1.87 8.03c1.12-1.58 2.9-2.5 4.57-2.5 1.7 0 2.77.93 4.18.93 1.36 0 2.19-.93 4.16-.93 1.48 0 3.05.81 4.17 2.2-3.66 2.01-3.07 7.24.95 8.4z"/></svg>
@@ -290,17 +312,6 @@
           v0.5.0 public beta — free while in beta. VST3 · AU, macOS (universal) &amp; Windows x64.
           <a href="#beta" style="color: var(--txt-mute); text-decoration: underline;">Get release notifications</a>.
         </p>
-        <div class="hero-stats">
-          <div class="stat"><b>Synthesis</b><span>Kuramoto swarm</span></div>
-          <div class="stat"><b>Population</b><span>2 × 32 per note</span></div>
-          <div class="stat"><b>Output</b><span>Bit-deterministic</span></div>
-        </div>
-      </div>
-
-      <div class="hero-media">
-        <div class="hero-video">
-          <video src="/kurare/kurare_demo.mp4" poster="/kurare/demo_poster.jpg" autoplay muted loop playsinline></video>
-        </div>
         <div class="hero-glow" aria-hidden="true"></div>
       </div>
     </div>
@@ -424,7 +435,7 @@
       <div class="specs">
         <div class="spec"><b>Formats</b><span>VST3 · AU</span></div>
         <div class="spec"><b>Platforms</b><span>macOS (universal) · Windows</span></div>
-        <div class="spec"><b>Voices</b><span>16 · up to 64 oscillators each</span></div>
+        <div class="spec"><b>Voices</b><span>16 · 32 oscillators per swarm</span></div>
         <div class="spec"><b>Filters</b><span>SEM- and Polivoks-inspired, per swarm</span></div>
         <div class="spec"><b>Presets</b><span>Factory bank + KRR share keys</span></div>
       </div>
