@@ -94,7 +94,7 @@ export const Waitlist: React.FC = () => {
         ) : null}
         
         <p className="mt-6 text-xs text-zinc-600 font-space-mono">
-            No spam. Unsubscribe at any time.
+            You will also hear about other Våld Labs launches. No spam. Unsubscribe at any time.
         </p>
       </div>
     </section>

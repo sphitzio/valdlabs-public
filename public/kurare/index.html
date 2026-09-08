@@ -56,22 +56,17 @@
     .nav-links a { font-size: 0.875rem; color: var(--txt-dim); transition: color 0.2s; }
     .nav-links a:hover { color: #fff; }
     .nav-actions { display: flex; align-items: center; gap: 1rem; }
-    .nav-login { display: none; font-size: 0.875rem; color: var(--txt-dim); transition: color 0.2s; }
-    .nav-login:hover { color: #fff; }
-    .nav-cart {
+    /* Download replaces the Login / Cart pair: KURARE is a free public beta,
+       so there is nothing to sign into or buy from this page. */
+    .nav-dl {
       display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.05); color: #fff;
-      border: 1px solid var(--border-strong); border-radius: 9999px;
-      padding: 0.5rem 1rem; font-size: 0.75rem; font-family: 'Space Mono', monospace;
-      cursor: pointer; transition: background 0.2s;
+      background: var(--red); color: #fff;
+      border-radius: 9999px; padding: 0.5rem 1.1rem;
+      font-size: 0.75rem; font-family: 'Space Mono', monospace;
+      transition: background 0.2s; white-space: nowrap;
     }
-    .nav-cart:hover { background: rgba(255,255,255,0.1); }
-    .nav-cart span {
-      background: var(--yellow); color: #000; width: 1rem; height: 1rem; border-radius: 9999px;
-      display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
-    }
+    .nav-dl:hover { background: #d90039; }
     @media (min-width: 768px) { .nav-links { display: flex; } }
-    @media (min-width: 640px) { .nav-login { display: flex; } }
 
     /* ---- Hero ---- */
     .hero {
@@ -189,7 +184,18 @@
       background: var(--panel); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
       position: relative;
     }
-    .shot img { width: 100%; height: auto; }
+    .shot img { width: 100%; height: auto; display: block; }
+    /* Captioned motion shots — same box as .shot, with a label strip under it. */
+    .shots { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 4rem; }
+    @media (min-width: 1024px) { .shots { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+    .shot-fig { margin: 0; }
+    .shot-fig figcaption { margin-top: 1rem; }
+    .shot-fig figcaption b {
+      display: block; font-size: 0.75rem; color: var(--txt-mute);
+      text-transform: uppercase; letter-spacing: 0.1em; font-weight: 400;
+      margin-bottom: 0.35rem;
+    }
+    .shot-fig figcaption span { font-size: 0.9375rem; color: #a1a1aa; line-height: 1.6; }
     .cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3rem; }
     @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr; } }
     @media (min-width: 1024px) { .cards { grid-template-columns: repeat(3, 1fr); } }
@@ -204,7 +210,9 @@
 
     /* ---- Specs strip ---- */
     .specs { max-width: 80rem; margin: 3rem auto 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 0.75rem; overflow: hidden; }
-    @media (min-width: 768px) { .specs { grid-template-columns: repeat(4, 1fr); } }
+    /* Five specs, one row on desktop — a 4-col grid left PRESETS orphaned on
+       a second line with three dead cells beside it. */
+    @media (min-width: 768px) { .specs { grid-template-columns: repeat(5, 1fr); } }
     .spec { background: var(--bg); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
     .spec b { font-size: 0.6875rem; color: var(--txt-mute); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 400; }
     .spec span { color: #e4e4e7; font-size: 0.9375rem; }
@@ -264,14 +272,16 @@
         <a href="/#support">Support</a>
       </div>
       <div class="nav-actions">
-        <a href="/" class="nav-login">Login</a>
-        <button class="nav-cart" type="button">Cart <span>0</span></button>
+        <a href="#top" class="nav-dl">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
       </div>
     </div>
   </nav>
 
   <!-- ===== Hero ===== -->
-  <main class="hero">
+  <main class="hero" id="top">
     <video class="hero-bg" src="/kurare/kurare_hero.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
     <div class="hero-grid">
       <div class="hero-copy">
@@ -367,6 +377,37 @@
         <img src="/kurare/ui.png" alt="KURARE interface — swarm disc, per-swarm macro knobs, filter and envelope racks" loading="lazy" />
       </div>
 
+      <!-- The three pages, in motion -->
+      <div class="shots">
+        <figure class="shot-fig">
+          <div class="shot">
+            <img src="/kurare/synth.gif" alt="KURARE synth page in motion: the swarm disc breathing while the macro knobs, filter and envelopes move" loading="lazy" width="890" height="582" />
+          </div>
+          <figcaption>
+            <b>Synth</b>
+            <span>The swarm disc and the four macro knobs, with the per-swarm filter, envelopes and effects around them.</span>
+          </figcaption>
+        </figure>
+        <figure class="shot-fig">
+          <div class="shot">
+            <img src="/kurare/mod.gif" alt="KURARE modulation page in motion: three LFOs and two generative MOD lanes driving parameters" loading="lazy" width="890" height="582" />
+          </div>
+          <figcaption>
+            <b>Modulation</b>
+            <span>Three LFOs and two generative MOD lanes, each free-running into any parameter on the panel.</span>
+          </figcaption>
+        </figure>
+        <figure class="shot-fig">
+          <div class="shot">
+            <img src="/kurare/seq.gif" alt="KURARE sequencer page in motion: the note grid playing through its pattern with scale and chord controls" loading="lazy" width="890" height="582" />
+          </div>
+          <figcaption>
+            <b>Sequencer</b>
+            <span>The onboard VEKTE sequencer: one part per swarm, seven algorithms, scale and chord quantising.</span>
+          </figcaption>
+        </figure>
+      </div>
+
       <div class="model-grid" style="margin-top: 6rem; margin-bottom: 1.5rem;">
         <div class="model-copy">
           <div class="rule-label"><i></i><span>The Waves</span></div>
@@ -419,16 +460,12 @@
           <p>Each swarm picks its own: an SEM-inspired state-variable filter morphing LP → BP → notch → HP, or a Polivoks-inspired one — LP/BP only, its op-amp pair clipping inside the resonance loop. One swarm can scream while the other stays smooth.</p>
         </div>
         <div class="card">
-          <h3>A full instrument</h3>
-          <p>16 voices, per-swarm filters and envelopes, three LFOs, two generative modulation lanes, bitcrush, chorus, wavefold, four delays and four reverbs including shimmer.</p>
-        </div>
-        <div class="card">
           <h3>Powered by VEKTE</h3>
           <p>The onboard generative sequencer drives the swarm with seven algorithms — from wave interference to Kaprekar and Fibonacci — plus arp modes, DENSE thinning, swing and humanize.</p>
         </div>
         <div class="card">
           <h3>Herd it live</h3>
-          <p>MUTUAL couples the two swarms to each other; octave pills transpose each one whole; MIDI CC learn on every parameter. Built for hands, not menus.</p>
+          <p>Three LFOs and two generative modulation lanes reach any parameter; MUTUAL couples the two swarms to each other; octave pills transpose each one whole; MIDI CC learn throughout. Built for hands, not menus.</p>
         </div>
       </div>
 
@@ -436,7 +473,7 @@
         <div class="spec"><b>Formats</b><span>VST3 · AU</span></div>
         <div class="spec"><b>Platforms</b><span>macOS (universal) · Windows</span></div>
         <div class="spec"><b>Voices</b><span>16 · 32 oscillators per swarm</span></div>
-        <div class="spec"><b>Filters</b><span>SEM- and Polivoks-inspired, per swarm</span></div>
+        <div class="spec"><b>Filters</b><span>SEM- &amp; Polivoks-inspired</span></div>
         <div class="spec"><b>Presets</b><span>Factory bank + KRR share keys</span></div>
       </div>
     </div>
@@ -459,7 +496,7 @@
         </button>
       </form>
       <p class="msg" id="betaMsg" aria-live="polite"></p>
-      <p class="fine">No spam. Unsubscribe at any time.</p>
+      <p class="fine">You will also hear about other Våld Labs launches. No spam. Unsubscribe at any time.</p>
     </div>
   </section>
 
