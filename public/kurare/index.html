@@ -185,6 +185,13 @@
       position: relative;
     }
     .shot img { width: 100%; height: auto; display: block; }
+    /* Video embed — same panel treatment as .shot, locked to 16:9. */
+    .video-embed { margin-top: 4rem; }
+    .video-embed .shot { aspect-ratio: 16 / 9; }
+    .video-embed iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .video-embed figcaption { margin-top: 1rem; text-align: center; }
+    .video-embed figcaption span { font-size: 0.9375rem; color: #a1a1aa; }
+
     /* Captioned motion shots — same box as .shot, with a label strip under it. */
     .shots { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-top: 4rem; }
     @media (min-width: 1024px) { .shots { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
@@ -407,6 +414,22 @@
           </figcaption>
         </figure>
       </div>
+
+      <!-- Walkthrough video -->
+      <figure class="video-embed">
+        <div class="shot">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/MOqTOCwYRDk"
+            title="KURARE — Every note is a crowd. A swarm synthesizer by Våld Labs"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+        <figcaption>
+          <span>KURARE in motion — the swarm, the two filters and the sequencer, played.</span>
+        </figcaption>
+      </figure>
 
       <div class="model-grid" style="margin-top: 6rem; margin-bottom: 1.5rem;">
         <div class="model-copy">
